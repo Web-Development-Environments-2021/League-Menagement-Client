@@ -12,39 +12,63 @@
         <br/>
         Stage: {{ stage }}
         <br/>
-        nextGame: {{ nextGame }}
+        <GamePreview
+        v-for="g in nextGame"
+        :id="g.id" 
+        :hostTeam="g.hostTeam" 
+        :guestTeam="g.guestTeam" 
+        :date="g.date" 
+        :hour="g.hour" 
+        :key="g.id"></GamePreview>
       </b-card-text>
-      <b-button href="#" variant="primary">Go somewhere</b-button>
+      <b-button v-on:click="updateLeagueInfoDataFromServer" variant="primary">Next Game</b-button>
     </b-card>
   </div>
 </template>
 
 <script>
+import GamePreview from "./GamePreview.vue";
 export default {
- data() {
+  name: "FavoriteGames",
+  components: {
+    GamePreview
+  },
+  data() {
     return {
-      leagueName: "superliga", 
+      leagueName: "superliga",
       season: "season", 
       stage: "stage",
-      nextGame: "No Game For These Season"
+      nextGame: []
+      
     };
   },
-  method:{
+  methods:{
     async updateLeagueInfoDataFromServer(){
       try {
-        const response = await this.axios.get("http://localhost:3000/leagu/getDetailse");
-        this.leagueName = response.league_name;
-        this.season = response.current_season_name;
-        this.stage = response.current_stage_name;
-        this.nextGame = response.home_team;
+        const response = await this.axios.get("http://localhost:3000/league/getDetails");
+        console.log("res", response);
+        console.log("liga", response.data.league_name);
+        this.leagueName = response.data.league_name;
+        this.season = response.data.current_season_name;
+        this.stage = response.data.current_stage_name;
+        this.nextGame = [
+        {
+          id:25,
+          hostTeam: response.data.home_team,
+          guestTeam: response.data.away_team,
+          date: response.data.date, //.toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+          hour: response.data.date //.toISOString().replace(/T/, ' ').replace(/\..+/, '')
+        },
+      ]
+        response.data.home_team;
       } catch (error) {
         console.log(error.response);
       }
     }
   },
-  beforeCreate() {
-    updateLeagueInfoDataFromServer()
-  },
+  // mounted() {
+  //   this.updateLeagueInfoDataFromServer();
+  // },
 }
 </script>
 
@@ -59,6 +83,7 @@ export default {
   border-radius: 10px;
   border-width: 5px;
   border-color:rgb(44, 89, 116);
+  background: transparent;
 }
 
 .league-preview .league-title {
