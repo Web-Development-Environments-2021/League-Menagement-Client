@@ -35,10 +35,10 @@ export default {
   },
   data() {
     return {
-      leagueName: this.leagueName, 
-      season: this.season, 
-      stage: response.current_stage_name,
-      nextGame: this.nextGame
+      leagueName: '', 
+      season: '', 
+      stage: '',
+      nextGame: ''
     };
   },
   methods:{
