@@ -11,6 +11,8 @@
         Season: {{ season }}
         <br/>
         Stage: {{ stage }}
+        <br/>
+        nextGame: {{ nextGame }}
       </b-card-text>
       <b-button href="#" variant="primary">Go somewhere</b-button>
     </b-card>
@@ -23,8 +25,25 @@ export default {
     return {
       leagueName: "superliga", 
       season: "season", 
-      stage: "stage"
+      stage: "stage",
+      nextGame: "No Game For These Season"
     };
+  },
+  method:{
+    async updateLeagueInfoDataFromServer(){
+      try {
+        const response = await this.axios.get("http://localhost:3000/leagu/getDetailse");
+        this.leagueName = response.league_name;
+        this.season = response.current_season_name;
+        this.stage = response.current_stage_name;
+        this.nextGame = response.home_team;
+      } catch (error) {
+        console.log(error.response);
+      }
+    }
+  },
+  beforeCreate() {
+    updateLeagueInfoDataFromServer()
   },
 }
 </script>
@@ -32,8 +51,8 @@ export default {
 <style>
 .league-preview {
   display: inline-block;
-  width: 250px;
-  height: 200px;
+  width: 350px;
+  height: 220px;
   position: relative;
   margin: 10px 10px;
   border-style: solid;
