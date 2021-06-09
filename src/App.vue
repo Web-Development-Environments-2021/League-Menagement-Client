@@ -46,6 +46,7 @@ export default {
 
 #app {
   // font-family: Avenir, Helvetica, Arial, sans-serif;
+  background: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url("./assets/D-Superliga.jpg");
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
