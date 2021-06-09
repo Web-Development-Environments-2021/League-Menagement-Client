@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1 class="title">Main Page</h1>
-    <LoginPage v-if="$root.store.username" id="loginSection" ></LoginPage>
+    <LoginPage v-if="$root.store.username" ></LoginPage>
     <FavoriteGames v-else></FavoriteGames>
     <LeagueInfo></LeagueInfo>
   </div>
@@ -16,7 +16,13 @@ export default {
     LeagueInfo, 
     LoginPage, 
     FavoriteGames
-  }
+  },
+  // methods: {
+  //   updateLeagueInfoDataFromServer() {
+  //     this.$emit("new-item-added", this.new_item);
+  //     this.new_item = "";
+  //   }
+  // }
 };
 </script>
 
