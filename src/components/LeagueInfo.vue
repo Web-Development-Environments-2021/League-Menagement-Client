@@ -23,16 +23,17 @@
 export default {
  data() {
     return {
-      leagueName: "superliga", 
-      season: "season", 
-      stage: "stage",
-      nextGame: "No Game For These Season"
+      leagueName: this.leagueName, 
+      season: this.season, 
+      stage: response.current_stage_name,
+      nextGame: this.nextGame
     };
   },
-  method:{
+  methods:{
     async updateLeagueInfoDataFromServer(){
       try {
-        const response = await this.axios.get("http://localhost:3000/leagu/getDetailse");
+        console.log("league details");
+        const response = await this.axios.get("http://localhost:3000/league/getDetails");
         this.leagueName = response.league_name;
         this.season = response.current_season_name;
         this.stage = response.current_stage_name;
@@ -42,8 +43,9 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    updateLeagueInfoDataFromServer()
+  mounted() {
+    console.log("league details mounted");
+    this.updateLeagueInfoDataFromServer();
   },
 }
 </script>
