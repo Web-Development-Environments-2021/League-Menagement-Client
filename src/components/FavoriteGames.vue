@@ -3,10 +3,10 @@
     <GamePreview
       v-for="g in games"
       :id="g.id" 
-      :hostTeam="g.hostTeam" 
-      :guestTeam="g.guestTeam" 
+      :hostTeam="g.home_team_name" 
+      :guestTeam="g.away_team_name" 
       :date="g.date" 
-      :hour="g.hour" 
+      :hour="g.time" 
       :key="g.id"></GamePreview>
   </div>
 </template>
@@ -23,17 +23,17 @@ export default {
       games: [
         {
           id:25,
-          hostTeam: "Maccabi Tel-Aviv",
-          guestTeam: "Hapoel Beer-Sheva",
+          home_team_name: "Maccabi Tel-Aviv",
+          away_team_name: "Hapoel Beer-Sheva",
           date: "27/5/21",
-          hour: "20:00"
+          time: "20:00"
         },
         {
           id:39,
-          hostTeam: "Hapoel Tel-Aviv",
-          guestTeam: "Maccabi Haifa",
+          home_team_name: "Hapoel Tel-Aviv",
+          away_team_name: "Maccabi Haifa",
           date: "29/5/21",
-          hour: "20:00"
+          time: "20:00"
         }
       ]
     };
@@ -43,11 +43,16 @@ export default {
       console.log("response");
       try {
         const response = await this.axios.get(
-          "http://localhost:3000/users/getFavoriteGames",
+          "http://localhost:3000/users/getFavoriteGames",{withCredentials: true}
         );
-        const games = response.data.games;
+        const games = response.data;
         this.games = [];
         this.games.push(...games);
+        this.games.map(game=>{
+          let splited = game.date.split('T');
+          game.date = splited[0];
+          game.time = splited[1].split(':00.000Z')[0];
+        })
         console.log(response);
       } catch (error) {
         console.log("error in update games")

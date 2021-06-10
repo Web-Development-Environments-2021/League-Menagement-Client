@@ -4,8 +4,8 @@
       <b>Game Id:</b> {{ id }}
     </div>
     <ul class="game-content">
-      <li> host: {{ hostTeam }}</li>
-      <li> guest: {{ guestTeam }}</li>
+      <li> hostTeam: {{ hostTeam }}</li>
+      <li> guestTeam: {{ guestTeam }}</li>
       <li> date: {{ date }}</li>
       <li> time: {{ hour }}</li>
     </ul>
@@ -17,7 +17,7 @@ export default {
   name: "GamePreview",
   props: {
       id: {
-        type: Number,
+        type: String,
         required: true
       },
       hostTeam: {
