@@ -17,12 +17,6 @@ export default {
     LoginPage, 
     FavoriteGames
   },
-  // methods: {
-  //   updateLeagueInfoDataFromServer() {
-  //     this.$emit("new-item-added", this.new_item);
-  //     this.new_item = "";
-  //   }
-  // }
 };
 </script>
 

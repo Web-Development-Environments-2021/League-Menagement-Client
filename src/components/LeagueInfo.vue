@@ -15,8 +15,8 @@
         <GamePreview
         v-for="g in nextGame"
         :id="g.id" 
-        :home_team="g.hostTeam" 
-        :away_team="g.guestTeam" 
+        :hostTeam="g.hostTeam" 
+        :guestTeam="g.guestTeam" 
         :date="g.date" 
         :hour="g.hour" 
         :key="g.id"></GamePreview>
@@ -52,7 +52,7 @@ export default {
         this.stage = response.data.current_stage_name;
         this.nextGame = [
         {
-          id:25,
+          id:response.data.nextGame,
           hostTeam: response.data.home_team,
           guestTeam: response.data.away_team,
           date: response.data.date, //.toISOString().replace(/T/, ' ').replace(/\..+/, ''),
