@@ -97,8 +97,8 @@ export default {
           "http://localhost:3000/Login",
           {
             username: this.form.username,
-            password: this.form.password
-          }
+            password: this.form.password,
+          },{withCredentials: true} // If true, send cookie stored in jar
         );
         console.log(response);
         this.$root.loggedIn = true;

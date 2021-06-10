@@ -15,13 +15,13 @@
         <GamePreview
         v-for="g in nextGame"
         :id="g.id" 
-        :hostTeam="g.hostTeam" 
-        :guestTeam="g.guestTeam" 
+        :home_team="g.hostTeam" 
+        :away_team="g.guestTeam" 
         :date="g.date" 
         :hour="g.hour" 
         :key="g.id"></GamePreview>
       </b-card-text>
-      <b-button v-on:click="updateLeagueInfoDataFromServer" variant="primary">Next Game</b-button>
+      <b-button variant="primary" id="nextGameBtn">Next Game</b-button>
     </b-card>
   </div>
 </template>
@@ -39,7 +39,6 @@ export default {
       season: "season", 
       stage: "stage",
       nextGame: []
-      
     };
   },
   methods:{
@@ -60,15 +59,15 @@ export default {
           hour: response.data.date //.toISOString().replace(/T/, ' ').replace(/\..+/, '')
         },
       ]
-        response.data.home_team;
+      // document.getElementById("nextGameBtn").disabled = true;
       } catch (error) {
         console.log(error.response);
       }
     }
   },
-  // mounted() {
-  //   this.updateLeagueInfoDataFromServer();
-  // },
+  mounted() {
+    this.updateLeagueInfoDataFromServer();
+  },
 }
 </script>
 

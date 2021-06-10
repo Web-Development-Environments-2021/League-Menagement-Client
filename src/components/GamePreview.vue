@@ -17,7 +17,7 @@ export default {
   name: "GamePreview",
   props: {
       id: {
-        type: Number,
+        type: String,
         required: true
       },
       hostTeam: {
