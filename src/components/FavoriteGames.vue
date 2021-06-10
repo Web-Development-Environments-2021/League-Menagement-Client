@@ -6,7 +6,7 @@
       :hostTeam="g.home_team_name" 
       :guestTeam="g.away_team_name" 
       :date="g.date" 
-      :hour="g.date" 
+      :hour="g.time" 
       :key="g.id"></GamePreview>
   </div>
 </template>
@@ -26,14 +26,14 @@ export default {
           home_team_name: "Maccabi Tel-Aviv",
           away_team_name: "Hapoel Beer-Sheva",
           date: "27/5/21",
-          hour: "20:00"
+          time: "20:00"
         },
         {
           id:"39",
           home_team_name: "Hapoel Tel-Aviv",
           away_team_name: "Maccabi Haifa",
           date: "29/5/21",
-          hour: "20:00"
+          time: "20:00"
         }
       ]
     };
@@ -43,23 +43,16 @@ export default {
       console.log("response");
       try {
         const response = await this.axios.get(
-          "http://localhost:3000/users/getFavoriteGames",{
-            withCredentials: true // If true, send cookie stored in jar
-        },);
+          "http://localhost:3000/users/getFavoriteGames",{withCredentials: true}
+        );
         const games = response.data;
-        // let away ="";
-        // let home ="";
-        // for( let i = 0; i < games.length; i++){
-        //   away = games[i].away_team_name; 
-        //   home = games[i].home_team_name;
-        //   delete games[i].away_team_name; 
-        //   delete games[i].home_team_name;
-        //   games[i]["hostTeam"] = home;
-        //   games[i]["guestTeam"] = away;
-        //   games[i]["id"] = parseInt(games[i].id, 10)
-        // }
         this.games = [];
         this.games.push(...games);
+        this.games.map(game=>{
+          let splited = game.date.split('T');
+          game.date = splited[0];
+          game.time = splited[1].split(':00.000Z')[0];
+        })
         console.log(response);
       } catch (error) {
         console.log("error in update games")
