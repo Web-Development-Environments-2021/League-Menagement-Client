@@ -8,12 +8,27 @@
       <li> guestTeam: {{ guestTeam }}</li>
       <li> date: {{ date }}</li>
       <li> time: {{ hour }}</li>
+      <g-button-wave color="primary" size="button--size-l" v-on:click="addFavorite(id)">add to favorite</g-button-wave>
     </ul>
   </div>
 </template>
 
 <script>
+// import ButtonPlugin from "../main";
+// import Vue from "vue";
+// import {
+// ButtonPlugin
+// } from "bootstrap-vue";
+// [
+//  ButtonPlugin
+// ].forEach((x) => Vue.use(x));
+import Vue from "vue";
+  import { BButton } from 'bootstrap-vue';
+  Vue.component('b-button', BButton);
+  import vueButtonEffect from 'vue-button-effect';
+Vue.use(vueButtonEffect);
 export default {
+
   name: "GamePreview",
   props: {
       id: {
@@ -37,8 +52,21 @@ export default {
         required: true
       }
   }, 
+  methods:{
+    async addFavorite(id){
+      try {
+        const response = await this.axios.post(
+          "http://localhost:3000/users/addFavoriteGames",{"game_id":id},{withCredentials: true}
+        );
+      } catch (error) {
+        console.log("error in update games")
+        console.log(error);
+      }
+    }
+  },
   mounted(){
     console.log("game preview mounted")
+    
   } 
 };
 </script>
