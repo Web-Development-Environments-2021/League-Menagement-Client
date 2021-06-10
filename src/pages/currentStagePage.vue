@@ -1,11 +1,18 @@
 <template>
     <div id="app">
         <vue-bootstrap4-table :rows="rows" :columns="columns" :config="config">
+                <template slot="events" >
+      <button @click="open=true">events</button>
+
+    </template>
         </vue-bootstrap4-table>
     </div>
+    
 </template>
 
+
 <script>
+
 import VueBootstrap4Table from 'vue-bootstrap4-table'
 
 export default {
@@ -21,16 +28,16 @@ export default {
                 "field":'MCH Arena',
                 "home_score":1,
                 "home_team_name":'Midtjylland',
-                "id":'17948787',
                 "league_name":'Superliga',
-                "winner":'Draw'
+                "winner":'Draw',
+                "events":'',
                     }],
                 columns: [{
                         label: "away_team_name",
                         name: "away_team_name",
                         filter: {
                             type: "simple",
-                            placeholder: "id"
+                            placeholder: "Enter away team name"
                         },
                         sort: true,
                     },
@@ -39,7 +46,7 @@ export default {
                         name: "home_team_name",
                         filter: {
                             type: "simple",
-                            placeholder: "Enter first name"
+                            placeholder: "Enter home team name"
                         },
                         sort: true,
                     },
@@ -53,7 +60,7 @@ export default {
                         name: "field",
                         filter: {
                             type: "simple",
-                            placeholder: "Enter country"
+                            placeholder: "Enter field name"
                         }
                         },
 
@@ -62,7 +69,7 @@ export default {
                         name: "away_score",
                         filter: {
                             type: "simple",
-                            placeholder: "Enter country"
+                            placeholder: "Enter away score"
                         }
                         },
                     {
@@ -70,38 +77,35 @@ export default {
                         name: "home_score",
                         filter: {
                             type: "simple",
-                            placeholder: "Enter country"
+                            placeholder: "Enter home score"
                         }
                         },
                     {
-                        label: "id",
-                        name: "id",
-                        filter: {
-                            type: "simple",
-                            placeholder: "Enter country"
-                        }
-                        },
-                    {
-                        label: "league_name",
+                        label: "League Name",
                         name: "league_name",
                         filter: {
                             type: "simple",
-                            placeholder: "Enter country"
+                            placeholder: "Enter league name"
                         }
                         },
                     {
-                        label: "winner",
+                        label: "Winner",
                         name: "winner",
                         filter: {
                             type: "simple",
-                            placeholder: "Enter country"
+                            placeholder: "Enter winner team"
                         
-                        },
-                    }],
+                        },                    
+                    },
+                    {
+                        label: "Events",
+                        name: "events",                  
+                    },
+                    ],
                 config: {
                     checkbox_rows: true,
                     rows_selectable: true,
-                    card_title: "Vue Bootsrap 4 advanced table"
+                    card_title: "Past games"
                 }
             }
         
@@ -119,9 +123,9 @@ export default {
         );
         this.rows = [];
         response.data.games_info.map((game) =>{
+            game.date = game.date.split(":00.000Z")[0]
             this.rows.push(game)
         })
-        console.log(this.rows)
       } catch (error) {
         console.log("error in update games")
         console.log(error);
