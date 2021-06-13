@@ -1,7 +1,7 @@
 import Main from "./pages/MainPage";
 import NotFound from "./pages/NotFoundPage";
 import FavoriteGames from "./components/FavoriteGames";
-
+import popup from "./components/popup.vue"
 const routes = [{
         path: "/",
         name: "main",
@@ -41,6 +41,11 @@ const routes = [{
         path: "/favorite",
         name: "favorite",
         component: FavoriteGames
+    },
+    {
+        path: "/popup",
+        name: "popup",
+        component: popup
     },
     {
         path: "*",
