@@ -3,13 +3,13 @@
     <div>
       <h1 class="title">Search Page</h1>
       <b-input-group prepend="Search Query:" id="search-input">
-        <b-form-input v-model="searchQuery"></b-form-input>
+        <b-form-input v-model="searchQueryText"></b-form-input>
         <b-input-group-append>
-          <b-button variant="success">Search</b-button>
+          <b-button variant="success" v-on:click="search">Search</b-button>
         </b-input-group-append>
       </b-input-group>
         <br/>
-        Your search Query: {{ searchQuery }}
+        Your search Query: {{ searchQueryText }}
     </div>
     <div>
        <b-form-group
@@ -28,49 +28,65 @@
         ></b-form-radio-group>
       </b-form-group>
     </div>
+    <PlayerPreview
+    v-bind:="asd in answer_search_data"
+    :title="asd" 
+    :teamName="asd" 
+    :playerPosition="asd"
+    :image_url="asd"></PlayerPreview>
   </div>
   
 </template>
 
 <script>
+import PlayerPreview from "../components/PlayerPreview.vue";
 export default {
+  name: "SearchPage",
+  compinents:{
+    PlayerPreview
+  },
   data() {
     return {
-      searchQuery:"",
+      searchQueryText:"",
       selected: 'radio1',
       options: [
-        { text: 'Search by player position', value: 'radio1' },
-        { text: 'Search by player name', value: 'radio2' },
-        { text: 'Radio 3 (disabled)', value: 'radio3', disabled: true },
-        { text: 'Search Team by name', value: 'radio4' }
+        { text: 'Search player by position', value: '/players/:searchQuery/filterByPosition/:positionName'},
+        { text: 'Search player by name', value: '/players/:searchQuery', checked:'checked'},
+        { text: 'Search player by team name', value: '/players/:searchQuery/filterByTeam/:teamName' },
+        { text: 'Search Team by name', value: '/teams/:searchQuery' }
       ]
     }    
   },
   methods: {
     async search(){
       try{
-        const response = await this.axios.post(
-          "http://localhost:3000/search",
-          {
-            username: this.form.username,
-            password: this.form.password
-          }
+        let pathToSearch = Array.from(document.getElementsByName("radio-btn-outline")).find(r => r.checked).value;
+        let urlPath = "http://localhost:3000/search" + pathToSearch;
+        const response = await this.axios.get(
+          urlPath,{
+            params: {
+              searchQuery: this.searchQueryText
+            }
+          },
+          {withCredentials: true},
         );
-        console.log(response);
-        this.$root.loggedIn = true;
-        console.log(this.$root.store.login);
-        this.$root.store.login(this.form.username);
-        this.$router.push("/");
+        
+        console.log("response", response);
+        this.answer_search_data = response.data;
+        // this.$root.loggedIn = true;
+        // console.log(this.$root.store.login);
+        // this.$root.store.login(this.form.username);
+        // this.$router.push("/");
       } catch (err) {
-        console.log(err.response);
-        this.form.submitError = err.response.data.message;
+        console.log(err);
       } 
-    }
+    },
   },
   mounted(){
     console.log("search mounted");
     this.search();
-  }
+  },
+
 }
 </script>
 
