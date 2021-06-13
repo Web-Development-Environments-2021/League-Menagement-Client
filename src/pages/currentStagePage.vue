@@ -2,14 +2,12 @@
   <div id="app">
     <vue-bootstrap4-table :rows="rows" :columns="columns" :config="config">
       <template slot="events" slot-scope="row">
-        <button @click="currGameId(row)"
->
         <popup
           button_name="events"
           :events_list="events"
           :game_id="row"
+          @click="currGameId(row)"
         ></popup>
-        </button>
       </template>
     </vue-bootstrap4-table>
   </div>
@@ -25,18 +23,7 @@ export default {
   data: function () {
     return {
       rows: [
-        {
-          game_id: 1,
-          away_score: 1,
-          away_team_name: "Randers",
-          date: "Sun May 16 2021 14:00:00 GMT+0300 (Israel Daylight Time)",
-          field: "MCH Arena",
-          home_score: 1,
-          home_team_name: "Midtjylland",
-          league_name: "Superliga",
-          winner: "Draw",
-          events: "",
-        },
+
       ],
       columns: [
         {
