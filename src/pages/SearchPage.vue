@@ -11,77 +11,43 @@
         <br/>
         Your search Query: {{ searchQueryText }}
     </div>
-    <!-- <div>
-       <b-form-group
-        label="Please choose your option that fit to your search"
-        v-slot="{ ariaDescribedby }"
-      >
-        <b-form-radio-group
-          id="btn-radios-2"
-          v-model="selected"
-          :options="options"
-          :aria-describedby="ariaDescribedby"
-          button-variant="outline-primary"
-          size="lg"
-          name="radio-btn-outline"
-          buttons
-        ></b-form-radio-group>
-      <b-form-input v-model="searchQueryTextAddition" id="additionInput"
-      placeholder="Please insert your text here" style="width: 250px; display:none"></b-form-input>
-      </b-form-group>
-    </div> 
-    <div class="mt-2">Selected: <strong>{{ selected }}</strong></div>
-        <b-card>
-          <p class="card-text">Collapse contents Here</p>
-          <b-button v-b-toggle.collapse-1-inner size="sm">Toggles Inner Collapse</b-button>
-          <b-collapse id="collapse-1-inner" class="mt-2">
-            <b-card>Hello!</b-card>
-          </b-collapse>
-        </b-card>
-    
-    
-    -->
     <div>
       <b-button v-b-toggle.collapse-1 variant="primary">Search player by name</b-button>
-      <b-button v-b-toggle.collapse-2 variant="primary">Search Team by name</b-button>
+      <b-button v-b-toggle.collapse-2 @click="handleVisibility" variant="primary"
+        value= "/teams/:searchQuery" id="collapse-2" >Search Team by name</b-button>
       <b-collapse id="collapse-1" class="mt-2">
         <b-card>
-          <p class="card-text">Collapse contents Here</p>
-          <b-button v-b-toggle.collapse-1-inner size="sm">Search player by position</b-button>
-          <b-collapse id="collapse-1-inner" class="mt-2">
-            <b-form-select v-model="selected" class="mb-3" style="width: 250px">
+          <p class="card-text">Option to serach players</p>
+          <b-button v-b-toggle.collapse-3-inner @click="handleVisibility_inner('playerNameTag')" id="playerNameTag"
+            value= "/players/:searchQuery" size="sm">Search player only by name</b-button>
+          <br/><br/>
+          <b-button v-b-toggle.collapse-1-inner @click="handleVisibility_inner('positionTagCollapse')" id="positionTag"
+             value= "/players/:searchQuery/filterByPosition/:positionName" size="sm">Search player by position</b-button>
+          
+          <b-collapse  class="mt-2" id="positionTagCollapse" >
+            <b-form-select v-model="selected" class="mb-3" style="width: 250px" >
               <b-form-select-option :value="null">Please select an option</b-form-select-option>
-              <b-form-select-option value="1"> Keeper</b-form-select-option>
-              <b-form-select-option value="2">Right-back</b-form-select-option>
-              <b-form-select-option value="34">Central defender</b-form-select-option>
-              <b-form-select-option value="4">Left-back</b-form-select-option>
-              <b-form-select-option value="5">Right central midfielder</b-form-select-option>
+              <b-form-select-option value="Goalkeeper"> Goalkeeper</b-form-select-option>
+              <b-form-select-option value="Defender">Defender</b-form-select-option>
+              <b-form-select-option value="Midfielder">Midfielder</b-form-select-option>
+              <b-form-select-option value="Attacker">Attacker</b-form-select-option>
+              <!-- <b-form-select-option value="5">Right central midfielder</b-form-select-option>
               <b-form-select-option value="6">Central midfielder</b-form-select-option>
               <b-form-select-option value="7">Left central midfielder</b-form-select-option>
               <b-form-select-option value="8">Right-winger</b-form-select-option>
               <b-form-select-option value="9">Central forward</b-form-select-option>
-              <b-form-select-option value="10">Left-winger</b-form-select-option>
+              <b-form-select-option value="10">Left-winger</b-form-select-option> -->
             </b-form-select>
+             <!-- <div class="mt-2">Selected: <strong>{{ selected }}</strong></div> -->
           </b-collapse>
           <br/><br/>
-          <b-button v-b-toggle.collapse-2-inner size="sm">Search player by team name</b-button>
-          <b-collapse id="collapse-2-inner" class="mt-3">
-            <b-form-input v-model="searchQueryTextAddition" id="additionInput"
+          <b-button v-b-toggle.collapse-2-inner @click="handleVisibility_inner('teamNameTag')" size="sm">Search player by team name</b-button>
+          <b-collapse id="teamNameTag" class="mt-3">
+            <b-form-input v-model="searchQueryTextAddition" id="additionInput" value= "/players/:searchQuery/filterByTeam/:teamName"
                 placeholder="Please insert team name here" style="width: 250px;"></b-form-input>
           </b-collapse>
-
         </b-card>
       </b-collapse>
-
-      <!-- <b-collapse id="collapse-2" class="mt-2">
-        <b-card>
-          <p class="card-text">Collapse contents Here</p>
-          <b-button v-b-toggle.collapse-1-inner size="sm">Toggled Inner Collapse</b-button>
-          <b-collapse id="collapse-2-inner" class="mt-2">
-            <b-card>Hello!</b-card>
-          </b-collapse>
-        </b-card>
-      </b-collapse> -->
     </div>
     <div>
       <h2>Search Result: </h2>
@@ -112,6 +78,7 @@ export default {
       searchQueryText:"",
       searchQueryTextAddition:"",
       selected: null,
+      isTeamVisible: false,
       // selected: 'radio1',
       options: [
         { text: 'Search player by position', value: '/players/:searchQuery/filterByPosition/:positionName'},
@@ -127,17 +94,62 @@ export default {
     },
   },
   methods: {
+
+    handleVisibility() {
+      let vis = document.getElementById("collapse-1");
+      vis.style.display = "none";
+      this.isTeamVisible = true;
+      // if (vis.style.display === "none") {
+        
+      // } else {
+      //   vis.style.display = "none";
+      // }
+    },
+
+    handleVisibility_inner(tagName) {
+      let vis = document.getElementById(tagName);
+      let vis1 = document.getElementById("positionTagCollapse");
+      let vis2 = document.getElementById("teamNameTag");
+      // let vis3 = document.getElementById("playerNameTag");
+      vis1.style.display = "none";
+      vis2.style.display = "none";
+      // vis3.style.display = "none";
+      vis.style.display = "block";
+      this.selected = null;
+      this.searchQueryTextAddition = "";
+      this.isTeamVisible = false;
+    },
     
     async search(){
       try{
-        let pathToSearch = Array.from(document.getElementsByName("radio-btn-outline")).find(r => r.checked).value;
+        let pathToSearch = "";
+        let params_from_user = {
+          searchQuery: this.searchQueryText,
+        }
+        if(this.selected != null){ //position
+          pathToSearch = document.getElementById("positionTag").value;
+          params_from_user["positionName"] = this.selected;
+        }
+        else if(this.searchQueryTextAddition != ""){ //team Name
+          pathToSearch = document.getElementById("teamNameTag").value;
+          params_from_user["teamName"] = this.searchQueryTextAddition;
+        }
+        else if(this.isTeamVisible == true){ //search team
+          pathToSearch = document.getElementById("collapse-2").value;
+        }
+        else{ //only by name
+          pathToSearch = document.getElementById("playerNameTag").value;
+        }
+        
+        // close collapse
+        document.getElementById("collapse-1").style.display = "none";
+
+
         let urlPath = "http://localhost:3000/search" + pathToSearch;
-        console.log(urlPath);
+        
         const response = await this.axios.get(
           urlPath,{
-            params: {
-              searchQuery: this.searchQueryText
-            }
+            params: params_from_user
           },
           {withCredentials: true},
         );
@@ -167,6 +179,11 @@ export default {
 </script>
 
 <style scoped>
+
+#collapsed-2 > .when-open,
+#collapsed-1 > .when-open {
+  display: none;
+}
 
 #search-input {
   margin-left: 20px; 
