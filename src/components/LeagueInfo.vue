@@ -21,7 +21,6 @@
         :hour="g.hour" 
         :key="g.id"></GamePreview>
       </b-card-text>
-      <b-button variant="primary" id="nextGameBtn">Next Game</b-button>
     </b-card>
   </div>
 </template>

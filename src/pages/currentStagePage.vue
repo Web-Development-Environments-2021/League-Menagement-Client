@@ -14,7 +14,6 @@ export default {
        
             return {
                 rows: [{
-                        
                 "away_score":1,
                 "away_team_name":'Randers',
                 "date":"Sun May 16 2021 14:00:00 GMT+0300 (Israel Daylight Time)",

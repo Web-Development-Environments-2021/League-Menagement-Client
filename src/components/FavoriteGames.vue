@@ -40,7 +40,6 @@ export default {
   },
   methods: {
     async updateGames(){
-      console.log("response");
       try {
         const response = await this.axios.get(
           "http://localhost:3000/users/getFavoriteGames",{withCredentials: true}

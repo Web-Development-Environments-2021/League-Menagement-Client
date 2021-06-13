@@ -40,7 +40,10 @@ export default {
         this.$forceUpdate();
       });
     }
-  }
+  },
+  created() {
+    this.$store.actions.initiate();
+  },
 };
 </script>
 

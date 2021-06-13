@@ -43,6 +43,18 @@ import {
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 
+import GlobalTest from "./components/Global.vue";
+Vue.component("GlobalTest", GlobalTest);
+
+import { state as store_state, actions as store_actions } from "./store";
+
+const state = Vue.observable(store_state)
+const actions = Vue.observable(store_actions)
+const store = { state: state, actions: actions }
+
+Vue.prototype.$store = store;
+Vue.config.devtools = true;
+
 axios.interceptors.request.use(
     function(config) {
         // Do something before request is sent
