@@ -1,6 +1,15 @@
 <template>
   <div id="app">
-    <vue-bootstrap4-table :rows="rows" :columns="columns" :config="config">
+    <div class="text-center">
+      <button @click="switchDiv()">Click here to change games period</button>
+    </div>
+
+    <vue-bootstrap4-table
+      :rows="rows"
+      :columns="columns"
+      :config="config"
+      v-show="flag"
+    >
       <template slot="events" slot-scope="row">
         <popup
           button_name="events"
@@ -9,6 +18,13 @@
           @click="currGameId(row)"
         ></popup>
       </template>
+    </vue-bootstrap4-table>
+    <vue-bootstrap4-table
+      :rows="rows1"
+      :columns="columns1"
+      :config="config1"
+      v-show="!flag"
+    >
     </vue-bootstrap4-table>
   </div>
 </template>
@@ -20,15 +36,15 @@ import popup from "../components/popup.vue";
 
 export default {
   name: "currStage",
+  // router,
   data: function () {
     return {
-      rows: [
-
-      ],
+      flag: true,
+      rows: [],
       columns: [
         {
           label: "game_id",
-          name: "game_id",
+          name: "id",
           filter: {
             type: "simple",
             placeholder: "Enter game_id",
@@ -56,6 +72,10 @@ export default {
           label: "date",
           name: "date",
           sort: true,
+          filter: {
+            type: "simple",
+            placeholder: "Enter field name",
+          },
         },
         {
           label: "field",
@@ -108,12 +128,73 @@ export default {
         rows_selectable: true,
         card_title: "Past games",
       },
+      rows1: [],
+      columns1: [
+        {
+          label: "game_id",
+          name: "id",
+          filter: {
+            type: "simple",
+            placeholder: "Enter game_id",
+          },
+        },
+        {
+          label: "away_team_name",
+          name: "away_team_name",
+          filter: {
+            type: "simple",
+            placeholder: "Enter away team name",
+          },
+          sort: true,
+        },
+        {
+          label: "home_team_name",
+          name: "home_team_name",
+          filter: {
+            type: "simple",
+            placeholder: "Enter home team name",
+          },
+          sort: true,
+        },
+        {
+          label: "date",
+          name: "date",
+          sort: true,
+          filter: {
+            type: "simple",
+            placeholder: "Enter field name",
+          },
+        },
+        {
+          label: "field",
+          name: "field",
+          filter: {
+            type: "simple",
+            placeholder: "Enter field name",
+          },
+        },
+
+        {
+          label: "League Name",
+          name: "league_name",
+          filter: {
+            type: "simple",
+            placeholder: "Enter league name",
+          },
+        },
+      ],
+      config1: {
+        checkbox_rows: true,
+        rows_selectable: true,
+        card_title: "Future games",
+      },
       events: [],
       game_id: {},
     };
   },
   components: {
     VueBootstrap4Table,
+    
     popup,
   },
   methods: {
@@ -124,7 +205,6 @@ export default {
           "http://localhost:3000/league/getPastGame",
           { withCredentials: true }
         );
-        this.rows = [];
         response.data.games_info.map((game) => {
           game.date = game.date.split(":00.000Z")[0];
           this.rows.push(game);
@@ -134,16 +214,35 @@ export default {
         console.log("error in update games");
         console.log(error);
       }
-
+    },
+    async futurGames() {
+      console.log("response");
+      try {
+        const response1 = await this.axios.get(
+          "http://localhost:3000/league/getFutureGame",
+          { withCredentials: true }
+        );
+        console.log(response1.data);
+        response1.data.map((game1) => {
+          game1.date = game1.date.split(":00.000Z")[0];
+          this.rows1.push(game1);
+        });
+      } catch (error) {
+        console.log("error in update games");
+        console.log(error);
+      }
     },
     async currGameId(row) {
       this.game_id = row.row.id;
-
+    },
+    async switchDiv() {
+      this.flag = !this.flag;
     },
   },
-  computed: {},
   mounted() {
+    this.futurGames();
     this.pastGames();
+
   },
 };
 </script>
