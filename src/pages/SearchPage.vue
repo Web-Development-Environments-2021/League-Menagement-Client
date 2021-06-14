@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="content">
     <div>
       <h1 class="title">Search Page</h1>
       <b-input-group prepend="Search Query:" id="search-input">
@@ -8,12 +8,12 @@
           <b-button variant="success" v-on:click="search">Search</b-button>
         </b-input-group-append>
       </b-input-group>
-        <br/>
-        Your search Query: {{ searchQueryText }}
+      <br/>
+      Your search Query: {{ searchQueryText }}
     </div>
     <div>
-      <b-button v-b-toggle.collapse-1 variant="primary">Search player by name</b-button>
-      <b-button v-b-toggle.collapse-2 @click="handleVisibility" variant="primary"
+      <b-button v-b-toggle.collapse-1 pill variant="primary">Search player by name</b-button>
+      <b-button v-b-toggle.collapse-2 pill @click="handleVisibility" variant="primary"
         value= "/teams/:searchQuery" id="collapse-2" >Search Team by name</b-button>
       <b-collapse id="collapse-1" class="mt-2">
         <b-card>
@@ -50,28 +50,68 @@
       </b-collapse>
     </div>
     <div>
+      <br/>
+      <b-button v-b-toggle.filter pill  @click="handleVisibilityOfResult('filter')"> View Filter</b-button>
+      <b-button v-b-toggle.sort pill  @click="handleVisibilityOfResult('sort')"> View Sort</b-button>
+      <b-collapse id="sort" class="mt-5">
+        <b-card>
+          <p class="card-text">Sort Options: </p>
+          <b-button v-b-toggle.sort-1-inner @click="sortByPlayerName" size="sm">Sort By Player Name</b-button>
+          <b-button v-b-toggle.sort-2-inner @click="sortByTeamName" size="sm">Sort By Team Name</b-button>
+          <!-- <b-collapse id="sort-inner" class="mt-5">
+            <b-card>Hello!</b-card> @click="filterByPosition" @click="filterByTeamName"
+          </b-collapse> -->
+        </b-card>
+      </b-collapse>
+
+      <b-collapse id="filter" class="mt-6">
+        <b-card>
+          <p class="card-text">Filter Options: </p>
+          <!-- <b-button v-b-toggle.filter-1-inner  size="sm">Filter By Position</b-button> -->
+          <!-- <b-collapse id="positionFilterTag" class="mt-3"> -->
+            <b-form-input v-model="inputPositionFilter" id="inputPositionFilter" 
+                placeholder="Please insert position name" style="width: 250px;"></b-form-input>
+          <!-- </b-collapse> -->
+          <!-- <b-button v-b-toggle.filter-2-inner  size="sm">Filter By Team Name</b-button> -->
+          <!-- <b-collapse id="teamNameFilterTag" class="mt-3"> -->
+            <b-form-input v-model="inputTeamNameFilter" id="inputTeamNameFilter" 
+                placeholder="Please insert team name" style="width: 250px;"></b-form-input>
+          <!-- </b-collapse> -->
+        </b-card>
+      </b-collapse>
+    </div>
+    <div>
       <h2>Search Result: </h2>
       <span v-for="player_details in playerList" :key="player_details">
         <player-preview
-        :PlayerFullName="player_details.player_name"
-        :teamName="player_details.player_team_name"
+        :PlayerFullName="player_details.name"
+        :teamName="player_details.team_name"
         :playerPosition="player_details.player_position"        
         :image_url="player_details.player_image_url"        
         ></player-preview>
       </span>
+      <span v-for="team_details in teamList" :key="team_details">
+        <team-preview
+        :TeamFullName="team_details.name"
+        :logo_path="team_details.team_logo_path"        
+        ></team-preview>
+      </span>
     </div>
+    
   </div> 
 </template>
 
 <script>
 
 import PlayerPreview from "../components/PlayerPreview.vue";
+import TeamPreview from "../components/TeamPreview.vue";
 
 
 export default {
   name: "SearchPage",
   components:{
-    PlayerPreview
+    PlayerPreview,
+    TeamPreview
   },
   data() {
     return {
@@ -79,6 +119,8 @@ export default {
       searchQueryTextAddition:"",
       selected: null,
       isTeamVisible: false,
+      inputPositionFilter: "",
+      inputTeamNameFilter: "",
       // selected: 'radio1',
       options: [
         { text: 'Search player by position', value: '/players/:searchQuery/filterByPosition/:positionName'},
@@ -92,6 +134,35 @@ export default {
     playerList() { 
       return this.$store.state.players;
     },
+
+    teamList() { 
+      return this.$store.state.teams;
+    },
+
+    sortByPlayerName(){
+      // let copyPlayerArr = this.$store.state.players;
+      let s=5;
+      return s;
+      // console.log(1);
+      // return this.$store.actions.sort_names(copyPlayerArr);
+      
+    },
+// 'team'
+    sortByTeamName(){
+      let copyTeamArr = this.$store.state.players;
+      console.log(2);
+      return this.$store.actions.sort_player_by_team_name(copyTeamArr);
+    },
+
+    filterByPosition(){
+      let copyPlayerArr = this.$store.state.players;
+      return this.$store.actions.filter_players(copyPlayerArr, this.inputPositionFilter ,"position");
+    },
+
+    filterByTeamName(){
+      let copyPlayerArr = this.$store.state.players;
+      return this.$store.actions.filter_players(copyPlayerArr, this.inputTeamNameFilter,"team_name");
+    },
   },
   methods: {
 
@@ -99,26 +170,31 @@ export default {
       let vis = document.getElementById("collapse-1");
       vis.style.display = "none";
       this.isTeamVisible = true;
-      // if (vis.style.display === "none") {
-        
-      // } else {
-      //   vis.style.display = "none";
-      // }
+    },
+
+    handleVisibilityOfResult(result) {
+      
+      document.getElementById("sort").style.display = "none";
+      document.getElementById("filter").style.display = "none";
+      document.getElementById(result).style.display = "block";
+      
     },
 
     handleVisibility_inner(tagName) {
       let vis = document.getElementById(tagName);
       let vis1 = document.getElementById("positionTagCollapse");
-      let vis2 = document.getElementById("teamNameTag");
-      // let vis3 = document.getElementById("playerNameTag");
+      let vis2 = document.getElementById("teamNameTag");      
       vis1.style.display = "none";
       vis2.style.display = "none";
-      // vis3.style.display = "none";
+      if(tagName == 'playerNameTag'){
+        return;
+      }
       vis.style.display = "block";
       this.selected = null;
       this.searchQueryTextAddition = "";
       this.isTeamVisible = false;
     },
+ 
     
     async search(){
       try{
@@ -153,11 +229,22 @@ export default {
           },
           {withCredentials: true},
         );
-        for(let i =0; i <response.data.length; i++){
-          this.$store.actions.add_player(response.data[i]);
+        if(this.isTeamVisible == true){
+          for(let i =0; i <response.data.length; i++){
+            this.$store.actions.add_team(response.data[i]);
+            this.$store.state.players = [];
+          }
         }
+        else{
+          for(let i =0; i <response.data.length; i++){
+            this.$store.actions.add_player(response.data[i]);
+            this.$store.state.teams = [];
+          }
+        }
+        
+        
         // return response.data;
-        this.answer_search_data = response.data;;
+        // this.answer_search_data = response.data;;
         // const teamName = "sdff";
         // const playerPosition = "sdff";
         // this.playerFullName = response.data.name;
@@ -185,8 +272,11 @@ export default {
   display: none;
 }
 
+#content{
+  text-align: center;
+}
 #search-input {
-  margin-left: 20px; 
+  margin-left: 500px; 
   width: 500px; 
 }
 #btn-radios-2{
