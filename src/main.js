@@ -96,7 +96,7 @@ const shared_data = {
         this.username = undefined;
     }
 };
-console.log(shared_data);
+console.log("shared_data", shared_data);
 // Vue.prototype.$root.store = shared_data;
 
 new Vue({

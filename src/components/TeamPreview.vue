@@ -1,22 +1,21 @@
 <template>
   <div class="card" style="width: 18rem">
     <div class="card-body">
-      <h5 class="card-title">{{ PlayerFullName }}</h5>
+      <h5 class="card-title">{{ TeamFullName }}</h5>
       <br/>
       <img
-      :src="`${image_url}`"
+      :src="`${logo_path}`"
       class="card-img-top"
       style="height: 200px; width: auto"
       />
-      <p class="card-text">
-        <ul class="player-content">
-          <li> Team Name: {{ teamName }}</li>
-          <li> Player Position: {{ playerPosition }}</li>
+      <!-- <p class="card-text">
+        <ul class="team-content">
+          <li> Team Name: {{ TeamFullName }}</li>
        </ul>  
-      </p>
+      </p> -->
       <a
         target="_blank"
-        :href="`https://www.pokemon.com/us/pokedex/${PlayerFullName}`"
+        :href="`https://www.pokemon.com/us/pokedex/${TeamFullName}`"
         class="btn btn-primary"
         >Get more data</a
       >
@@ -29,19 +28,15 @@
 export default {
   name: "PlayerPreview",
   props: {
-      PlayerFullName: {
-        // type: String,
-        required: true
-      },
-      teamName: {
+    //   id: {
+    //     type: Number,
+    //     required: true
+    //   },
+      TeamFullName: {
         type: String,
         required: true
       },
-      playerPosition: {
-        type: String,
-        required: true
-      },
-      image_url: {
+      logo_path: {
         type: String,
         required: true
       }
@@ -57,7 +52,7 @@ export default {
     },
   },
   mounted(){
-    console.log("player preview mounted");
+    console.log("team preview mounted");
   } 
 };
 </script>
