@@ -1,37 +1,27 @@
 <template>
   <div class="card" style="width: 18rem">
-    <div class="card-body">
-      <h5 class="card-title">{{ TeamFullName }}</h5>
-      <br/>
-      <img
-      :src="`${logo_path}`"
-      class="card-img-top"
-      style="height: 200px; width: auto"
-      />
-      <!-- <p class="card-text">
-        <ul class="team-content">
-          <li> Team Name: {{ TeamFullName }}</li>
-       </ul>  
-      </p> -->
-      <a
-        target="_blank"
-        :href="`https://www.pokemon.com/us/pokedex/${TeamFullName}`"
-        class="btn btn-primary"
-        >Get more data</a
-      >
-    </div>
-    
+  <div class="card-body">
+    <h5 class="card-title">{{ TeamFullName }}</h5>
+    <br/>
+    <img
+    :src="`${logo_path}`"
+    class="card-img-top"
+    style="height: 200px; width: auto"
+    />
+    <a
+      target="_blank"
+      :href="`https://www.pokemon.com/us/pokedex/${TeamFullName}`"
+      class="btn btn-primary"
+      >Get more data</a
+    >
+  </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "PlayerPreview",
+  name: "TeamPreview",
   props: {
-    //   id: {
-    //     type: Number,
-    //     required: true
-    //   },
       TeamFullName: {
         type: String,
         required: true
@@ -41,16 +31,6 @@ export default {
         required: true
       }
   }, 
-  methods: {
-    get_image(player_name) {
-      try {
-        Pokemon.getSprite(player_name);
-        return "johan"; 
-      } catch (err) {
-        return "https://assets.pokemon.com/assets/cms2/img/pokedex/full/158.png";
-      }
-    },
-  },
   mounted(){
     console.log("team preview mounted");
   } 
@@ -59,7 +39,7 @@ export default {
 
 <style>
 .card {
-  width: 18rem;
+  /* width: 180px; */
   display: inline-block;
   margin: 10px;
 }
