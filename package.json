@@ -17,6 +17,7 @@
     "vue-button-effect": "0.0.3",
     "vue-modaltor": "^1.5.2",
     "vue-router": "^3.2.0",
+    "vue-simple-search-dropdown": "^1.0.1",
     "vue-star": "0.0.4",
     "vuelidate": "^0.7.5"
   },

@@ -31,14 +31,7 @@
               <b-form-select-option value="Defender">Defender</b-form-select-option>
               <b-form-select-option value="Midfielder">Midfielder</b-form-select-option>
               <b-form-select-option value="Attacker">Attacker</b-form-select-option>
-              <!-- <b-form-select-option value="5">Right central midfielder</b-form-select-option>
-              <b-form-select-option value="6">Central midfielder</b-form-select-option>
-              <b-form-select-option value="7">Left central midfielder</b-form-select-option>
-              <b-form-select-option value="8">Right-winger</b-form-select-option>
-              <b-form-select-option value="9">Central forward</b-form-select-option>
-              <b-form-select-option value="10">Left-winger</b-form-select-option> -->
             </b-form-select>
-             <!-- <div class="mt-2">Selected: <strong>{{ selected }}</strong></div> -->
           </b-collapse>
           <br/><br/>
           <b-button v-b-toggle.collapse-2-inner @click="handleVisibility_inner('teamNameTag')" size="sm">Search player by team name</b-button>
@@ -49,18 +42,15 @@
         </b-card>
       </b-collapse>
     </div>
-    <div>
+    <div v-if="this.$store.state">
       <br/>
       <b-button v-b-toggle.filter pill  @click="handleVisibilityOfResult('filter')"> View Filter</b-button>
       <b-button v-b-toggle.sort pill  @click="handleVisibilityOfResult('sort')"> View Sort</b-button>
       <b-collapse id="sort" class="mt-5">
         <b-card>
           <p class="card-text">Sort Options: </p>
-          <b-button v-b-toggle.sort-1-inner @click="sortByPlayerName" size="sm">Sort By Player Name</b-button>
-          <b-button v-b-toggle.sort-2-inner @click="sortByTeamName" size="sm">Sort By Team Name</b-button>
-          <!-- <b-collapse id="sort-inner" class="mt-5">
-            <b-card>Hello!</b-card> @click="filterByPosition" @click="filterByTeamName"
-          </b-collapse> -->
+          <b-button v-b-toggle.sort-1-inner :disabled.sync="this.$store.state.filterAndSortFlag" @click="sortByPlayerName()" size="sm">Sort By Player Name</b-button>
+          <b-button v-b-toggle.sort-2-inner :disabled.sync="this.$store.state.filterAndSortFlag"  @click="sortByTeamName()" size="sm">Sort By Team Name</b-button>
         </b-card>
       </b-collapse>
 
@@ -69,8 +59,15 @@
           <p class="card-text">Filter Options: </p>
           <!-- <b-button v-b-toggle.filter-1-inner  size="sm">Filter By Position</b-button> -->
           <!-- <b-collapse id="positionFilterTag" class="mt-3"> -->
-            <b-form-input v-model="inputPositionFilter" id="inputPositionFilter" 
-                placeholder="Please insert position name" style="width: 250px;"></b-form-input>
+            <!-- <b-form-input v-model="inputPositionFilter" id="inputPositionFilter" 
+                placeholder="Please insert position name" style="width: 250px;"></b-form-input> -->
+            <b-form-select v-model="inputPositionFilter" class="mb-3" style="width: 250px" >
+              <b-form-select-option :value="null">Please select an option</b-form-select-option>
+              <b-form-select-option value="Goalkeeper">Goalkeeper</b-form-select-option>
+              <b-form-select-option value="Defender">Defender</b-form-select-option>
+              <b-form-select-option value="Midfielder">Midfielder</b-form-select-option>
+              <b-form-select-option value="Attacker">Attacker</b-form-select-option>
+            </b-form-select>
           <!-- </b-collapse> -->
           <!-- <b-button v-b-toggle.filter-2-inner  size="sm">Filter By Team Name</b-button> -->
           <!-- <b-collapse id="teamNameFilterTag" class="mt-3"> -->
@@ -96,8 +93,7 @@
         :logo_path="team_details.team_logo_path"        
         ></team-preview>
       </span>
-    </div>
-    
+    </div>  
   </div> 
 </template>
 
@@ -105,7 +101,6 @@
 
 import PlayerPreview from "../components/PlayerPreview.vue";
 import TeamPreview from "../components/TeamPreview.vue";
-
 
 export default {
   name: "SearchPage",
@@ -119,15 +114,8 @@ export default {
       searchQueryTextAddition:"",
       selected: null,
       isTeamVisible: false,
-      inputPositionFilter: "",
+      inputPositionFilter: null,
       inputTeamNameFilter: "",
-      // selected: 'radio1',
-      options: [
-        { text: 'Search player by position', value: '/players/:searchQuery/filterByPosition/:positionName'},
-        { text: 'Search player by name', value: '/players/:searchQuery', checked:'checked'},
-        { text: 'Search player by team name', value: '/players/:searchQuery/filterByTeam/:teamName' },
-        { text: 'Search Team by name', value: '/teams/:searchQuery' }
-      ],
     }    
   },
   computed: {
@@ -139,32 +127,37 @@ export default {
       return this.$store.state.teams;
     },
 
-    sortByPlayerName(){
-      // let copyPlayerArr = this.$store.state.players;
-      let s=5;
-      return s;
-      // console.log(1);
-      // return this.$store.actions.sort_names(copyPlayerArr);
-      
-    },
-// 'team'
-    sortByTeamName(){
-      let copyTeamArr = this.$store.state.players;
-      console.log(2);
-      return this.$store.actions.sort_player_by_team_name(copyTeamArr);
-    },
+    
 
     filterByPosition(){
-      let copyPlayerArr = this.$store.state.players;
-      return this.$store.actions.filter_players(copyPlayerArr, this.inputPositionFilter ,"position");
+      console.log(2);
+      if(this.inputPositionFilter != ''){
+        let copyPlayerArr = this.$store.state.players;
+        return this.$store.actions.filter_players(copyPlayerArr, this.inputPositionFilter ,"position");
+      }
+      return '';
     },
 
     filterByTeamName(){
-      let copyPlayerArr = this.$store.state.players;
-      return this.$store.actions.filter_players(copyPlayerArr, this.inputTeamNameFilter,"team_name");
+      if(this.inputPositionFilter != ''){
+        let copyPlayerArr = this.$store.state.players;
+        return this.$store.actions.filter_players(copyPlayerArr, this.inputTeamNameFilter,"team_name");
+        }
+      return '';
     },
+    
   },
   methods: {
+    sortByPlayerName(){
+      let copyPlayerArr = this.$store.state.players;
+      return this.$store.actions.sort_names(copyPlayerArr);
+      
+    },
+
+    sortByTeamName(){
+      let copyTeamArr = this.$store.state.players;
+      return this.$store.actions.sort_player_by_team_name(copyTeamArr);
+    },
 
     handleVisibility() {
       let vis = document.getElementById("collapse-1");
@@ -195,7 +188,6 @@ export default {
       this.isTeamVisible = false;
     },
  
-    
     async search(){
       try{
         let pathToSearch = "";
@@ -242,7 +234,6 @@ export default {
           }
         }
         
-        
         // return response.data;
         // this.answer_search_data = response.data;;
         // const teamName = "sdff";
@@ -253,13 +244,14 @@ export default {
         // this.$root.store.login(this.form.username);
         // this.$router.push("/");
       } catch (err) {
+
         console.log("err");
       } 
     },
   },  
   mounted(){
     console.log("search mounted");
-    this.search();
+    // this.search();
   },  
 };
 
@@ -276,7 +268,7 @@ export default {
   text-align: center;
 }
 #search-input {
-  margin-left: 500px; 
+  margin-left: 35%; 
   width: 500px; 
 }
 #btn-radios-2{
