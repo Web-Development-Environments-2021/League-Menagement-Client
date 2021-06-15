@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="currentStage">
     <div class="text-center">
       <button @click="switchDiv()">Click here to change games period</button>
     </div>
@@ -24,7 +24,9 @@
       :columns="columns1"
       :config="config1"
       v-show="!flag"
-    >
+    > <template slot="add_to_favorite" slot-scope="row">
+      <button @click="addFavorite(row.row.id)">add to favorite</button>
+      </template>
     </vue-bootstrap4-table>
   </div>
 </template>
@@ -182,6 +184,10 @@ export default {
             placeholder: "Enter league name",
           },
         },
+        {
+          label: "",
+          name: "add_to_favorite",
+        },
       ],
       config1: {
         checkbox_rows: true,
@@ -238,6 +244,16 @@ export default {
     async switchDiv() {
       this.flag = !this.flag;
     },
+    async addFavorite(id){
+      try {
+        const response = await this.axios.post(
+          "http://localhost:3000/users/addFavoriteGames",{"game_id":id},{withCredentials: true}
+        );
+      } catch (error) {
+        console.log("error in update games")
+        console.log(error);
+      }
+    }
   },
   mounted() {
     this.futurGames();
