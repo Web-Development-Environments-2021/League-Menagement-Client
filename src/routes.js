@@ -32,6 +32,12 @@ const routes = [{
             import ("./pages/SearchPage")
     },
     {
+        path: "/about",
+        name: "about",
+        component: () =>
+            import ("./pages/AboutPage")
+    },
+    {
         path: "/currentStage",
         name: "currentStage",
         component: () =>

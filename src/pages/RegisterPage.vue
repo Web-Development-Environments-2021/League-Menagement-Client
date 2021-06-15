@@ -2,6 +2,7 @@
   <div class="container">
     <h1 class="title">Register</h1>
     <b-form @submit.prevent="onRegister" @reset.prevent="onReset">
+
       <b-form-group
         id="input-group-username"
         label-cols-sm="3"
@@ -26,6 +27,52 @@
       </b-form-group>
 
       <b-form-group
+        id="input-group-firstName"
+        label-cols-sm="3"
+        label="firstName:"
+        label-for="firstName"
+      >
+        <b-form-input
+          id="firstName"
+          v-model="$v.form.firstName.$model"
+          type="text"
+          :state="validateState('firstName')"
+        ></b-form-input>
+        <b-form-invalid-feedback v-if="!$v.form.firstName.required">
+          FirstName is required
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback v-else-if="!$v.form.firstName.length">
+          FirstName length should be minimum 1 character long
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback v-if="!$v.form.firstName.alpha">
+          FirstName alpha
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+      <b-form-group
+        id="input-group-lastName"
+        label-cols-sm="3"
+        label="lastName:"
+        label-for="lastName"
+      >
+        <b-form-input
+          id="lastName"
+          v-model="$v.form.lastName.$model"
+          type="text"
+          :state="validateState('lastName')"
+        ></b-form-input>
+        <b-form-invalid-feedback v-if="!$v.form.lastName.required">
+          LastName is required
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback v-else-if="!$v.form.lastName.length">
+          LastName length should be minimum 1 character long
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback v-if="!$v.form.lastName.alpha">
+          LastName alpha
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+      <b-form-group
         id="input-group-country"
         label-cols-sm="3"
         label="Country:"
@@ -40,6 +87,48 @@
         <b-form-invalid-feedback>
           Country is required
         </b-form-invalid-feedback>
+      </b-form-group>
+
+      <b-form-group
+        id="input-group-email"
+        label-cols-sm="3"
+        label="email:"
+        label-for="email"
+      >
+        <b-form-input
+          id="email"
+          type="email"
+          v-model="$v.form.email.$model"
+          :state="validateState('email')"
+        ></b-form-input>
+        <b-form-invalid-feedback v-if="!$v.form.email.required">
+          email is required
+        </b-form-invalid-feedback>
+        <b-form-text v-else-if="$v.form.email.$error" text-variant="info">
+          Your email should be <strong>strong</strong>. <br />
+          For that, your email should be also:
+        </b-form-text>
+      </b-form-group>
+
+      <b-form-group
+        id="input-group-img_url"
+        label-cols-sm="3"
+        label="img_url:"
+        label-for="img_url"
+      >
+        <b-form-input
+          id="img_url"
+          type="img_url"
+          
+        ></b-form-input>
+        <!-- <b-form-invalid-feedback v-if="!$v.form.email.required"> v-model="$v.form.img_url.$model"
+          :state="validateState('img_url')"
+          email is required
+        </b-form-invalid-feedback>
+        <b-form-text v-else-if="$v.form.email.$error" text-variant="info">
+          Your email should be <strong>strong</strong>. <br />
+          For that, your email should be also:
+        </b-form-text> -->
       </b-form-group>
 
       <b-form-group
@@ -142,6 +231,7 @@ export default {
         password: "",
         confirmedPassword: "",
         email: "",
+        img_url:"", 
         submitError: undefined
       },
       countries: [{ value: null, text: "", disabled: true }],
@@ -156,8 +246,26 @@ export default {
         length: (u) => minLength(3)(u) && maxLength(8)(u),
         alpha
       },
+      firstName: {
+        required,
+        length: (u) => minLength(1)(u),
+        alpha
+      },
+      lastName: {
+        required,
+        length: (u) => minLength(1)(u),
+        alpha
+      },
       country: {
         required
+      },
+      email:{
+        required,
+        email
+      },
+      img_url:{
+        required,
+        url,
       },
       password: {
         required,
@@ -185,7 +293,12 @@ export default {
           "http://localhost:3000/Register",
           {
             username: this.form.username,
-            password: this.form.password
+            password: this.form.password,
+            firstname: this.form.firstName,
+            lastname:this.form.lastName,
+            country:this.form.country,
+            img_url:this.form.img_url,
+            email:this.form.email              
           }
         );
         this.$router.push("/login");

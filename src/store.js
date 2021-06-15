@@ -8,9 +8,8 @@ const state = {
   teams: [],
   teams_ids: [],
   teams_counter: 0,
+  filterAndSortFlag: false
 };
-
-var sortflag = true;
 
 const actions = {
 
@@ -68,7 +67,7 @@ const actions = {
   filter_players(arr_to_filter, object, option){
     if( option == "position" ){
       return arr_to_filter.filter(function(el) {
-        return el.toLowerCase().indexOf(object.player_position.toLowerCase()) !== -1
+        return el.player_position.toLowerCase().indexOf(object.player_position.toLowerCase()) !== -1
       });
     }
     else{
