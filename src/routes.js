@@ -54,6 +54,12 @@ const routes = [{
         component: popup
     },
     {
+        path: "/TeamCard",
+        name: "TeamCard",
+        component: () =>
+            import ("./components/TeamCard")
+    },
+    {
         path: "*",
         name: "notFound",
         component: NotFound

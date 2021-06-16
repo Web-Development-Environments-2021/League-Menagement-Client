@@ -59,7 +59,7 @@ export default {
 
 <style>
 .card {
-  width: 18rem;
+  /* width: 18rem; */
   display: inline-block;
   margin: 10px;
 }

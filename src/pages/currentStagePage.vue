@@ -18,6 +18,9 @@
           @click="currGameId(row)"
         ></popup>
       </template>
+      <template slot="home_team_name" slot-scope="row">
+      <a @click="showTeam(row.row.home_team_name)">{{row.row.home_team_name}}</a>
+      </template>
     </vue-bootstrap4-table>
     <vue-bootstrap4-table
       :rows="rows1"
@@ -28,6 +31,7 @@
       <button @click="addFavorite(row.row.id)">add to favorite</button>
       </template>
     </vue-bootstrap4-table>
+    <team-card :id="teamCardFlag"></team-card>
   </div>
 </template>
 
@@ -39,9 +43,14 @@ import popup from "../components/popup.vue";
 export default {
   name: "currStage",
   // router,
+    components: {
+    VueBootstrap4Table,
+    popup,
+  },
   data: function () {
     return {
       flag: true,
+      teamCardFlag: -1,
       rows: [],
       columns: [
         {
@@ -198,11 +207,7 @@ export default {
       game_id: {},
     };
   },
-  components: {
-    VueBootstrap4Table,
-    
-    popup,
-  },
+
   methods: {
     async pastGames() {
       console.log("response");
@@ -219,6 +224,18 @@ export default {
       } catch (error) {
         console.log("error in update games");
         console.log(error);
+      }
+    },
+    async showTeam(team_name){
+      try {
+        const response2 = await this.axios.get(
+          `http://localhost:3000/search/teams/:searchQuery`,{params:{searchQuery: team_name}},
+          { withCredentials: true });
+          console.log(response2)
+        this.teamCardFlag = response2.data[0].team_id
+        console.log(this.teamCardFlag)
+      } catch (error) {
+        console.log("error in update games");
       }
     },
     async futurGames() {
