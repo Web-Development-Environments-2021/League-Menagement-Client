@@ -1,6 +1,7 @@
 <template>
   <div>
-    <GamePreview
+    <h1 class="title">Favorite Games</h1>
+    <GamePreview class="content"
       v-for="g in games"
       :id="g.id" 
       :hostTeam="g.home_team_name" 
@@ -20,22 +21,7 @@ export default {
   }, 
   data() {
     return {
-      games: [
-        {
-          id:"25",
-          home_team_name: "Maccabi Tel-Aviv",
-          away_team_name: "Hapoel Beer-Sheva",
-          date: "27/5/21",
-          time: "20:00"
-        },
-        {
-          id:"39",
-          home_team_name: "Hapoel Tel-Aviv",
-          away_team_name: "Maccabi Haifa",
-          date: "29/5/21",
-          time: "20:00"
-        }
-      ]
+      games: []
     };
   },
   methods: {
@@ -48,6 +34,10 @@ export default {
         this.games = [];
         this.games.push(...games);
         this.games.map(game=>{
+          // console.log(game.date);
+          // console.log(new Date());
+          let date = Date(game.date.replace('Z', ''));
+          console.log(date);
           let splited = game.date.split('T');
           game.date = splited[0];
           game.time = splited[1].split(':00.000Z')[0];
@@ -66,4 +56,18 @@ export default {
 };
 </script>
 
-<style></style>
+
+
+<style>
+
+.title{
+  top: 10px;
+  text-align: center;
+}
+
+.content{
+  left: 30%;
+  top: 200px;
+}
+
+</style>

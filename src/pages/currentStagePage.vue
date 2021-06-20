@@ -35,6 +35,7 @@
 <script>
 import VueBootstrap4Table from "vue-bootstrap4-table";
 import popup from "../components/popup.vue";
+import TeamCard from "../components/TeamCard.vue"
 
 export default {
   name: "currStage",

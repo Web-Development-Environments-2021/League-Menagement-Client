@@ -35,8 +35,8 @@ export default {
 
 #favoritegames{
   position: absolute;
-  right: 10%;
-  top: 35%;
+  right: 18%;
+  top: 10%;
 }
 
 .title{

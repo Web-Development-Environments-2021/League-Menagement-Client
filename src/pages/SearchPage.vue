@@ -142,30 +142,34 @@ export default {
     },
 
     filterByPosition(){
-      console.log(2);
-      if(this.inputPositionFilter != ''){
-        this.$store.state.temp_store_players = this.$store.state.players;
+      // if(this.inputPositionFilter != ''){
+        // this.$store.state.temp_store_players = this.$store.state.players;
+        // if(this.$store.state.filter_dict.length == 0){
+          // this.$store.state.filter_dict[''] = this.$store.state.players;
+        // }
+        // this.$store.state.filter_dict[this.inputPositionFilter] = this.$store.state.players;
         this.$store.state.players =  this.$store.actions.filter_players(this.$store.state.players, this.inputPositionFilter ,"position");
-      }
-      else{
-        this.$store.state.players = this.$store.state.temp_store_players;
-      }
+      // }
+      // else{
+      //   this.$store.state.players = this.$store.state.filter_dict[''];
+      //   this.$store.state.filter_dict[''] = {};
+      // }
     },
 
     filterByTeamName(){
-      if(this.inputTeamNameFilter != ''){
-        this.$store.state.temp_store_players = this.$store.state.players;
-        try {
-          this.$store.state.players = this.$store.actions.filter_players(this.$store.state.players, this.inputTeamNameFilter,"team_name");
-        } catch (error) {
+      // if(this.inputTeamNameFilter != ''){
+      //   this.$store.state.temp_store_players = this.$store.state.players;
+      //   try {
+      this.$store.state.players = this.$store.actions.filter_players(this.$store.state.players, this.inputTeamNameFilter,"team_name");
+      //   } catch (error) {
           
-        }
-      }
-      else{
-        if(this.$store.state.players.length <= this.$store.state.temp_store_players.length){
-          this.$store.state.players = this.$store.state.temp_store_players;
-        }
-      }
+      //   }
+      // }
+      // else{
+      //   if(this.$store.state.players.length <= this.$store.state.temp_store_players.length){
+      //     this.$store.state.players = this.$store.state.temp_store_players;
+      //   }
+      // }
     },
 
     handleVisibility() {
