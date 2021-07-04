@@ -53,12 +53,12 @@ const routes = [{
         name: "popup",
         component: popup
     },
-    {
-        path: "/TeamCard",
-        name: "TeamCard",
-        component: () =>
-            import ("./components/TeamCard")
-    },
+    // {
+    //     path: "/TeamCard",
+    //     name: "TeamCard",
+    //     component: () =>
+    //         import ("./components/TeamCard")
+    // },
     {
         path: "*",
         name: "notFound",

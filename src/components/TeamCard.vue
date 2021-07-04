@@ -1,10 +1,33 @@
 <template>
   <div class="team-card">
+      <img
+      :src="`${team_logo}`"
+      class="card-img-top"
+      style="height: 200px; width: auto"/>
+        <player-preview
+        :PlayerFullName="coacd_detailes.name"       
+        :image_url="coacd_detailes.image"
+        :teamName="coacd_detailes.team_name"
+        :playerPosition="coacd_detailes.position"   
+        :flag="true"        
+        ></player-preview>
+      <br/>
+      <span v-for="player in squad" :key="player.id">
+        <player-preview
+        :PlayerFullName="player.name"       
+        :image_url="player.image"
+        :flag="false"        
+        ></player-preview>
+      </span>
+      <games-tables :pGames="pGames" :fGames="fGames" v-if="mounted"></games-tables>
 
-  </div>
+       </div>
+      
 </template>
 
 <script>
+import gamesTables from "../components/gamesTables.vue"
+import PlayerPreview from "../components/PlayerPreview.vue";
 
 // import Vue from "vue";
 //   import { BButton } from 'bootstrap-vue';
@@ -14,32 +37,76 @@
 export default {
 
   name: "TeamCard",
+  components: {
+        PlayerPreview,
+
+    gamesTables,
+  // TeamCard
+  },
   props: {
+
     id:{
         type: Number,
-        required: true
-    }
+        // required: true
+    },
+  },
+   data: function(){
+  return{
+      mounted:false,
 
+      pGames:{
+          type: Object,
+          require: true,
+      },
+      fGames:{
+          type: Object,
+          require: true,
+      },
+
+    team_logo:{
+        type: String,
+        // required: true
+    },
+    coacd_detailes:{
+        type: String,
+        // required: true
+    },
+    squad:{
+        type: Array,
+        // required: true
+    }
+  }
   }, 
   methods:{
-    async teamFullDetailes(id){
+    async getData (id){
       try {
         if(id == -1){
+          console.log("shimon")
           return;
         }
         const response = await this.axios.get(
           `http://localhost:3000/teams/teamFullDetails/${id}` ,{withCredentials: true}
         );
-        // console.log(response)
+        console.log(response)
+        this.team_logo = response.data.team_logo;
+        this.pGames = response.data.pastGames;
+        this.fGames = response.data.futureGames;
+        this.squad = response.data.squad;
+        const coach_id = response.data.coach.coach_id;
+        this.coacd_detailes = await this.axios.get(`http://localhost:3000/teams/coachPreviewDetails/${coach_id}` ,{withCredentials: true});
+        
+        this.mounted = true;
+        
       } catch (error) {
         console.log("error in teamFullDetailes")
         console.log(error);
       }
     }
   },
-  mounted(){
-   this.teamFullDetailes(this.id)
-  } 
+  created(){
+    this.getData(this.id);  
+  },
+
 };
 </script>
 

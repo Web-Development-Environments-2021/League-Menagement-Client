@@ -8,7 +8,7 @@
       <li> guestTeam: {{ guestTeam }}</li>
       <li> date: {{ date }}</li>
       <li> time: {{ hour }}</li>
-      <g-button-wave color="primary" size="button--size-l" v-on:click="addFavorite(id)">add to favorite</g-button-wave>
+      <b-button color="primary" size="button--size-l" @click="addFavorite(id)">add to favorite</b-button>
     </ul>
   </div>
 </template>
