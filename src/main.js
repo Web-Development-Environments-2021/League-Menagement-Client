@@ -43,6 +43,7 @@ import {
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 
+
 import GlobalTest from "./components/Global.vue";
 Vue.component("GlobalTest", GlobalTest);
 

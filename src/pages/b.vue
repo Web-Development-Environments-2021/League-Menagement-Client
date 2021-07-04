@@ -42,7 +42,7 @@
         </b-card>
       </b-collapse>
     </div>
-    <div>
+    <div v-if="this.$store.state">
       <br/>
       <b-button v-b-toggle.filter pill  @click="handleVisibilityOfResult('filter')"> View Filter</b-button>
       <b-button v-b-toggle.sort pill  @click="handleVisibilityOfResult('sort')"> View Sort</b-button>
@@ -59,20 +59,20 @@
           <p class="card-text">Filter Options: </p>
           <!-- <b-button v-b-toggle.filter-1-inner  size="sm">Filter By Position</b-button> -->
           <!-- <b-collapse id="positionFilterTag" class="mt-3"> -->
-            <b-form-input v-model="inputPositionFilter" id="inputPositionFilter" 
-                placeholder="Please insert position name" v-on:input="filterByPosition()" style="width: 250px;"></b-form-input>
-            <!-- <b-form-select v-model="inputPositionFilter" @click="filterByPosition()" class="mb-3" style="width: 250px" >
+            <!-- <b-form-input v-model="inputPositionFilter" id="inputPositionFilter" 
+                placeholder="Please insert position name" style="width: 250px;"></b-form-input> -->
+            <b-form-select v-model="inputPositionFilter" class="mb-3" style="width: 250px" >
               <b-form-select-option :value="null">Please select an option</b-form-select-option>
-              <b-form-select-option @click="filterByPosition()" value="Goalkeeper">Goalkeeper</b-form-select-option>
-              <b-form-select-option v-on:input="filterByPosition()" value="Defender">Defender</b-form-select-option>
-              <b-form-select-option @click="filterByPosition()" value="Midfielder">Midfielder</b-form-select-option>
-              <b-form-select-option @click="filterByPosition()" value="Attacker">Attacker</b-form-select-option>
-            </b-form-select> -->
+              <b-form-select-option value="Goalkeeper">Goalkeeper</b-form-select-option>
+              <b-form-select-option value="Defender">Defender</b-form-select-option>
+              <b-form-select-option value="Midfielder">Midfielder</b-form-select-option>
+              <b-form-select-option value="Attacker">Attacker</b-form-select-option>
+            </b-form-select>
           <!-- </b-collapse> -->
           <!-- <b-button v-b-toggle.filter-2-inner  size="sm">Filter By Team Name</b-button> -->
           <!-- <b-collapse id="teamNameFilterTag" class="mt-3"> -->
-            <b-form-input v-model="inputTeamNameFilter"  id="inputTeamNameFilter" 
-                placeholder="Please insert team name" v-on:input="filterByTeamName()" style="width: 250px;"></b-form-input>
+            <b-form-input v-model="inputTeamNameFilter" id="inputTeamNameFilter" 
+                placeholder="Please insert team name" style="width: 250px;"></b-form-input>
           <!-- </b-collapse> -->
         </b-card>
       </b-collapse>
@@ -88,10 +88,10 @@
         ></player-preview>
       </span>
       <span v-for="team_details in teamList" :key="team_details">
-        <TeamPreview
+        <team-preview
         :TeamFullName="team_details.name"
         :logo_path="team_details.team_logo_path"        
-        ></TeamPreview>
+        ></team-preview>
       </span>
     </div>  
   </div> 
@@ -127,9 +127,27 @@ export default {
       return this.$store.state.teams;
     },
 
+    
+
+    filterByPosition(){
+      console.log(2);
+      if(this.inputPositionFilter != ''){
+        let copyPlayerArr = this.$store.state.players;
+        return this.$store.actions.filter_players(copyPlayerArr, this.inputPositionFilter ,"position");
+      }
+      return '';
+    },
+
+    filterByTeamName(){
+      if(this.inputPositionFilter != ''){
+        let copyPlayerArr = this.$store.state.players;
+        return this.$store.actions.filter_players(copyPlayerArr, this.inputTeamNameFilter,"team_name");
+        }
+      return '';
+    },
+    
   },
   methods: {
-
     sortByPlayerName(){
       let copyPlayerArr = this.$store.state.players;
       return this.$store.actions.sort_names(copyPlayerArr);
@@ -139,37 +157,6 @@ export default {
     sortByTeamName(){
       let copyTeamArr = this.$store.state.players;
       return this.$store.actions.sort_player_by_team_name(copyTeamArr);
-    },
-
-    filterByPosition(){
-      // if(this.inputPositionFilter != ''){
-        // this.$store.state.temp_store_players = this.$store.state.players;
-        // if(this.$store.state.filter_dict.length == 0){
-          // this.$store.state.filter_dict[''] = this.$store.state.players;
-        // }
-        // this.$store.state.filter_dict[this.inputPositionFilter] = this.$store.state.players;
-        this.$store.state.players =  this.$store.actions.filter_players(this.$store.state.players, this.inputPositionFilter ,"position");
-      // }
-      // else{
-      //   this.$store.state.players = this.$store.state.filter_dict[''];
-      //   this.$store.state.filter_dict[''] = {};
-      // }
-    },
-
-    filterByTeamName(){
-      // if(this.inputTeamNameFilter != ''){
-      //   this.$store.state.temp_store_players = this.$store.state.players;
-      //   try {
-      this.$store.state.players = this.$store.actions.filter_players(this.$store.state.players, this.inputTeamNameFilter,"team_name");
-      //   } catch (error) {
-          
-      //   }
-      // }
-      // else{
-      //   if(this.$store.state.players.length <= this.$store.state.temp_store_players.length){
-      //     this.$store.state.players = this.$store.state.temp_store_players;
-      //   }
-      // }
     },
 
     handleVisibility() {

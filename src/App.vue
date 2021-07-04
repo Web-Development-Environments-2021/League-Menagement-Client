@@ -2,24 +2,29 @@
   <div id="app">
     <b-navbar toggleable="lg" type="dark" variant="info">
       <b-navbar-brand :to="{ name: 'main' }">Superliga Vue</b-navbar-brand>
-      <b-collapse id="nav-collapse" is-nav>
-        <b-navbar-nav>
-        <b-nav-item :to="{ name: 'search' }">Search</b-nav-item>
+      <b-navbar-nav>
+        <b-nav-item :to="{ name: 'search' }" exact-path>Search</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav>
-        <b-nav-item :to="{ name: 'currentStage' }">Current stage</b-nav-item>
+        <b-nav-item :to="{ name: 'currentStage' }" exact-path>Current stage</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav>
         <b-nav-item :to="{ name: 'about' }">About</b-nav-item>
-        </b-navbar-nav>
+      </b-navbar-nav>
+      <b-dropdown text="Personal" is-nav >
+        <b-dropdown-item :to="{ name: 'favorite'}">Favorites</b-dropdown-item>
+      </b-dropdown>
+      
+      <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto" v-if="!$root.store.username">
+          <b-nav-item>Hello Guest</b-nav-item>
           <b-nav-item :to="{ name: 'login' }">Login</b-nav-item>
           <b-nav-item :to="{ name: 'register' }">Register</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto" v-else>
         <b-nav-item-dropdown right>
           <template #button-content> 
-            User
+            {{User}}
           </template>
           <b-dropdown-item :to="{ name: 'favorite'}">Favorites</b-dropdown-item>
           <b-dropdown-item @click="Logout">Log Out</b-dropdown-item>
@@ -34,6 +39,11 @@
 <script>
 export default {
   name: "App",
+  data(){
+    return {
+      User: this.$root.store.username,
+    }
+  },
   methods: {
     async Logout() {
       this.$root.store.logout();
@@ -44,9 +54,8 @@ export default {
           {withCredentials: true} // If true, send cookie stored in jar
         );
       } catch (error) {
-        
+        console.log("logout good");
       }
-
       this.$router.push("/").catch(() => {
         this.$forceUpdate();
       });

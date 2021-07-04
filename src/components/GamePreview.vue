@@ -8,7 +8,8 @@
       <li> guestTeam: {{ guestTeam }}</li>
       <li> date: {{ date }}</li>
       <li> time: {{ hour }}</li>
-      <b-button color="primary" size="button--size-l" @click="addFavorite(id)">add to favorite</b-button>
+      <br/>
+      <b-button @click="addFavorite()" variant="primary" size="button--size-l" >add to favorite</b-button>
     </ul>
   </div>
 </template>
@@ -23,10 +24,8 @@
 //  ButtonPlugin
 // ].forEach((x) => Vue.use(x));
 import Vue from "vue";
-  import { BButton } from 'bootstrap-vue';
-  Vue.component('b-button', BButton);
-  import vueButtonEffect from 'vue-button-effect';
-Vue.use(vueButtonEffect);
+import { BButton } from 'bootstrap-vue';
+Vue.component('b-button', BButton);
 export default {
 
   name: "GamePreview",
@@ -53,25 +52,32 @@ export default {
       }
   }, 
   methods:{
-    async addFavorite(id){
+    async addFavorite(){
       try {
         const response = await this.axios.post(
-          "http://localhost:3000/users/addFavoriteGames",{"game_id":id},{withCredentials: true}
+          "http://localhost:3000/users/addFavoriteGames",
+          {"game_id":this.id},
+          {withCredentials: true}
         );
+        if(response.data === ''){
+          alert("This Game all ready in your favotires games");
+        }
+        else{
+          alert("The game successfully saved as favorite");
+        }
       } catch (error) {
-        console.log("error in update games")
         console.log(error);
       }
     }
   },
   mounted(){
     console.log("game preview mounted")
-    
   } 
 };
 </script>
 
 <style>
+
 .game-preview {
   display: inline-block;
   width: 250px;
@@ -82,6 +88,7 @@ export default {
   border-radius: 10px;
   border-width: 5px;
   border-color:cadetblue;
+  background: whitesmoke ;
 }
 
 .game-preview .game-title {

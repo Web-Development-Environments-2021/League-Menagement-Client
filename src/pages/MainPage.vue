@@ -1,9 +1,9 @@
 <template>
   <div class="container">
-    <h1 class="title">Main Page</h1>
-    <LoginPage v-if="!$root.store.username" ></LoginPage>
-    <FavoriteGames v-else></FavoriteGames>
-    <LeagueInfo></LeagueInfo>
+    <h1 class="title">Welcome To SuperLiga</h1>
+    <LoginPage id="loginpage" v-if="!$root.store.username" ></LoginPage>
+    <FavoriteGames id="favoritegames" v-else></FavoriteGames>
+    <LeagueInfo id="leagueinfo" ></LeagueInfo>
   </div>
 </template>
 
@@ -21,8 +21,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.RandomRecipes {
-  margin: 10px 0 10px;
+#loginpage {
+  position: absolute;
+  right: 15%;
+  top: 33%;
+}
+
+#leagueinfo{
+  position: absolute;
+  left: 15%;
+  top: 20%;
+}
+
+#favoritegames{
+  position: absolute;
+  right: 18%;
+  top: 10%;
+}
+
+.title{
+  text-align: center;
 }
 .blur {
   -webkit-filter: blur(5px); /* Safari 6.0 - 9.0 */

@@ -1,16 +1,18 @@
 <template>
     <div class="league-preview">
       <b-card
+      img-src="https://www.wheretobet.net/wp-content/uploads/2019/12/where-to-bet-danish-superliga.jpg"
       img-alt="Image"
+      img-top
       tag="article"
       style="max-width: 20rem;"
       class="mb-2"
-    >
-      <b-card-title>{{leagueName}}</b-card-title>
+      >
+      <!-- <b-card-title>{{leagueName}}</b-card-title> -->
       <b-card-text>
-        Season: {{ season }}
+        <strong>Season: </strong>{{ season }}
         <br/>
-        Stage: {{ stage }}
+        <strong>Stage: </strong> {{ stage }}
         <br/>
         <GamePreview
         v-for="g in nextGame"
@@ -73,8 +75,8 @@ export default {
 <style>
 .league-preview {
   display: inline-block;
-  width: 350px;
-  height: 220px;
+  width: 330px;
+  height: 420px;
   position: relative;
   margin: 10px 10px;
   border-style: solid;

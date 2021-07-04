@@ -8,7 +8,8 @@ const state = {
   teams: [],
   teams_ids: [],
   teams_counter: 0,
-  filterAndSortFlag: false
+  temp_store_players: [],
+  filter_dict: {},
 };
 
 const actions = {
@@ -65,14 +66,24 @@ const actions = {
     });
   },
   filter_players(arr_to_filter, object, option){
+    // if(state.filter_dict.length == 0){
+    //   state.filter_dict[object] = state.players;
+    // }
+     if(state.filter_dict.hasOwnProperty(object)){
+        let ans = state.filter_dict[object];
+        delete state.filter_dict.object;
+        return ans;
+      }
     if( option == "position" ){
+      state.filter_dict[object] = arr_to_filter;
       return arr_to_filter.filter(function(el) {
-        return el.player_position.toLowerCase().indexOf(object.player_position.toLowerCase()) !== -1
+        return el.player_position.toLowerCase().indexOf(object.toLowerCase()) !== -1
       });
     }
     else{
-    return arr_to_filter.filter(function(el) {
-      return el.toLowerCase().indexOf(object.team_name.toLowerCase()) !== -1
+      state.filter_dict[object] = arr_to_filter;
+      return arr_to_filter.filter(function(el) {
+        return el.team_name.toLowerCase().indexOf(object.toLowerCase()) !== -1
       });
     }
   },
