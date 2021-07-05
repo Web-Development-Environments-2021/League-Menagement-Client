@@ -10,10 +10,11 @@
         </b-navbar-nav>
         <b-navbar-nav>
         <b-nav-item :to="{ name: 'about' }">About</b-nav-item>
-      </b-navbar-nav>
-      <b-dropdown text="Personal" is-nav >
+        <b-nav-item-dropdown text="Personal" is-nav >
         <b-dropdown-item :to="{ name: 'favorite'}">Favorites</b-dropdown-item>
-      </b-dropdown>
+      </b-nav-item-dropdown>
+      </b-navbar-nav>
+
       
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto" v-if="!$root.store.username">

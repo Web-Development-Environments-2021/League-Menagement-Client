@@ -9,7 +9,7 @@
       <li> date: {{ date }}</li>
       <li> time: {{ hour }}</li>
       <br/>
-      <b-button @click="addFavorite()" variant="primary" size="button--size-l" >add to favorite</b-button>
+      <b-button @click="addFavorite()" variant="primary" size="button--size-l" style="background-color:transparent"  v-if="!isFavorite" >❤</b-button>
     </ul>
   </div>
 </template>
@@ -49,6 +49,10 @@ export default {
       hour: {
         type: String,
         required: true
+      },
+      isFavorite:{
+        type: Boolean,
+        default: false,
       }
   }, 
   methods:{
@@ -59,12 +63,8 @@ export default {
           {"game_id":this.id},
           {withCredentials: true}
         );
-        if(response.data === ''){
-          alert("This Game all ready in your favotires games");
-        }
-        else{
-          alert("The game successfully saved as favorite");
-        }
+        alert(response.data)
+
       } catch (error) {
         console.log(error);
       }

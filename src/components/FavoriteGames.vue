@@ -8,7 +8,8 @@
       :guestTeam="g.away_team_name" 
       :date="g.date" 
       :hour="g.time" 
-      :key="g.id"></GamePreview>
+      :key="g.id"
+      :isFavorite="true"></GamePreview>
   </div>
 </template>
 
