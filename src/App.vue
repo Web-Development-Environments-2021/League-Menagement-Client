@@ -12,7 +12,8 @@
         <b-nav-item :to="{ name: 'about' }">About</b-nav-item>
       </b-navbar-nav>
       <b-dropdown text="Personal" is-nav >
-        <b-dropdown-item :to="{ name: 'favorite'}">Favorites</b-dropdown-item>
+        <b-dropdown-item v-if="!$root.store.username" :to="{ name: 'favorite'}">Favorites</b-dropdown-item>
+        <!-- <b-dropdown-item v-if="$root.store.username">only connected users</b-dropdown-item> -->
       </b-dropdown>
       
       <b-collapse id="nav-collapse" is-nav>

@@ -14,20 +14,30 @@
           <li> Player Position: {{ playerPosition }}</li>
        </ul>  
       </p>
-      <a
+      <player-card
+      button_name="Get More Data"
+      
+      >
+      </player-card>
+
+      <!-- <a
         target="_blank"
         :href="`https://www.pokemon.com/us/pokedex/${PlayerFullName}`"
         class="btn btn-primary"
         >Get more data</a
-      >
+      > -->
     </div>
-    
   </div>
 </template>
 
 <script>
+import PlayerCard from "../components/playerCard.vue";
+
 export default {
   name: "PlayerPreview",
+  components:{
+    PlayerCard
+  },
   props: {
       PlayerFullName: {
         // type: String,

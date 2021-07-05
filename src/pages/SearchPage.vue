@@ -207,31 +207,39 @@ export default {
         let params_from_user = {
           searchQuery: this.searchQueryText,
         }
+        let path_and_variables = "";
         if(this.selected != null){ //position
-          pathToSearch = document.getElementById("positionTag").value;
-          params_from_user["positionName"] = this.selected;
+          // pathToSearch = document.getElementById("positionTag").value;
+          // params_from_user["positionName"] = this.selected;
+          path_and_variables = `/players/${this.searchQueryText}/filterByPosition/${this.selected}`
+
         }
         else if(this.searchQueryTextAddition != ""){ //team Name
-          pathToSearch = document.getElementById("teamNameTag").value;
-          params_from_user["teamName"] = this.searchQueryTextAddition;
+          // pathToSearch = document.getElementById("teamNameTag").value;
+          // params_from_user["teamName"] = this.searchQueryTextAddition;
+          path_and_variables = `/players/${this.searchQueryText}/filterByTeam/${this.searchQueryTextAddition}`
+          
         }
         else if(this.isTeamVisible == true){ //search team
-          pathToSearch = document.getElementById("collapse-2").value;
+          // pathToSearch = document.getElementById("collapse-2").value;
+          path_and_variables = `/teams/${this.searchQueryText}`
         }
         else{ //only by name
-          pathToSearch = document.getElementById("playerNameTag").value;
+          // pathToSearch = document.getElementById("playerNameTag").value;
+          path_and_variables = `/players/${this.searchQueryText}`
         }
         
         // close collapse
         document.getElementById("collapse-1").style.display = "none";
 
 
-        let urlPath = "http://localhost:3000/search" + pathToSearch;
+        let urlPath = "http://localhost:3000/search" + path_and_variables;
         
+        // urlPath,{
+        //     params: params_from_user
+        //   },
         const response = await this.axios.get(
-          urlPath,{
-            params: params_from_user
-          },
+          urlPath,
           {withCredentials: true},
         );
         if(this.isTeamVisible == true){

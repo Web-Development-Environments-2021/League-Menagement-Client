@@ -76,14 +76,14 @@ export default {
 .league-preview {
   display: inline-block;
   width: 330px;
-  height: 420px;
+  height: 441px;
   position: relative;
   margin: 10px 10px;
   border-style: solid;
   border-radius: 10px;
   border-width: 5px;
   border-color:rgb(44, 89, 116);
-  background: transparent;
+  /* background: transparent; */
 }
 
 .league-preview .league-title {

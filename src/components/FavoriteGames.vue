@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="title">Favorite Games</h1>
+    <!-- <h1 class="title">Favorite Games</h1> -->
     <GamePreview class="content"
       v-for="g in games"
       :id="g.id" 
@@ -55,7 +55,6 @@ export default {
   }
 };
 </script>
-
 
 
 <style>
