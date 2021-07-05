@@ -9,7 +9,7 @@
       placeholder="write pokemon's name"
     />
     <button @click="add_new_player">catch pokemon</button>
-    <button @click="$store.actions.remove_player()">Pokemon go!</button>
+    <button @click="$store.actions.remove_player()">Player go!</button>
   </div>
 </template>
 

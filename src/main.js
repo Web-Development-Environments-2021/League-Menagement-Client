@@ -26,6 +26,7 @@ import {
     LayoutPlugin,
     InputGroupPlugin,
     FormRadioPlugin,
+    ModalPlugin, 
 } from "bootstrap-vue";
 [
     FormGroupPlugin,
@@ -39,13 +40,15 @@ import {
     ToastPlugin,
     LayoutPlugin,
     InputGroupPlugin,
-    FormRadioPlugin
+    FormRadioPlugin,
+    ModalPlugin,
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 
 
 import GlobalTest from "./components/Global.vue";
 Vue.component("GlobalTest", GlobalTest);
+
 
 import { state as store_state, actions as store_actions } from "./store";
 

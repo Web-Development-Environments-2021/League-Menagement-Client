@@ -57,23 +57,10 @@
       <b-collapse id="filter" class="mt-6">
         <b-card>
           <p class="card-text">Filter Options: </p>
-          <!-- <b-button v-b-toggle.filter-1-inner  size="sm">Filter By Position</b-button> -->
-          <!-- <b-collapse id="positionFilterTag" class="mt-3"> -->
             <b-form-input v-model="inputPositionFilter" id="inputPositionFilter" 
                 placeholder="Please insert position name" v-on:input="filterByPosition()" style="width: 250px;"></b-form-input>
-            <!-- <b-form-select v-model="inputPositionFilter" @click="filterByPosition()" class="mb-3" style="width: 250px" >
-              <b-form-select-option :value="null">Please select an option</b-form-select-option>
-              <b-form-select-option @click="filterByPosition()" value="Goalkeeper">Goalkeeper</b-form-select-option>
-              <b-form-select-option v-on:input="filterByPosition()" value="Defender">Defender</b-form-select-option>
-              <b-form-select-option @click="filterByPosition()" value="Midfielder">Midfielder</b-form-select-option>
-              <b-form-select-option @click="filterByPosition()" value="Attacker">Attacker</b-form-select-option>
-            </b-form-select> -->
-          <!-- </b-collapse> -->
-          <!-- <b-button v-b-toggle.filter-2-inner  size="sm">Filter By Team Name</b-button> -->
-          <!-- <b-collapse id="teamNameFilterTag" class="mt-3"> -->
             <b-form-input v-model="inputTeamNameFilter"  id="inputTeamNameFilter" 
                 placeholder="Please insert team name" v-on:input="filterByTeamName()" style="width: 250px;"></b-form-input>
-          <!-- </b-collapse> -->
         </b-card>
       </b-collapse>
     </div>
@@ -82,9 +69,11 @@
       <span v-for="player_details in playerList" :key="player_details">
         <player-preview
         :PlayerFullName="player_details.name"
+        :player_id="player_details.playerID"
         :teamName="player_details.team_name"
         :playerPosition="player_details.player_position"        
-        :image_url="player_details.player_image_url"        
+        :image_url="player_details.player_image_url" 
+        :flag="true"       
         ></player-preview>
       </span>
       <span v-for="team_details in teamList" :key="team_details">
@@ -207,31 +196,39 @@ export default {
         let params_from_user = {
           searchQuery: this.searchQueryText,
         }
+        let path_and_variables = "";
         if(this.selected != null){ //position
-          pathToSearch = document.getElementById("positionTag").value;
-          params_from_user["positionName"] = this.selected;
+          // pathToSearch = document.getElementById("positionTag").value;
+          // params_from_user["positionName"] = this.selected;
+          path_and_variables = `/players/${this.searchQueryText}/filterByPosition/${this.selected}`
+
         }
         else if(this.searchQueryTextAddition != ""){ //team Name
-          pathToSearch = document.getElementById("teamNameTag").value;
-          params_from_user["teamName"] = this.searchQueryTextAddition;
+          // pathToSearch = document.getElementById("teamNameTag").value;
+          // params_from_user["teamName"] = this.searchQueryTextAddition;
+          path_and_variables = `/players/${this.searchQueryText}/filterByTeam/${this.searchQueryTextAddition}`
+          
         }
         else if(this.isTeamVisible == true){ //search team
-          pathToSearch = document.getElementById("collapse-2").value;
+          // pathToSearch = document.getElementById("collapse-2").value;
+          path_and_variables = `/teams/${this.searchQueryText}`;
         }
         else{ //only by name
-          pathToSearch = document.getElementById("playerNameTag").value;
+          // pathToSearch = document.getElementById("playerNameTag").value;
+          path_and_variables = `/players/${this.searchQueryText}`;
         }
         
         // close collapse
         document.getElementById("collapse-1").style.display = "none";
 
 
-        let urlPath = "http://localhost:3000/search" + pathToSearch;
+        let urlPath = "http://localhost:3000/search" + path_and_variables;
         
+        // urlPath,{
+        //     params: params_from_user
+        //   },
         const response = await this.axios.get(
-          urlPath,{
-            params: params_from_user
-          },
+          urlPath,
           {withCredentials: true},
         );
         if(this.isTeamVisible == true){
