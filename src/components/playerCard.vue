@@ -73,17 +73,6 @@ export default {
       
     // },
     methods: {
-       hide(){
-              this.$bvModal.hide('bv-modal-example');
-              this.$store.actions.change_show_player_card_status(false);
-        },
-        show_player_dataa(){
-        if(!this.$store.state.show_player_card){
-          this.$store.actions.change_show_player_card_status(true);
-          return true;
-        }
-        return false;
-      },
       
       async getPlayerFullData(){
 

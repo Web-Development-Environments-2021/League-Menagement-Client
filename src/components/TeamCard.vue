@@ -9,7 +9,7 @@
         :image_url="coacd_detailes.image"
         :flag="false"        
         ></player-preview>
-      <!-- <br/> -->
+      <br/>
       <a v-for="player in squad" :key="player.id">
         <player-preview @fullDetailes="showFullPlayerDetailes(player.id)"
         :PlayerFullName="player.name"       
@@ -112,7 +112,7 @@ export default {
         this.squad = response.data.squad;
         const coach_id = response.data.coach.coach_id;
         this.coacd_detailes = await this.axios.get(`http://localhost:3000/teams/coachPreviewDetails/${coach_id}` ,{withCredentials: true});
-        console.log(this.coacd_detailes)
+        this.coacd_detailes = this.coacd_detailes.data[0]
         this.mounted = true;
         
       } catch (error) {
