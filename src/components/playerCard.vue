@@ -1,7 +1,7 @@
 <template>
   <div>
-    <b-button id="show-btn" @click="getPlayerFullData">Get More Data</b-button>
-    <b-modal id="bv-modal-example" hide-footer>
+    <!-- <b-button id="show-btn" @click="getPlayerFullData">Get More Data</b-button> -->
+    <b-modal ref="mod" id="bv-modal-example" @show="getPlayerFullData" hide-footer>
       <template #modal-title>
         Using <code>$bvModal</code> Methods
       </template>
@@ -63,6 +63,9 @@ export default {
       },
       playerId:{
         required: true,
+      },
+      fullDetailes:{
+        type: Object
       }
     },
     // computed:{
@@ -82,31 +85,31 @@ export default {
         return false;
       },
       
-      async getPlayerFullData(playerId){
+      async getPlayerFullData(){
 
-        if(this.$store.state.show_player_card){
-          this.$store.actions.change_show_player_card_status(false);
-          this.$bvModal.hide('bv-modal-example');
-          return;
-        }
-        this.$bvModal.show('bv-modal-example');
-        console.log(playerId);
-        let urlPath = `http://localhost:3000/teams/playerFullDetails/${playerId}`;
-        const response = await this.axios.get(
-          urlPath,
-          {withCredentials: true},
-        );
-        this.playername= response.data.common_name;
+        // if(this.$store.state.show_player_card){
+        //   this.$store.actions.change_show_player_card_status(false);
+        //   this.$bvModal.hide('bv-modal-example');
+        //   return;
+        // }
+        // this.$bvModal.show('bv-modal-example');
+        // console.log(playerId);
+        // let urlPath = `http://localhost:3000/teams/playerFullDetails/${playerId}`;
+        // const response = await this.axios.get(
+        //   urlPath,
+        //   {withCredentials: true},
+        // );
+        this.playername= this.fullDetailes.data.common_name;
 
-        this.image_url =response.data.image_path;
-        this.teamname=response.data.image_path;
-        this.playerposition=response.data.image_path;
-        this.common_name=response.data.image_path;                
-        this.nationality=response.data.nationality;                
-        this.birthcountry=response.data.birthcountry;
-        this.birthdate=response.data.birthdate;               
-        this.height=response.data.height;               
-        this.weight=response.data.weight;
+        this.image_url =this.fullDetailes.data.image_path;
+        this.teamname=this.fullDetailes.data.image_path;
+        this.playerposition=this.fullDetailes.data.image_path;
+        this.common_name=this.fullDetailes.data.image_path;                
+        this.nationality=this.fullDetailes.data.nationality;                
+        this.birthcountry=this.fullDetailes.data.birthcountry;
+        this.birthdate=this.fullDetailes.data.birthdate;               
+        this.height=this.fullDetailes.data.height;               
+        this.weight=this.fullDetailes.data.weight;
         return this.image_url;
       }
     }

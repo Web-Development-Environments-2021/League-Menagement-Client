@@ -9,16 +9,22 @@
         :image_url="coacd_detailes.image"
         :flag="false"        
         ></player-preview>
-      <br/>
-      <span v-for="player in squad" :key="player.id">
-        <player-preview
+      <!-- <br/> -->
+      <a v-for="player in squad" :key="player.id">
+        <player-preview @fullDetailes="showFullPlayerDetailes(player.id)"
         :PlayerFullName="player.name"       
         :image_url="player.image"
         :flag="false"        
         ></player-preview>
-      </span>
+      </a>
       <games-tables :pGames="pGames" :fGames="fGames" v-if="mounted"></games-tables>
-
+      <PlayerCard ref="pc"
+      button_name="Get More Data"
+      close_btn="Close Card"
+      add_to_favorite="Add To Favorite"
+      :playerId="player_id"
+      :fullDetailes="fullPlayer"
+      ></PlayerCard>
        </div>
       
 </template>
@@ -26,6 +32,7 @@
 <script>
 import gamesTables from "../components/gamesTables.vue"
 import PlayerPreview from "../components/PlayerPreview.vue";
+import PlayerCard from "../components/playerCard.vue";
 
 // import Vue from "vue";
 //   import { BButton } from 'bootstrap-vue';
@@ -37,8 +44,8 @@ export default {
   name: "TeamCard",
   components: {
         PlayerPreview,
-
-    gamesTables,
+        PlayerCard,
+        gamesTables,
   // TeamCard
   },
   props: {
@@ -72,10 +79,23 @@ export default {
     squad:{
         type: Array,
         // required: true
+    },
+    fullPlayer:{
+      type: Object
     }
   }
   }, 
   methods:{
+    async showFullPlayerDetailes(id){
+      this.$refs["pc"].$refs["mod"].show();
+      console.log(id);
+      let urlPath = `http://localhost:3000/teams/playerFullDetails/${id}`;
+      const response = await this.axios.get(
+        urlPath,
+        {withCredentials: true},
+      );
+      this.fullPlayer = response;
+    },
     async getData (id){
       try {
         if(id == -1){

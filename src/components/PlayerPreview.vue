@@ -14,26 +14,26 @@
           <li> Player Position: {{ playerPosition }}</li>
        </ul>  
       </p>
-      <!-- <b-button id="show-btn" @click="show_player_data">Get More Data</b-button> -->
+      <b-button id="show-btn" @click="show_player_data">Get More Data</b-button>
 
-      <PlayerCard v-if="show_player_data" 
+      <!-- <PlayerCard 
       button_name="Get More Data"
       close_btn="Close Card"
       add_to_favorite="Add To Favorite"
       :playerId="player_id"
-      ></PlayerCard>
+      ></PlayerCard> -->
     </div>
   </div>
 </template>
 
 <script>
 
-import PlayerCard from "../components/playerCard.vue";
+// import PlayerCard from "../components/playerCard.vue";
 
 export default {
   name: "PlayerPreview",
   components:{
-    PlayerCard
+    // PlayerCard
   },
   data(){
     return{
@@ -58,19 +58,16 @@ export default {
         type: String,
         required: true
       },
-      
+      showDetailes:{
+        type: Boolean
+      },
       flag:{
         type: Boolean
       }
   }, 
-  computed: {
+  methods: {
     show_player_data(){
-      // if(!this.$store.state.show_player_card){
-      //   this.$store.actions.change_show_player_card_status(true);
-      //   return true;
-      // }
-      // return false;
-      return true;
+      this.$emit("fullDetailes")
     }
   },
   mounted(){
