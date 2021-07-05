@@ -1,15 +1,15 @@
 <template>
-  <div class="card" style="width: 18rem">
+  <div class="card" style="width: 200px">
     <div class="card-body">
       <h5 class="card-title">{{ PlayerFullName }}</h5>
       <br/>
       <img
       :src="`${image_url}`"
       class="card-img-top"
-      style="height: 200px; width: auto"
+      style="height: 100px; width: 100px"
       />
       <p class="card-text">
-        <ul class="player-content">
+        <ul class="player-content" v-if="flag">
           <li> Team Name: {{ teamName }}</li>
           <li> Player Position: {{ playerPosition }}</li>
        </ul>  
@@ -45,15 +45,16 @@ export default {
       },
       teamName: {
         type: String,
-        required: true
       },
       playerPosition: {
         type: String,
-        required: true
       },
       image_url: {
         type: String,
         required: true
+      },
+      flag:{
+        type: Boolean
       }
   }, 
   methods: {
