@@ -10,9 +10,14 @@ const state = {
   teams_counter: 0,
   temp_store_players: [],
   filter_dict: {},
+  show_player_card: false,
 };
 
 const actions = {
+
+  change_show_player_card_status: (status)=>{
+      state.show_player_card = status;
+  },
 
   add_player: (new_player) => {
     if (new_player === "")
@@ -20,7 +25,8 @@ const actions = {
     if(state.players_ids.includes(new_player.id)){
       return
     }
-    state.players.push({      
+    state.players.push({
+      playerID: new_player.id,    
       name: new_player.name,
       team_name: new_player.team_name,
       player_position: new_player.position.data.name,

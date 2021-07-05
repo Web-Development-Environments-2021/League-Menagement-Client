@@ -2,7 +2,6 @@
   <div id="currentStage">
     <games-tables :pGames="pGames" :fGames="fGames" @teamClicked="updateTeamId($event)" v-if="mounted" ></games-tables>
     <team-card :id="team_id"  v-if="team_id > -1"></team-card>
-
   </div>
 </template>
 

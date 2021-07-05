@@ -1,52 +1,113 @@
 <template>
-    <div>
-        <button @click="open = true">{{ button_name }}</button>
-        <vue-modaltor 
-        :visible="open"
-        @hide="open = false"
-        bg-overlay="rgba(0,0,0,0.5)"
-        >
-        <b-button id="show-btn" @click="showModal">Open Modal</b-button>
-        <b-button id="toggle-btn" @click="toggleModal">Toggle Modal</b-button>
-
-        <b-modal centered ref="my-modal" hide-footer title="Using Component Methods">
-        <div class="d-block text-center">
-            <h3>Hello From My Modal!</h3>
+  <div>
+    <b-button id="show-btn" @click="getPlayerFullData">Get More Data</b-button>
+    <b-modal id="bv-modal-example" hide-footer>
+      <template #modal-title>
+        Using <code>$bvModal</code> Methods
+      </template>
+      <img
+      :src="image_url"
+      class="card-img-top"
+      style="height: 200px; width: auto"
+      />
+      <div class="d-block text-center">
+        <h3>Hello From This Modal!</h3>
+      </div>
+      <b-card no-body class="text-center">
+        <div >
+          Player Name : {{playername}}
         </div>
-        <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Close Me</b-button>
-        <b-button class="mt-2" variant="outline-warning" block @click="toggleModal">Toggle Me</b-button>
-        </b-modal>
-        </vue-modaltor>
-        
-    </div>
+        <div class="bg-secondary text-light">
+          This is some content without the default 
+        </div>
+        <div class="bg-secondary text-light">
+          This is some content without the default.
+        </div>
+      </b-card>
+      <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">{{add_to_favorite}}</b-button>
+      <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">{{close_btn}}</b-button>
+    </b-modal>
+  </div>
 </template>
 
 <script>
-import Vue from "vue";
-import VueModalTor from "vue-modaltor/dist/vue-modaltor.common";
-import "vue-modaltor/dist/vue-modaltor.css";
 
-Vue.use(VueModalTor, {
-  bgPanel: "#7957d5", // add custome options
-});
 
 export default {
     data(){
-        return{
-            open: false,
-        };
+      return{
+        image_url:"",
+        playername:"",
+        teamname:"",
+        playerposition:"",
+        common_name:"",                
+        nationality:"",                
+        birthcountry:"",
+        birthdate:"",               
+        height:"",               
+        weight:"",
+      }                
     },  
+    props:{
+      // button_name:{
+      //   type: String,
+      //   required: true,
+      // },
+      close_btn:{
+        type: String,
+        required: true,
+      },
+      add_to_favorite:{
+        type: String,
+        required: true,
+      },
+      playerId:{
+        required: true,
+      }
+    },
+    // computed:{
+     
+      
+    // },
     methods: {
-      showModal() {
-        this.$refs['my-modal'].show()
+       hide(){
+              this.$bvModal.hide('bv-modal-example');
+              this.$store.actions.change_show_player_card_status(false);
+        },
+        show_player_dataa(){
+        if(!this.$store.state.show_player_card){
+          this.$store.actions.change_show_player_card_status(true);
+          return true;
+        }
+        return false;
       },
-      hideModal() {
-        this.$refs['my-modal'].hide()
-      },
-      toggleModal() {
-        // We pass the ID of the button that we want to return focus to
-        // when the modal has hidden
-        this.$refs['my-modal'].toggle('#toggle-btn')
+      
+      async getPlayerFullData(playerId){
+
+        if(this.$store.state.show_player_card){
+          this.$store.actions.change_show_player_card_status(false);
+          this.$bvModal.hide('bv-modal-example');
+          return;
+        }
+        this.$bvModal.show('bv-modal-example');
+        console.log(playerId);
+        let urlPath = `http://localhost:3000/teams/playerFullDetails/${playerId}`;
+        const response = await this.axios.get(
+          urlPath,
+          {withCredentials: true},
+        );
+        this.playername= response.data.common_name;
+
+        this.image_url =response.data.image_path;
+        this.teamname=response.data.image_path;
+        this.playerposition=response.data.image_path;
+        this.common_name=response.data.image_path;                
+        this.nationality=response.data.nationality;                
+        this.birthcountry=response.data.birthcountry;
+        this.birthdate=response.data.birthdate;               
+        this.height=response.data.height;               
+        this.weight=response.data.weight;
+        return this.image_url;
       }
     }
   }

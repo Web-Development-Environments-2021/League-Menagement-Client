@@ -14,23 +14,20 @@
           <li> Player Position: {{ playerPosition }}</li>
        </ul>  
       </p>
-      <player-card
-      button_name="Get More Data"
-      
-      >
-      </player-card>
+      <!-- <b-button id="show-btn" @click="show_player_data">Get More Data</b-button> -->
 
-      <!-- <a
-        target="_blank"
-        :href="`https://www.pokemon.com/us/pokedex/${PlayerFullName}`"
-        class="btn btn-primary"
-        >Get more data</a
-      > -->
+      <PlayerCard v-if="show_player_data" 
+      button_name="Get More Data"
+      close_btn="Close Card"
+      add_to_favorite="Add To Favorite"
+      :playerId="player_id"
+      ></PlayerCard>
     </div>
   </div>
 </template>
 
 <script>
+
 import PlayerCard from "../components/playerCard.vue";
 
 export default {
@@ -38,10 +35,18 @@ export default {
   components:{
     PlayerCard
   },
+  data(){
+    return{
+      show_player_card:true,
+    }
+  },
   props: {
       PlayerFullName: {
         // type: String,
         required: true
+      },
+      player_id:{
+        type: Number,
       },
       teamName: {
         type: String,
@@ -53,19 +58,20 @@ export default {
         type: String,
         required: true
       },
+      
       flag:{
         type: Boolean
       }
   }, 
-  methods: {
-    get_image(player_name) {
-      try {
-        Pokemon.getSprite(player_name);
-        return "johan"; 
-      } catch (err) {
-        return "https://assets.pokemon.com/assets/cms2/img/pokedex/full/158.png";
-      }
-    },
+  computed: {
+    show_player_data(){
+      // if(!this.$store.state.show_player_card){
+      //   this.$store.actions.change_show_player_card_status(true);
+      //   return true;
+      // }
+      // return false;
+      return true;
+    }
   },
   mounted(){
     console.log("player preview mounted");
@@ -74,9 +80,9 @@ export default {
 </script>
 
 <style>
-.card {
-  /* width: 18rem; */
-  display: inline-block;
+/*.card {
+  width: 18px;
+   display: inline-block; 
   margin: 10px;
-}
+}*/
 </style>
