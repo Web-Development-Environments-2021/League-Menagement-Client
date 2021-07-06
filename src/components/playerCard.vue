@@ -112,7 +112,6 @@ export default {
         //   urlPath,
         //   {withCredentials: true},
         // );   
-        console.log(this.fullDetailes)     
         this.playerFullname=this.fullDetailes[1][0].name;
         this.teamname=this.fullDetailes[1][0].team_name ;
         this.playerposition=this.fullDetailes[1][0].position;
