@@ -275,8 +275,7 @@ export default {
     async showTeam(team_name){
       try {
         const response2 = await this.axios.get(
-          `http://localhost:3000/search/teams/${team_name}`,
-          { withCredentials: true });
+          `http://localhost:3000/search/teams/${team_name}`,{ withCredentials: true });
           console.log(response2)
         this.$emit('teamClicked', response2.data[0].team_id);
 

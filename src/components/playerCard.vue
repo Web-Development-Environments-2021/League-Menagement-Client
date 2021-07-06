@@ -83,8 +83,8 @@ export default {
       
     // },
     methods: {
-           
-      getPlayerFullData(){
+      
+      async getPlayerFullData(){
 
         // let urlPath = `http://localhost:3000/teams/playerFullDetails/${playerId}`;
         // const response = await this.axios.get(

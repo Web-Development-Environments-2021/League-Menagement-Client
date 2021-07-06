@@ -4,11 +4,14 @@
       :visible="open"
       @hide="open = false"
       bg-overlay="rgba(0,0,0,0.5)"
+      bg-panel="'transparent'"
+
     >
-      <template #header>
+
+          <template #header>
         <!--    add your custom header     -->
-        <div>
-          <button @click="open = false">x</button>
+        <div class="text-right">
+          <button @click="open = false" >X</button>
           <!-- <i class="closeicon">x</i> -->
         </div>
       </template>
@@ -16,7 +19,7 @@
         <vue-bootstrap4-table :rows="rows" :columns="columns" :config="config">
         </vue-bootstrap4-table>
       </template>
-    </vue-modaltor>
+    </vue-modaltor >
     <button @click="open = true">{{ button_name }}</button>
   </div>
 </template>
@@ -28,7 +31,6 @@ import "vue-modaltor/dist/vue-modaltor.css";
 import VueBootstrap4Table from "vue-bootstrap4-table";
 
 Vue.use(VueModalTor, {
-  bgPanel: "#7957d5", // add custome options
 });
 export default {
   name: "popup",
@@ -86,7 +88,7 @@ export default {
       config: {
         checkbox_rows: true,
         rows_selectable: true,
-        card_title: "events",
+        card_title: "Events",
       },
      open: false,
     

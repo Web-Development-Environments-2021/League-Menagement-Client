@@ -2,6 +2,8 @@
   <div class="game-preview">
     <div :title="id" class="game-title">
       <b>Game Id:</b> {{ id }}
+            <button @click="addFavorite()" style="padding: 0;border: none;background: none;"  v-if="!isFavorite" >❤</button>
+
     </div>
     <ul class="game-content">
       <li> hostTeam: {{ hostTeam }}</li>
@@ -9,7 +11,6 @@
       <li> date: {{ date }}</li>
       <li> time: {{ hour }}</li>
       <br/>
-      <b-button @click="addFavorite()" variant="primary" size="button--size-l" style="background-color:transparent"  v-if="!isFavorite" >❤</b-button>
     </ul>
   </div>
 </template>
@@ -23,9 +24,7 @@
 // [
 //  ButtonPlugin
 // ].forEach((x) => Vue.use(x));
-import Vue from "vue";
-import { BButton } from 'bootstrap-vue';
-Vue.component('b-button', BButton);
+
 export default {
 
   name: "GamePreview",
@@ -81,7 +80,7 @@ export default {
 .game-preview {
   display: inline-block;
   width: 250px;
-  height: 200px;
+  height: 150px;
   position: relative;
   margin: 10px 10px;
   border-style: solid;

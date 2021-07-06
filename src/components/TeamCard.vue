@@ -112,7 +112,7 @@ export default {
         this.squad = response.data.squad;
         const coach_id = response.data.coach.coach_id;
         this.coacd_detailes = await this.axios.get(`http://localhost:3000/teams/coachPreviewDetails/${coach_id}` ,{withCredentials: true});
-        console.log(this.coacd_detailes)
+        this.coacd_detailes = this.coacd_detailes.data[0]
         this.mounted = true;
         
       } catch (error) {

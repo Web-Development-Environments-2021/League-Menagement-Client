@@ -38,8 +38,6 @@ export default {
         this.games.map(game=>{
           // console.log(game.date);
           // console.log(new Date());
-          let date = Date(game.date.replace('Z', ''));
-          console.log(date);
           let splited = game.date.split('T');
           game.date = splited[0];
           game.time = splited[1].split(':00.000Z')[0];

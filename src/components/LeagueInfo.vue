@@ -14,6 +14,8 @@
         <br/>
         <strong>Stage: </strong> {{ stage }}
         <br/>
+        <strong>Next Game: </strong> 
+        <br/>
         <GamePreview
         v-for="g in nextGame"
         :id="g.id" 
@@ -51,13 +53,15 @@ export default {
         this.leagueName = response.data.league_name;
         this.season = response.data.current_season_name;
         this.stage = response.data.current_stage_name;
+        let splited =  response.data.date.split('T');
+
         this.nextGame = [
         {
           id:response.data.nextGame,
           hostTeam: response.data.home_team,
           guestTeam: response.data.away_team,
-          date: response.data.date, //.toISOString().replace(/T/, ' ').replace(/\..+/, ''),
-          hour: response.data.date //.toISOString().replace(/T/, ' ').replace(/\..+/, '')
+          date: splited[0], //.toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+          hour: splited[1].split(':00.000Z')[0] //.toISOString().replace(/T/, ' ').replace(/\..+/, '')
         },
       ]
       // document.getElementById("nextGameBtn").disabled = true;
@@ -76,7 +80,7 @@ export default {
 .league-preview {
   display: inline-block;
   width: 330px;
-  height: 441px;
+  height: 380px;
   position: relative;
   margin: 10px 10px;
   border-style: solid;
