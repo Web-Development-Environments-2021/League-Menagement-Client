@@ -5,6 +5,7 @@
     <h2 align="right">Favorite Games</h2>
     <LoginPage id="loginpage" v-if="!$root.store.username" ></LoginPage>
     <FavoriteGames id="favoritegames" v-else></FavoriteGames>
+    
     <LeagueInfo id="leagueinfo" ></LeagueInfo>
   </div>
 </template>

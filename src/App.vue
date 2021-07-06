@@ -10,6 +10,7 @@
         </b-navbar-nav>
         <b-navbar-nav>
         <b-nav-item :to="{ name: 'about' }">About</b-nav-item>
+        <b-nav-item :to="{ name: 'AdminPage' }" v-if="$root.store.username=='admin'">League Menagment</b-nav-item>
         <b-nav-item-dropdown text="Personal" is-nav >
         <b-dropdown-item :to="{ name: 'favorite'}">Favorites</b-dropdown-item>
       </b-nav-item-dropdown>
