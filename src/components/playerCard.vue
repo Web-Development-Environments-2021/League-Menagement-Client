@@ -3,29 +3,38 @@
     <!-- <b-button id="show-btn" @click="getPlayerFullData">Get More Data</b-button> -->
     <b-modal ref="mod" id="bv-modal-example" @show="getPlayerFullData" hide-footer>
       <template #modal-title>
-        Using <code>$bvModal</code> Methods
+        {{playerFullname}}
       </template>
       <img
       :src="image_url"
       class="card-img-top"
-      style="height: 200px; width: auto"
+      style="height: 200px; width: 250px; margin-left: 110px"
       />
       <div class="d-block text-center">
-        <h3>Hello From This Modal!</h3>
+        <h3>Common Name: {{playername}}</h3>
       </div>
-      <b-card no-body class="text-center">
-        <div >
-          Player Name : {{playername}}
+      <b-card no-body class="text-center">        
+        <div class="bg-outline-secondary text-dark">
+          Player Position: {{playerposition}}
         </div>
-        <div class="bg-secondary text-light">
-          This is some content without the default 
+        <div class="bg-outline-secondary text-dark" >
+          Team Name: {{teamname}}
         </div>
-        <div class="bg-secondary text-light">
-          This is some content without the default.
+        <div class="bg-outline-secondary text-dark">
+          Nationality: {{nationality}}
+        </div>
+        <div class="bg-outline-secondary text-dark">
+          Birthdate: {{birthdate}} 
+        </div>
+        <div class="bg-outline-secondary text-dark">
+          Heigt: {{height}}
+        </div>
+        <div class="bg-outline-secondary text-dark">
+          Weigt: {{weight}}
         </div>
       </b-card>
-      <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">{{add_to_favorite}}</b-button>
-      <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">{{close_btn}}</b-button>
+      <b-button class="mt-3" variant="success"  block @click="$bvModal.hide('bv-modal-example')">{{add_to_favorite}}</b-button>
+      <b-button class="mt-3" variant="primary" block @click="$bvModal.hide('bv-modal-example')">{{close_btn}}</b-button>
     </b-modal>
   </div>
 </template>
@@ -37,6 +46,7 @@ export default {
     data(){
       return{
         image_url:"",
+        playerFullname:"",
         playername:"",
         teamname:"",
         playerposition:"",
@@ -61,11 +71,11 @@ export default {
         type: String,
         required: true,
       },
-      playerId:{
-        required: true,
-      },
+      // playerId:{
+      //   required: true,
+      // },
       fullDetailes:{
-        type: Object
+        type: Array
       }
     },
     // computed:{
@@ -73,43 +83,26 @@ export default {
       
     // },
     methods: {
-       hide(){
-              this.$bvModal.hide('bv-modal-example');
-              this.$store.actions.change_show_player_card_status(false);
-        },
-        show_player_dataa(){
-        if(!this.$store.state.show_player_card){
-          this.$store.actions.change_show_player_card_status(true);
-          return true;
-        }
-        return false;
-      },
-      
-      async getPlayerFullData(){
+           
+      getPlayerFullData(){
 
-        // if(this.$store.state.show_player_card){
-        //   this.$store.actions.change_show_player_card_status(false);
-        //   this.$bvModal.hide('bv-modal-example');
-        //   return;
-        // }
-        // this.$bvModal.show('bv-modal-example');
-        // console.log(playerId);
         // let urlPath = `http://localhost:3000/teams/playerFullDetails/${playerId}`;
         // const response = await this.axios.get(
         //   urlPath,
         //   {withCredentials: true},
-        // );
-        this.playername= this.fullDetailes.data.common_name;
+        // );        
+        this.playerFullname=this.fullDetailes[1][0].name;
+        this.teamname=this.fullDetailes[1][0].team_name ;
+        this.playerposition=this.fullDetailes[1][0].position;
 
-        this.image_url =this.fullDetailes.data.image_path;
-        this.teamname=this.fullDetailes.data.image_path;
-        this.playerposition=this.fullDetailes.data.image_path;
-        this.common_name=this.fullDetailes.data.image_path;                
-        this.nationality=this.fullDetailes.data.nationality;                
-        this.birthcountry=this.fullDetailes.data.birthcountry;
-        this.birthdate=this.fullDetailes.data.birthdate;               
-        this.height=this.fullDetailes.data.height;               
-        this.weight=this.fullDetailes.data.weight;
+        this.playername= this.fullDetailes[0].data[0].common_name;
+        this.image_url =this.fullDetailes[0].data[0].image_path;
+        this.nationality=this.fullDetailes[0].data[0].nationality;                
+        this.birthcountry=this.fullDetailes[0].data[0].birthcountry;
+        this.birthdate=this.fullDetailes[0].data[0].birthdate;               
+        this.height=this.fullDetailes[0].data[0].height;               
+        this.weight=this.fullDetailes[0].data[0].weight;
+
         return this.image_url;
       }
     }

@@ -25,7 +25,7 @@
         <b-navbar-nav class="ml-auto" v-else>
         <b-nav-item-dropdown right>
           <template #button-content> 
-            {{User}}
+            {{getUser}}
           </template>
           <b-dropdown-item :to="{ name: 'favorite'}">Favorites</b-dropdown-item>
           <b-dropdown-item @click="Logout">Log Out</b-dropdown-item>
@@ -43,6 +43,12 @@ export default {
   data(){
     return {
       User: this.$root.store.username,
+    }
+  },
+
+  computed:{
+    getUser(){
+      return this.$root.store.username;
     }
   },
   methods: {

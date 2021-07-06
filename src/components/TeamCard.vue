@@ -10,8 +10,8 @@
         :flag="false"        
         ></player-preview>
       <!-- <br/> -->
-      <a v-for="player in squad" :key="player.id">
-        <player-preview @fullDetailes="showFullPlayerDetailes(player.id)"
+      <a v-for="(player,index) in squad" :key="player.id">
+        <player-preview @fullDetailes="showFullPlayerDetailes(player.id,index)"
         :PlayerFullName="player.name"       
         :image_url="player.image"
         :flag="false"        
@@ -22,7 +22,6 @@
       button_name="Get More Data"
       close_btn="Close Card"
       add_to_favorite="Add To Favorite"
-      :playerId="player_id"
       :fullDetailes="fullPlayer"
       ></PlayerCard>
        </div>
@@ -34,7 +33,8 @@ import gamesTables from "../components/gamesTables.vue"
 import PlayerPreview from "../components/PlayerPreview.vue";
 import PlayerCard from "../components/playerCard.vue";
 
-// import Vue from "vue";
+// import Vue from "vue";       :playerId="player_id"
+
 //   import { BButton } from 'bootstrap-vue';
 //   Vue.component('b-button', BButton);
 //   import vueButtonEffect from 'vue-button-effect';
@@ -81,12 +81,12 @@ export default {
         // required: true
     },
     fullPlayer:{
-      type: Object
+      type: Array
     }
   }
   }, 
   methods:{
-    async showFullPlayerDetailes(id){
+    async showFullPlayerDetailes(id,index){
       this.$refs["pc"].$refs["mod"].show();
       console.log(id);
       let urlPath = `http://localhost:3000/teams/playerFullDetails/${id}`;
@@ -94,7 +94,7 @@ export default {
         urlPath,
         {withCredentials: true},
       );
-      this.fullPlayer = response;
+      this.fullPlayer = [response,[this.squad[index]]];
     },
     async getData (id){
       try {

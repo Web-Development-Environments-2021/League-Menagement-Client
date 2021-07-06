@@ -66,16 +66,23 @@
     </div>
     <div>
       <h2>Search Result: </h2>
-      <span v-for="player_details in playerList" :key="player_details">
+      <span v-for="player_details in playerList" :key="player_details.playerID">
         <player-preview
+        @fullDetailes="showFullPlayerDetailes(player_details)"
         :PlayerFullName="player_details.name"
         :player_id="player_details.playerID"
         :teamName="player_details.team_name"
         :playerPosition="player_details.player_position"        
         :image_url="player_details.player_image_url" 
         :flag="true"       
-        ></player-preview>
+        ></player-preview>        
       </span>
+      <PlayerCard ref="pc1"
+        button_name="Get More Data"
+        close_btn="Close Card"
+        add_to_favorite="Add To Favorite"
+        v-bind:fullDetailes="fullPlayer"
+      ></PlayerCard>
       <span v-for="team_details in teamList" :key="team_details">
         <TeamPreview
         :TeamFullName="team_details.name"
@@ -90,12 +97,15 @@
 
 import PlayerPreview from "../components/PlayerPreview.vue";
 import TeamPreview from "../components/TeamPreview.vue";
+import PlayerCard from "../components/playerCard.vue";
+
 
 export default {
   name: "SearchPage",
   components:{
     PlayerPreview,
-    TeamPreview
+    TeamPreview,
+    PlayerCard
   },
   data() {
     return {
@@ -105,6 +115,7 @@ export default {
       isTeamVisible: false,
       inputPositionFilter: null,
       inputTeamNameFilter: "",
+      fullPlayer:[],
     }    
   },
   computed: {
@@ -115,9 +126,24 @@ export default {
     teamList() { 
       return this.$store.state.teams;
     },
-
   },
   methods: {
+    async showFullPlayerDetailes(player_details){      
+      this.$refs["pc1"].$refs["mod"].show();  
+      let urlPath = `http://localhost:3000/teams/playerFullDetails/${player_details.playerID}`;
+      const response = await this.axios.get(
+        urlPath,
+        {withCredentials: true},
+      );
+      this.fullPlayer = [
+        response,
+        [{
+          name: player_details.name,
+          team_name : player_details.team_name,
+          position :player_details.player_position
+        }]
+      ];
+    },
 
     sortByPlayerName(){
       let copyPlayerArr = this.$store.state.players;
@@ -130,35 +156,12 @@ export default {
       return this.$store.actions.sort_player_by_team_name(copyTeamArr);
     },
 
-    filterByPosition(){
-      // if(this.inputPositionFilter != ''){
-        // this.$store.state.temp_store_players = this.$store.state.players;
-        // if(this.$store.state.filter_dict.length == 0){
-          // this.$store.state.filter_dict[''] = this.$store.state.players;
-        // }
-        // this.$store.state.filter_dict[this.inputPositionFilter] = this.$store.state.players;
-        this.$store.state.players =  this.$store.actions.filter_players(this.$store.state.players, this.inputPositionFilter ,"position");
-      // }
-      // else{
-      //   this.$store.state.players = this.$store.state.filter_dict[''];
-      //   this.$store.state.filter_dict[''] = {};
-      // }
+    filterByPosition(){      
+      this.$store.state.players =  this.$store.actions.filter_players(this.$store.state.players, this.inputPositionFilter ,"position");     
     },
 
-    filterByTeamName(){
-      // if(this.inputTeamNameFilter != ''){
-      //   this.$store.state.temp_store_players = this.$store.state.players;
-      //   try {
+    filterByTeamName(){      
       this.$store.state.players = this.$store.actions.filter_players(this.$store.state.players, this.inputTeamNameFilter,"team_name");
-      //   } catch (error) {
-          
-      //   }
-      // }
-      // else{
-      //   if(this.$store.state.players.length <= this.$store.state.temp_store_players.length){
-      //     this.$store.state.players = this.$store.state.temp_store_players;
-      //   }
-      // }
     },
 
     handleVisibility() {

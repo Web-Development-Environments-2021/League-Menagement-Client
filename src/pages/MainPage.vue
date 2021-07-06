@@ -29,7 +29,7 @@ export default {
 
 #leagueinfo{
   position: absolute;
-  left: 15%;
+  left: 5%;
   top: 20%;
 }
 
