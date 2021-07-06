@@ -27,9 +27,7 @@
     </div>
 </template>
 <script>
-import Datepicker from 'vue3-datepicker'
-import { ref } from 'vue'
-const picked = ref(new Date());
+
 export default{
     name: "admin-page",
     data: function(){
