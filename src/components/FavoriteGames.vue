@@ -11,6 +11,19 @@
       :key="g.id"
       :isFavorite="true"></GamePreview>
     </span>
+    <div>
+      <b-alert :show="flag" variant="info" style="left: 25%;">
+        <h4 class="alert-heading">Welcome to SuperLiga VUE site!</h4>
+        <p>
+          Aww yeah, you successfully read this important alert message.
+          You can add favorites game to your favorites and see it here.
+        </p>
+        <hr>
+        <p class="mb-0">
+          Contact as Whenever you need.
+        </p>
+      </b-alert>
+    </div>
   </div>
 </template>
 
@@ -23,7 +36,8 @@ export default {
   }, 
   data() {
     return {
-      games: []
+      games: [],
+      flag: false,
     };
   },
   methods: {
@@ -33,10 +47,14 @@ export default {
           "http://localhost:3000/users/getFavoriteGames",{withCredentials: true}
         );
         const games = response.data;
+        if(games == "There is no content to send for this request."){
+          this.games=[];
+          this.flag = true;
+          return;
+        }
         this.games = [];
-        this.games.push(...games);
+        this.games.push(...games);       
         this.games.map(game=>{
-          // console.log(game.date);
           // console.log(new Date());
           let splited = game.date.split('T');
           game.date = splited[0];
@@ -66,6 +84,11 @@ export default {
 
 .content{
   left: 25%;
+  top: 200px;
+}
+
+.b-alert{
+  right: 100%;
   top: 200px;
 }
 
