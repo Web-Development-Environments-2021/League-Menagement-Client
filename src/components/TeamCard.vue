@@ -87,7 +87,7 @@ export default {
   }, 
   methods:{
     async showFullPlayerDetailes(id,index){
-      this.$refs["pc"].$refs["mod"].show();
+      // this.$refs["pc"].$refs["mod"].show();
       console.log(id);
       let urlPath = `http://localhost:3000/teams/playerFullDetails/${id}`;
       const response = await this.axios.get(

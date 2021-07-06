@@ -81,7 +81,7 @@
         button_name="Get More Data"
         close_btn="Close Card"
         add_to_favorite="Add To Favorite"
-        v-bind:fullDetailes="fullPlayer"
+        :fullDetailes="fullPlayer"
       ></PlayerCard>
       <span v-for="team_details in teamList" :key="team_details">
         <TeamPreview
@@ -107,6 +107,11 @@ export default {
     TeamPreview,
     PlayerCard
   },
+  props:{
+    show:{
+      type: Boolean
+    }
+  },
   data() {
     return {
       searchQueryText:"",
@@ -129,20 +134,24 @@ export default {
   },
   methods: {
     async showFullPlayerDetailes(player_details){      
-      this.$refs["pc1"].$refs["mod"].show();  
       let urlPath = `http://localhost:3000/teams/playerFullDetails/${player_details.playerID}`;
       const response = await this.axios.get(
         urlPath,
         {withCredentials: true},
       );
+      console.log(response)
       this.fullPlayer = [
         response,
         [{
           name: player_details.name,
           team_name : player_details.team_name,
-          position :player_details.player_position
+          position:player_details.player_position
         }]
       ];
+      // this.$refs["pc1"].$refs["mod"].show();  
+
+      console.log("00000")
+      console.log(this.fullPlayer)
     },
 
     sortByPlayerName(){

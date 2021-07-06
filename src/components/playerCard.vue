@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <b-button id="show-btn" @click="getPlayerFullData">Get More Data</b-button> -->
-    <b-modal ref="mod" id="bv-modal-example" @show="getPlayerFullData" hide-footer>
+    <b-modal ref="mod" id="bv-modal-example" @hide="clear" hide-footer>
       <template #modal-title>
         {{playerFullname}}
       </template>
@@ -82,15 +82,37 @@ export default {
      
       
     // },
+    watch:{
+      fullDetailes(){
+        this.playerFullname=this.fullDetailes[1][0].name;
+        this.teamname=this.fullDetailes[1][0].team_name ;
+        this.playerposition=this.fullDetailes[1][0].position;
+
+        this.playername= this.fullDetailes[0].data[0].common_name;
+        this.image_url =this.fullDetailes[0].data[0].image_path;
+        this.nationality=this.fullDetailes[0].data[0].nationality;                
+        this.birthcountry=this.fullDetailes[0].data[0].birthcountry;
+        this.birthdate=this.fullDetailes[0].data[0].birthdate;               
+        this.height=this.fullDetailes[0].data[0].height;               
+        this.weight=this.fullDetailes[0].data[0].weight;
+
+     
+        this.$refs["mod"].show();  
+
+      }
+    },
     methods: {
-      
-      async getPlayerFullData(){
+      clear(){
+        this.fullDetailes = [];
+      },
+      getPlayerFullData(){
 
         // let urlPath = `http://localhost:3000/teams/playerFullDetails/${playerId}`;
         // const response = await this.axios.get(
         //   urlPath,
         //   {withCredentials: true},
-        // );        
+        // );   
+        console.log(this.fullDetailes)     
         this.playerFullname=this.fullDetailes[1][0].name;
         this.teamname=this.fullDetailes[1][0].team_name ;
         this.playerposition=this.fullDetailes[1][0].position;
