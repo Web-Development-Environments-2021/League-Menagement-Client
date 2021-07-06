@@ -1,8 +1,8 @@
 <template>
   <div>
     <!-- <h1 class="title">Favorite Games</h1> -->
-    <GamePreview class="content"
-      v-for="g in games"
+    <span  v-for="g in games" :key="g.id">
+    <GamePreview class="content"     
       :id="g.id" 
       :hostTeam="g.home_team_name" 
       :guestTeam="g.away_team_name" 
@@ -10,6 +10,7 @@
       :hour="g.time" 
       :key="g.id"
       :isFavorite="true"></GamePreview>
+    </span>
   </div>
 </template>
 
@@ -64,7 +65,7 @@ export default {
 }
 
 .content{
-  left: 30%;
+  left: 25%;
   top: 200px;
 }
 

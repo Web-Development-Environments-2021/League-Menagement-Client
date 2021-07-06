@@ -104,8 +104,7 @@ export default {
         this.$root.loggedIn = true;
         console.log(this.$root.store.login);
         this.$root.store.login(this.form.username);
-        // console.log("2222",this.$root.store.login);
-        this.$router.push("/favorite");
+        this.$router.push("/");
       } catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data.message;

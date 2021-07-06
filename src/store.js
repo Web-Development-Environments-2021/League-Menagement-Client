@@ -29,7 +29,7 @@ const actions = {
       playerID: new_player.id,    
       name: new_player.name,
       team_name: new_player.team_name,
-      player_position: new_player.position.data.name,
+      player_position: new_player.position,
       player_image_url: new_player.image
     });
     state.players_ids.push( new_player.id,);

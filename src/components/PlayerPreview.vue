@@ -14,7 +14,14 @@
           <li> Player Position: {{ playerPosition }}</li>
        </ul>  
       </p>
-      <b-button id="show-btn" @click="show_player_data">Get More Data</b-button>
+      <b-button id="show-btn" variant="info" @click="show_player_data">Get More Data</b-button>
+      <!-- <PlayerCard
+      button_name="Get More Data"
+      close_btn="Close Card"
+      add_to_favorite="Add To Favorite"
+      :playerId="player_id"
+      :fullDetailes="fullPlayer"
+      ></PlayerCard> -->
 
       <!-- <PlayerCard 
       button_name="Get More Data"
@@ -55,7 +62,6 @@ export default {
         type: String,
       },
       image_url: {
-        type: String,
         required: true
       },
       showDetailes:{
@@ -67,6 +73,7 @@ export default {
   }, 
   methods: {
     show_player_data(){
+      //  this.$refs["pc"].$refs["mod"].show();
       this.$emit("fullDetailes")
     }
   },
