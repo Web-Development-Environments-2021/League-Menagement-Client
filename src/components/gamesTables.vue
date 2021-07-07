@@ -1,7 +1,11 @@
 <template>
   <div id="games-tables">
     <div class="text-center">
-      <button v-show="teamCardFlag==-1" @click="switchDiv()">Click here to change games period</button>
+      <b-button v-show="teamCardFlag==-1" @click="switchDiv()" variant="info">Click here to change games period</b-button>
+      <br/>
+      <h1 v-if="flagFuture"><b >Next Games</b></h1>
+      <h1 v-if="flagPast"><b >Past Games</b></h1>
+
     </div>
 
     <vue-bootstrap4-table
@@ -31,12 +35,14 @@
         <img :src="teams[row.row.away_team_name]" height=50 width=50 />
       </template>
     </vue-bootstrap4-table>
+
     <vue-bootstrap4-table
       :rows="rows1"
       :columns="columns1"
       :config="config1"
       v-show="flagFuture"
-    > <template slot="add_to_favorite" slot-scope="row">
+    >
+     <template slot="add_to_favorite" slot-scope="row">
       <button @click="addFavorite(row.row.id)" style="padding: 0;border: none;background: none;">❤</button>
       </template>
       <template slot="home_team_name" slot-scope="row">
@@ -45,7 +51,7 @@
       <template slot="away_team_name" slot-scope="row">
       <a @click="showTeam(row.row.away_team_name)">{{row.row.away_team_name}}</a>
       </template>
-<template slot="home_team_img" slot-scope="row" >
+      <template slot="home_team_img" slot-scope="row" >
         <img :src="teams[row.row.home_team_name]" height=50 width=50/>
       </template>
       <template slot="away_team_img"  slot-scope="row" >
@@ -322,6 +328,7 @@ export default {
     async switchDiv() {
       this.flagFuture = !this.flagFuture;
       this.flagPast = !this.flagPast;
+
     },
     async addFavorite(id){
       try {

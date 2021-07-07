@@ -9,14 +9,14 @@
         :image_url="coacd_detailes.image"
         :flag="false"        
         ></player-preview>
-      <!-- <br/> -->
-      <a v-for="(player,index) in squad" :key="player.id">
-        <player-preview @fullDetailes="showFullPlayerDetailes(player.id,index)"
+      <br/>
+      <!-- <a v-for="(player,index) in squad" :key="player.id"> -->
+        <player-preview @fullDetailes="showFullPlayerDetailes(player.id,index)" v-for="(player,index) in squad" :key="player.id"
         :PlayerFullName="player.name"       
         :image_url="player.image"
         :flag="false"        
         ></player-preview>
-      </a>
+      <!-- </a> -->
       <games-tables :pGames="pGames" :fGames="fGames" v-if="mounted"></games-tables>
       <PlayerCard ref="pc"
       button_name="Get More Data"
@@ -115,7 +115,7 @@ export default {
         this.coacd_detailes = this.coacd_detailes.data[0]
         this.mounted = true;
         if (this.coacd_detailes.image == null){
-          this.coacd_detailes.image = '';
+          this.coacd_detailes.image = 'https://www.surfsoccer.com/wp-content/uploads/2019/09/SteveHill-1.png';
         }
         console.log(this.coacd_detailes)
       } catch (error) {
