@@ -14,6 +14,7 @@
       :config="config"
       v-show="flagPast"
     >
+
       <template slot="events" slot-scope="row">
         <popup
           button_name="events"

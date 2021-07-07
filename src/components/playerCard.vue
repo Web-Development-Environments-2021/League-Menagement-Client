@@ -14,7 +14,7 @@
         <h3>Common Name: {{playername}}</h3>
       </div>
       <b-card no-body class="text-center">        
-        <div class="bg-outline-secondary text-dark">
+        <div class="bg-outline-secondary text-dark" v-if="!isCoache">
           Player Position: {{playerposition}}
         </div>
         <div class="bg-outline-secondary text-dark" >
@@ -26,10 +26,10 @@
         <div class="bg-outline-secondary text-dark">
           Birthdate: {{birthdate}} 
         </div>
-        <div class="bg-outline-secondary text-dark">
+        <div class="bg-outline-secondary text-dark" v-if="!isCoache">
           Heigt: {{height}}
         </div>
-        <div class="bg-outline-secondary text-dark">
+        <div class="bg-outline-secondary text-dark" v-if="!isCoache">
           Weigt: {{weight}}
         </div>
       </b-card>
@@ -75,7 +75,10 @@ export default {
       //   required: true,
       // },
       fullDetailes:{
-        type: Array
+        type:Array
+      },
+      isCoache:{
+        type:Boolean
       }
     },
     // computed:{
@@ -111,7 +114,10 @@ export default {
         // const response = await this.axios.get(
         //   urlPath,
         //   {withCredentials: true},
-        // );   
+        // );
+        if(this.fullDetailes[1] == undefined){
+          return;
+        }   
         this.playerFullname=this.fullDetailes[1][0].name;
         this.teamname=this.fullDetailes[1][0].team_name ;
         this.playerposition=this.fullDetailes[1][0].position;

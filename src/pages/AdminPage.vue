@@ -1,6 +1,7 @@
 <template>
     <div class="admin-page">
         <button @click="showForm"> Create New Game</button>
+        <current-stage></current-stage>
         <b-modal ref="gameForme" id="bv-modal-example" @hide="cleanForm" hide-footer>
         <div class="container">
         <h1 class="title">Insert New Game Form</h1>
@@ -146,6 +147,7 @@
 
 <script>
 import countries from "../assets/countries";
+import currentStage from "../pages/currentStagePage.vue"
 import {
   required,
   minLength,
@@ -158,6 +160,9 @@ import {
 
 export default {
   name: "admin-page",
+  components:{
+    currentStage
+  },
   data() {
     return {
         selectedAway: '',

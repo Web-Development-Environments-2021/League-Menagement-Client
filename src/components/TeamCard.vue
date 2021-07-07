@@ -4,25 +4,26 @@
       :src="`${team_logo}`"
       class="card-img-top"
       style="height: 200px; width: auto"/>
-        <player-preview
-        :PlayerFullName="coacd_detailes.name"       
-        :image_url="coacd_detailes.image"
+        <player-preview @fullDetailes="showFullPlayerDetailes(coach_detailes.id,-1)"
+        :PlayerFullName="'Coeche: ' + coach_detailes.name"       
+        :image_url="coach_detailes.image"
         :flag="false"        
         ></player-preview>
       <br/>
-      <!-- <a v-for="(player,index) in squad" :key="player.id"> -->
-        <player-preview @fullDetailes="showFullPlayerDetailes(player.id,index)" v-for="(player,index) in squad" :key="player.id"
+      <div v-for="(player,index) in squad" :key="player.id">
+        <player-preview @fullDetailes="showFullPlayerDetailes(player.id,index)" 
         :PlayerFullName="player.name"       
         :image_url="player.image"
         :flag="false"        
         ></player-preview>
-      <!-- </a> -->
+      </div>
       <games-tables :pGames="pGames" :fGames="fGames" v-if="mounted"></games-tables>
       <PlayerCard ref="pc"
       button_name="Get More Data"
       close_btn="Close Card"
       add_to_favorite="Add To Favorite"
       :fullDetailes="fullPlayer"
+      :isCoache="isCoache"
       ></PlayerCard>
        </div>
       
@@ -72,7 +73,7 @@ export default {
         type: String,
         // required: true
     },
-    coacd_detailes:{
+    coach_detailes:{
         type: String,
         // required: true
     },
@@ -81,20 +82,38 @@ export default {
         // required: true
     },
     fullPlayer:{
-      type: Array
+      type:Array
+    },
+    isCoache:{
+      type:Boolean
     }
   }
   }, 
   methods:{
     async showFullPlayerDetailes(id,index){
-      // this.$refs["pc"].$refs["mod"].show();
-      console.log(id);
-      let urlPath = `http://localhost:3000/teams/playerFullDetails/${id}`;
+      if( index == -1){
+        
+      let urlPath = `http://localhost:3000/teams/coachFullDetails/${id}`;
+      const response = await this.axios.get(
+        urlPath,
+        {withCredentials: true},
+      );
+      response.data[0].image_path = this.coach_detailes.image
+      this.fullPlayer = [response,[this.coach_detailes]];
+      this.isCoache = true;
+      }
+      else{
+        let urlPath = `http://localhost:3000/teams/playerFullDetails/${id}`;
       const response = await this.axios.get(
         urlPath,
         {withCredentials: true},
       );
       this.fullPlayer = [response,[this.squad[index]]];
+      this.isCoache = false;
+
+      }
+
+      
     },
     async getData (id){
       try {
@@ -111,13 +130,13 @@ export default {
         this.fGames = response.data.futureGames;
         this.squad = response.data.squad;
         const coach_id = response.data.coach.coach_id;
-        this.coacd_detailes = await this.axios.get(`http://localhost:3000/teams/coachPreviewDetails/${coach_id}` ,{withCredentials: true});
-        this.coacd_detailes = this.coacd_detailes.data[0]
+        this.coach_detailes = await this.axios.get(`http://localhost:3000/teams/coachPreviewDetails/${coach_id}` ,{withCredentials: true});
+        this.coach_detailes = this.coach_detailes.data[0]
         this.mounted = true;
-        if (this.coacd_detailes.image == null){
-          this.coacd_detailes.image = 'https://www.surfsoccer.com/wp-content/uploads/2019/09/SteveHill-1.png';
+        if (this.coach_detailes.image == null){
+          this.coach_detailes.image = 'https://www.surfsoccer.com/wp-content/uploads/2019/09/SteveHill-1.png';
         }
-        console.log(this.coacd_detailes)
+        console.log(this.coach_detailes)
       } catch (error) {
         console.log("error in teamFullDetailes")
         console.log(error);

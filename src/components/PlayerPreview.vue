@@ -84,9 +84,5 @@ export default {
 </script>
 
 <style>
-/*.card {
-  width: 18px;
-   display: inline-block; 
-  margin: 10px;
-}*/
+
 </style>
