@@ -2,7 +2,6 @@
   <div class="container">
     <h1 class="title">Welcome To SuperLiga</h1>
     <br>
-    <h2 align="right">Favorite Games</h2>
     <LoginPage id="loginpage" v-if="!$root.store.username" ></LoginPage>
     <FavoriteGames id="favoritegames" v-else></FavoriteGames>
     

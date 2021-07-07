@@ -27,6 +27,7 @@ import {
     InputGroupPlugin,
     FormRadioPlugin,
     ModalPlugin, 
+    ListGroupPlugin 
 } from "bootstrap-vue";
 [
     FormGroupPlugin,
@@ -42,6 +43,7 @@ import {
     InputGroupPlugin,
     FormRadioPlugin,
     ModalPlugin,
+    ListGroupPlugin 
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 
