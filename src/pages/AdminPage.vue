@@ -1,7 +1,7 @@
 <template>
   <div>
       <div class="admin-page">
-          <b-button pill variant="primary" @click="showForm"> Create New Game</b-button>
+          <b-button class="createNewGameBtn" pill variant="primary" @click="showForm"> Create New Game</b-button>
           <current-stage></current-stage>
           <b-modal ref="gameForme" id="bv-modal-example" @hide="cleanForm" hide-footer>
           <div class="container">
@@ -13,14 +13,7 @@
               label="Date:"
               label-for="date"
           >
-          <b-form-datepicker>        
-        <b-form-group
-            id="input-group-date"
-            label-cols-sm="3"
-            label="Date:"
-            label-for="date"
-        >
-            <b-form-input
+          <b-form-datepicker
             id="date"
             v-model="date"
             today-button
@@ -163,7 +156,6 @@
 <script>
 
 import currentStage from "../pages/currentStagePage.vue";
-
 export default {
   name: "admin-page",
   components:{
@@ -249,5 +241,9 @@ export default {
 <style lang="scss" scoped>
 .container {
   max-width: 500px;
+}
+
+.createNewGameBtn{
+  right:50%;
 }
 </style>
