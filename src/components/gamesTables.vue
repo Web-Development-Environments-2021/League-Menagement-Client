@@ -24,6 +24,12 @@
       <template slot="away_team_name" slot-scope="row">
       <a @click="showTeam(row.row.away_team_name)">{{row.row.away_team_name}}</a>
       </template>
+      <template slot="home_team_img" slot-scope="row" >
+        <img :src="teams[row.row.home_team_name]" height=50 width=50/>
+      </template>
+      <template slot="away_team_img"  slot-scope="row" >
+        <img :src="teams[row.row.away_team_name]" height=50 width=50 />
+      </template>
     </vue-bootstrap4-table>
     <vue-bootstrap4-table
       :rows="rows1"
@@ -31,13 +37,19 @@
       :config="config1"
       v-show="flagFuture"
     > <template slot="add_to_favorite" slot-scope="row">
-      <button @click="addFavorite(row.row.id)">add to favorite</button>
+      <button @click="addFavorite(row.row.id)" style="padding: 0;border: none;background: none;">❤</button>
       </template>
       <template slot="home_team_name" slot-scope="row">
       <a @click="showTeam(row.row.home_team_name)">{{row.row.home_team_name}}</a>
       </template>
       <template slot="away_team_name" slot-scope="row">
       <a @click="showTeam(row.row.away_team_name)">{{row.row.away_team_name}}</a>
+      </template>
+<template slot="home_team_img" slot-scope="row" >
+        <img :src="teams[row.row.home_team_name]" height=50 width=50/>
+      </template>
+      <template slot="away_team_img"  slot-scope="row" >
+        <img :src="teams[row.row.away_team_name]" height=50 width=50 />
       </template>
     </vue-bootstrap4-table>
     <!-- <team-card :id="teamCardFlag" v-if="teamCardFlag>-1"></team-card> -->
@@ -79,6 +91,7 @@ export default {
       flagFuture: true,
       flagPast: false,
       teamCardFlag: -1,
+      teams:{},
       rows: [],
       columns: [
         {
@@ -88,25 +101,7 @@ export default {
             type: "simple",
             placeholder: "Enter game_id",
           },
-        },
-        {
-          label: "away_team_name",
-          name: "away_team_name",
-          filter: {
-            type: "simple",
-            placeholder: "Enter away team name",
-          },
-          sort: true,
-        },
-        {
-          label: "home_team_name",
-          name: "home_team_name",
-          filter: {
-            type: "simple",
-            placeholder: "Enter home team name",
-          },
-          sort: true,
-        },
+        }, 
         {
           label: "date",
           name: "date",
@@ -116,21 +111,32 @@ export default {
             placeholder: "Enter field name",
           },
         },
+       
+{
+          label: "",
+          name: "away_team_img",
+        },
         {
-          label: "field",
-          name: "field",
+          label: "away_team_name",
+          name: "away_team_name",
           filter: {
             type: "simple",
-            placeholder: "Enter field name",
+            placeholder: "Enter away team name",
           },
-        },
-
-        {
+          sort: true,
+        },{
           label: "away_score",
           name: "away_score",
           filter: {
             type: "simple",
             placeholder: "Enter away score",
+          },
+        },{
+          label: "Winner",
+          name: "winner",
+          filter: {
+            type: "simple",
+            placeholder: "Enter winner team",
           },
         },
         {
@@ -142,6 +148,29 @@ export default {
           },
         },
         {
+          label: "home_team_name",
+          name: "home_team_name",
+          filter: {
+            type: "simple",
+            placeholder: "Enter home team name",
+          },
+          sort: true,
+        },
+       
+        {
+          label: "",
+          name: "home_team_img",
+         
+        },
+         {
+          label: "field",
+          name: "field",
+          filter: {
+            type: "simple",
+            placeholder: "Enter field name",
+          },
+        },
+        {
           label: "League Name",
           name: "league_name",
           filter: {
@@ -149,14 +178,7 @@ export default {
             placeholder: "Enter league name",
           },
         },
-        {
-          label: "Winner",
-          name: "winner",
-          filter: {
-            type: "simple",
-            placeholder: "Enter winner team",
-          },
-        },
+        
         {
           label: "Events",
           name: "events",
@@ -169,13 +191,27 @@ export default {
       },
       rows1: [],
       columns1: [
-        {
+       {
           label: "game_id",
           name: "id",
           filter: {
             type: "simple",
             placeholder: "Enter game_id",
           },
+        }, 
+        {
+          label: "date",
+          name: "date",
+          sort: true,
+          filter: {
+            type: "simple",
+            placeholder: "Enter field name",
+          },
+        },
+       
+{
+          label: "",
+          name: "away_team_img",
         },
         {
           label: "away_team_name",
@@ -195,16 +231,13 @@ export default {
           },
           sort: true,
         },
+       
         {
-          label: "date",
-          name: "date",
-          sort: true,
-          filter: {
-            type: "simple",
-            placeholder: "Enter field name",
-          },
+          label: "",
+          name: "home_team_img",
+         
         },
-        {
+         {
           label: "field",
           name: "field",
           filter: {
@@ -212,7 +245,6 @@ export default {
             placeholder: "Enter field name",
           },
         },
-
         {
           label: "League Name",
           name: "league_name",
@@ -296,11 +328,35 @@ export default {
         const response = await this.axios.post(
           "http://localhost:3000/users/addFavoriteGames",{"game_id":id},{withCredentials: true}
         );
+        alert(response.data)
+
       } catch (error) {
         console.log("error in update games")
         console.log(error);
       }
+    },
+    async getTeams(){
+      try{
+          let urlPath = `http://localhost:3000/teams/getAllTeamsByCountry/320`;
+            const teams = await this.axios.get(
+                    urlPath,{withCredentials: true});
+            let teamsDict = {};
+            for (const team of teams.data){
+                teamsDict[team.team_name] = team.logo_path;
+            }
+            this.teams = teamsDict;
+            this.$store.state.teams_details = teamsDict;
+
+            console.log(teams)
+      }catch(error) {
+        console.log("error in update games")
+        console.log(error);
+      }
     }
+  },
+  created(){
+        this.getTeams();
+
   },
   mounted() {
     this.futurGames();

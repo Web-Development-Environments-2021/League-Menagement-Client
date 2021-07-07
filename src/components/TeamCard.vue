@@ -114,7 +114,10 @@ export default {
         this.coacd_detailes = await this.axios.get(`http://localhost:3000/teams/coachPreviewDetails/${coach_id}` ,{withCredentials: true});
         this.coacd_detailes = this.coacd_detailes.data[0]
         this.mounted = true;
-        
+        if (this.coacd_detailes.image == null){
+          this.coacd_detailes.image = '';
+        }
+        console.log(this.coacd_detailes)
       } catch (error) {
         console.log("error in teamFullDetailes")
         console.log(error);
