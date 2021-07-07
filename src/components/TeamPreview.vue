@@ -8,6 +8,8 @@
       class="card-img-top"
       style="height: 200px; width: auto"
       />
+      <br/>
+      <br/>
       <a
         target="_blank"
         :href="`https://www.pokemon.com/us/pokedex/${TeamFullName}`"
@@ -39,7 +41,7 @@ export default {
 
 <style>
 .card {
-  /* width: 180px; */
+   width: 180px; 
   display: inline-block;
   margin: 10px;
 }

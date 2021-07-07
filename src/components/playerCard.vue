@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <b-button id="show-btn" @click="getPlayerFullData">Get More Data</b-button> -->
     <b-modal ref="mod" id="bv-modal-example" @hide="clear" hide-footer>
       <template #modal-title>
         {{playerFullname}}
@@ -13,7 +12,7 @@
       <div class="d-block text-center">
         <h3>Common Name: {{playername}}</h3>
       </div>
-      <b-card no-body class="text-center">        
+      <b-card no-body class="d-block text-center">        
         <div class="bg-outline-secondary text-dark">
           Player Position: {{playerposition}}
         </div>

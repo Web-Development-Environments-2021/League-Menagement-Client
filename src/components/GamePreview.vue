@@ -1,15 +1,13 @@
 <template>
-<div>  
+<div>    
     <b-list-group-item class="favorites_content" v-if="isFavorite">
-      <b-container class="bv-example-row">
         <b-row>
-          <b-col md="auto">{{ date }} </b-col>
-          <b-col md="auto">{{ hour }} </b-col>
-          <b-col md="auto">{{ hostTeam }}</b-col>
+          <b-col >{{ date }} </b-col>
+          <b-col >{{ hour }} </b-col>
+          <b-col >{{ hostTeam }}</b-col>
           <b-col>--</b-col>
-          <b-col md="auto">{{ guestTeam }}</b-col>
+          <b-col>{{ guestTeam }}</b-col>
         </b-row>    
-      </b-container>
     </b-list-group-item>
 
   <div class="game-preview" v-if="!isFavorite">
@@ -41,6 +39,7 @@
 export default {
 
   name: "GamePreview",
+  
   props: {
       id: {
         type: String,
@@ -84,7 +83,7 @@ export default {
   },
   mounted(){
     console.log("game preview mounted")
-  } 
+  },
 };
 </script>
 
@@ -99,8 +98,10 @@ export default {
   border-style: solid;
   border-radius: 10px;
   border-width: 5px;
+  background: whitesmoke;
   border-color:cadetblue;
-  background: whitesmoke ;
+  
+
 }
 
 .game-preview .game-title {

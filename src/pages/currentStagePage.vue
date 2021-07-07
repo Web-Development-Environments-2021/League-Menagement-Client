@@ -1,7 +1,7 @@
 <template>
   <div id="currentStage">
     <div class="text-center">
-    <b-button @click="returnToGames()" variant="info" v-if="team_id > -1"> Back to games</b-button>
+    <b-button @click="returnToGames()" pill variant="info" v-if="team_id > -1"> Back to games</b-button>
     </div>
     <games-tables :pGames="pGames" :fGames="fGames" @teamClicked="updateTeamId($event)" v-if="mounted" ></games-tables>
     <team-card :id="team_id"  v-if="team_id > -1"></team-card>
@@ -83,7 +83,7 @@ export default {
         text-align: center;
         font-size: 28px;
         padding: 20px;
-        width: 400px;
+        width: 300px;
         transition: all 0.5s;
         cursor: pointer;
         margin: 5px;
@@ -103,7 +103,7 @@ export default {
         transition: 0.5s;
       }
       button:hover {
-        background-color: #f7c2f9;
+        background-color: #31bb1fe8;
       }
       button:hover span {
         padding-right: 25px;

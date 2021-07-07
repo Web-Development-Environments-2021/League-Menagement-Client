@@ -27,7 +27,11 @@ import {
     InputGroupPlugin,
     FormRadioPlugin,
     ModalPlugin, 
-    ListGroupPlugin 
+    ListGroupPlugin,
+    OverlayPlugin,
+    FormTimepickerPlugin,
+    FormDatepickerPlugin,
+    JumbotronPlugin 
 } from "bootstrap-vue";
 [
     FormGroupPlugin,
@@ -43,7 +47,11 @@ import {
     InputGroupPlugin,
     FormRadioPlugin,
     ModalPlugin,
-    ListGroupPlugin 
+    ListGroupPlugin,
+    OverlayPlugin,
+    FormTimepickerPlugin,
+    FormDatepickerPlugin,
+    JumbotronPlugin 
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 

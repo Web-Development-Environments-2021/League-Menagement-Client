@@ -4,7 +4,6 @@
     <br>
     <LoginPage id="loginpage" v-if="!$root.store.username" ></LoginPage>
     <FavoriteGames id="favoritegames" v-else></FavoriteGames>
-    
     <LeagueInfo id="leagueinfo" ></LeagueInfo>
   </div>
 </template>
@@ -33,6 +32,7 @@ export default {
   position: absolute;
   left: 5%;
   top: 20%;
+  
 }
 
 #favoritegames{

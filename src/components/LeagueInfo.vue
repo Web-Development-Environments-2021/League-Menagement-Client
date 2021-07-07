@@ -1,6 +1,6 @@
 <template>
-    <div class="league-preview">
-      <b-card
+    <div >
+      <b-card 
       img-src="https://www.wheretobet.net/wp-content/uploads/2019/12/where-to-bet-danish-superliga.jpg"
       img-alt="Image"
       img-top
@@ -83,10 +83,10 @@ export default {
   height: 380px;
   position: relative;
   margin: 10px 10px;
-  border-style: solid;
+  /* border-style: solid;
   border-radius: 10px;
   border-width: 5px;
-  border-color:rgb(44, 89, 116);
+  border-color:rgb(44, 89, 116); */
   /* background: transparent; */
 }
 

@@ -1,11 +1,12 @@
 <template>
   <div id="games-tables">
     <div class="text-center">
+      <br/>
       <b-button v-show="teamCardFlag==-1" @click="switchDiv()" variant="info">Click here to change games period</b-button>
       <br/>
-      <h1 v-if="flagFuture"><b >Next Games</b></h1>
-      <h1 v-if="flagPast"><b >Past Games</b></h1>
-
+      <br/>
+      <!-- <h1 v-if="flagFuture"><b >Next Games</b></h1>
+      <h1 v-if="flagPast"><b >Past Games</b></h1> -->
     </div>
 
     <vue-bootstrap4-table
@@ -193,7 +194,7 @@ export default {
       config: {
         checkbox_rows: true,
         rows_selectable: true,
-        card_title: "Past games",
+        card_title: "Past Games",
       },
       rows1: [],
       columns1: [
@@ -267,7 +268,7 @@ export default {
       config1: {
         checkbox_rows: true,
         rows_selectable: true,
-        card_title: "Future games",
+        card_title: "Future Games",
       },
       events: [],
       game_id: {},

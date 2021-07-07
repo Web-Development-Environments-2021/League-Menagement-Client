@@ -72,9 +72,7 @@ const actions = {
         });
     },
     filter_players(arr_to_filter, object, option) {
-        // if(state.filter_dict.length == 0){
-        //   state.filter_dict[object] = state.players;
-        // }
+
         if (state.filter_dict.hasOwnProperty(object)) {
             let ans = state.filter_dict[object];
             delete state.filter_dict.object;
@@ -96,7 +94,7 @@ const actions = {
     add_team: (new_team) => {
         if (new_team === "")
             return
-        if (state.teams_ids.includes(new_team.id)) {
+        if (state.teams_ids.includes(new_team.team_id)) {
             return
         }
         state.teams.push({
@@ -104,7 +102,7 @@ const actions = {
             name: new_team.team_name,
             team_logo_path: new_team.logo_path
         });
-        state.teams_ids.push(new_team.id, );
+        state.teams_ids.push(new_team.team_id);
         actions.count_teams()
     },
     remove_team: () => {

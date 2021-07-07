@@ -9,7 +9,7 @@
         </b-input-group-append>
       </b-input-group>
       <br/>
-      Your search Query: {{ searchQueryText }}
+      <h4>Your search Query: {{ searchQueryText }} </h4> 
     </div>
     <div>
       <b-button v-b-toggle.collapse-1 pill variant="primary">Search player by name</b-button>
@@ -65,7 +65,6 @@
       </b-collapse>
     </div>
     <div>
-      <h2>Search Result: </h2>
       <span v-for="player_details in playerList" :key="player_details.playerID">
         <player-preview
         @fullDetailes="showFullPlayerDetailes(player_details)"
@@ -131,6 +130,16 @@ export default {
     teamList() { 
       return this.$store.state.teams;
     },
+    sortByPlayerName(){
+      let copyPlayerArr = this.$store.state.players;
+      return this.$store.actions.sort_names(copyPlayerArr);
+      
+    },
+
+    sortByTeamName(){
+      let copyTeamArr = this.$store.state.players;
+      return this.$store.actions.sort_player_by_team_name(copyTeamArr);
+    },
   },
   methods: {
     async showFullPlayerDetailes(player_details){      
@@ -149,21 +158,10 @@ export default {
         }]
       ];
       // this.$refs["pc1"].$refs["mod"].show();  
-
-      console.log("00000")
       console.log(this.fullPlayer)
     },
 
-    sortByPlayerName(){
-      let copyPlayerArr = this.$store.state.players;
-      return this.$store.actions.sort_names(copyPlayerArr);
-      
-    },
-
-    sortByTeamName(){
-      let copyTeamArr = this.$store.state.players;
-      return this.$store.actions.sort_player_by_team_name(copyTeamArr);
-    },
+    
 
     filterByPosition(){      
       this.$store.state.players =  this.$store.actions.filter_players(this.$store.state.players, this.inputPositionFilter ,"position");     
@@ -243,6 +241,7 @@ export default {
           urlPath,
           {withCredentials: true},
         );
+        console.log(response);
         if(this.isTeamVisible == true){
           for(let i =0; i <response.data.length; i++){
             this.$store.actions.add_team(response.data[i]);

@@ -1,24 +1,25 @@
 <template>
   <div>
-    <b-card-group class="favorites_content" style="top:120px;" deck>
-      <b-card header-bg-variant="info" border-variant="dark"  header-text-variant="white" align="center"   >
+    <b-card-group class="favorites_content" style="top:120px; width:800px; left:25%;" deck>
+      <b-card header-bg-variant="info" border-variant="dark"  header-text-variant="white" align="center">
         <template #header>
           <h4 class="mb-0">Favorites Games</h4>
         </template>
         <b-list-group>
-        <b-list-group-item >
           <b-container class="bv-example-row">
+          <b-list-group-item>          
             <b-row>
               <b-col><b> Date </b> </b-col>
               <b-col><b> Time </b> </b-col>
               <b-col><b> Host </b> </b-col>
               <b-col><b> Score </b> </b-col>
               <b-col><b> Guest </b> </b-col>
-            </b-row>    
-          </b-container>
+            </b-row>           
         </b-list-group-item>
+        <b-overlay :show="show" rounded="sm">            
+        </b-overlay>
           <span  v-for="g in games" :key="g.id">
-          <GamePreview class="content"     
+          <GamePreview class="content"  
             :id="g.id" 
             :hostTeam="g.home_team_name" 
             :guestTeam="g.away_team_name" 
@@ -27,6 +28,7 @@
             :key="g.id"
             :isFavorite="true"></GamePreview>
           </span>
+          </b-container>
         </b-list-group>
      </b-card >
     </b-card-group>
@@ -57,6 +59,7 @@ export default {
     return {
       games: [],
       flag: false,
+      show: true
     };
   },
   methods: {
@@ -89,7 +92,10 @@ export default {
   mounted(){
     console.log("favorite games mounted");
     this.updateGames(); 
-  }
+  },
+  updated() {
+    this.show=false;
+  },
 };
 </script>
 
