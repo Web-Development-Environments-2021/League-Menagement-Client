@@ -2,6 +2,7 @@
   <div>
       <div class="admin-page">
           <b-button pill variant="primary" @click="showForm"> Create New Game</b-button>
+          <current-stage></current-stage>
           <b-modal ref="gameForme" id="bv-modal-example" @hide="cleanForm" hide-footer>
           <div class="container">
           <h1 class="title">New Game Form</h1>
@@ -12,7 +13,14 @@
               label="Date:"
               label-for="date"
           >
-          <b-form-datepicker
+          <b-form-datepicker>        
+        <b-form-group
+            id="input-group-date"
+            label-cols-sm="3"
+            label="Date:"
+            label-for="date"
+        >
+            <b-form-input
             id="date"
             v-model="date"
             today-button
@@ -153,10 +161,14 @@
 </template>
 
 <script>
-// import currentStagePage from "../pages/currentStagePage.vue"
+
+import currentStage from "../pages/currentStagePage.vue";
 
 export default {
   name: "admin-page",
+  components:{
+    currentStage
+  },
   data() {
     return {
         selectedAway: '',
