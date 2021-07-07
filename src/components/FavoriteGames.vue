@@ -1,16 +1,35 @@
 <template>
   <div>
-    <!-- <h1 class="title">Favorite Games</h1> -->
-    <span  v-for="g in games" :key="g.id">
-    <GamePreview class="content"     
-      :id="g.id" 
-      :hostTeam="g.home_team_name" 
-      :guestTeam="g.away_team_name" 
-      :date="g.date" 
-      :hour="g.time" 
-      :key="g.id"
-      :isFavorite="true"></GamePreview>
-    </span>
+    <b-card-group class="favorites_content" style="top:120px;" deck>
+      <b-card header-bg-variant="info" border-variant="dark"  header-text-variant="white" align="center"   >
+        <template #header>
+          <h4 class="mb-0">Favorites Games</h4>
+        </template>
+        <b-list-group>
+        <b-list-group-item >
+          <b-container class="bv-example-row">
+            <b-row>
+              <b-col><b> Date </b> </b-col>
+              <b-col><b> Time </b> </b-col>
+              <b-col><b> Host </b> </b-col>
+              <b-col><b> Score </b> </b-col>
+              <b-col><b> Guest </b> </b-col>
+            </b-row>    
+          </b-container>
+        </b-list-group-item>
+          <span  v-for="g in games" :key="g.id">
+          <GamePreview class="content"     
+            :id="g.id" 
+            :hostTeam="g.home_team_name" 
+            :guestTeam="g.away_team_name" 
+            :date="g.date" 
+            :hour="g.time" 
+            :key="g.id"
+            :isFavorite="true"></GamePreview>
+          </span>
+        </b-list-group>
+     </b-card >
+    </b-card-group>
     <div>
       <b-alert :show="flag" variant="info" style="left: 25%;">
         <h4 class="alert-heading">Welcome to SuperLiga VUE site!</h4>
