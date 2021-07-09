@@ -1,7 +1,9 @@
 <template>
   <div class="admin-page">
       <b-button class="createNewGameBtn" pill variant="primary" @click="showGameForm"> Create New Game</b-button>
-      <b-button class="insertEventsBtn" pill variant="primary" @click="showEventForm"> Insert events</b-button>
+      <b-button class="insertEventsBtn" pill variant="primary" @click="showEventForm"> Insert Events</b-button>
+      <br/>
+      <br/>
       <current-stage></current-stage>
       
 
@@ -188,7 +190,7 @@
         locale="en"
       ></b-form-datepicker>      
       <b-form-invalid-feedback v-if="!date_event">
-      Username is required
+      Date Event is required
       </b-form-invalid-feedback>            
       </b-form-group>
 
@@ -216,23 +218,40 @@
       <b-form-group
           id="input-group-minute-game"
           label-cols-sm="3"
-          label="minute in game:"
+          label="Game time:"
           label-for="minute-game"
       >
           <b-form-input
           id="minute_game"
           v-model="minute_game"
           type="text"
+          placeholder="Minute in the game"
           ></b-form-input>
           <b-form-invalid-feedback v-if="!minute_game">
-          LastName is required
+           minute in the game is required
+          </b-form-invalid-feedback>
+      </b-form-group>
+
+      <b-form-group
+          id="input-group-player_name"
+          label-cols-sm="3"
+          label="Player Name:"
+          label-for="player_name"
+      >
+          <b-form-input
+          id="player_name"
+          v-model="player_name"
+          type="text"
+          ></b-form-input>
+          <b-form-invalid-feedback v-if="!player_name">
+           Player Name is required
           </b-form-invalid-feedback>
       </b-form-group>
 
       <b-form-group
           id="input-group-evnet-discription"
           label-cols-sm="3"
-          label="evnet-discription:"
+          label="Discription:"
       >
         <b-form-select v-model="evnetDiscription" :options="options">
         </b-form-select>
@@ -305,6 +324,7 @@ export default {
         minute_game:'', 
         time_event:'', 
         date_event:'', 
+        player_name:'',
         errors: [],
         validated: false
     };
@@ -351,19 +371,31 @@ export default {
     },
     async InsertNewEvent() {
       try {
-        // const response = await this.axios.post(
-        //   "http://localhost:3000/league/insertNewGame",
-        //   {
-        //     date: this.date,
-        //     time: this.time,
-        //     league_name: this.league_name,
-        //     home_team_name: this.selectedHome,
-        //     away_team_name:this.selectedAway,
-        //     field: this.venue,
-        //     referee: this.referee
-                      
-        //   }
-        // );
+        var player_id="";        
+        let urlPath = "http://localhost:3000/search/players/" + `${this.player_name}`;
+        const responsePlayer = await this.axios.get(
+          urlPath,
+          {withCredentials: true},
+        );
+        for(let i =0; i <responsePlayer.data.length; i++){
+          console.log(responsePlayer.data[i]);
+            if(responsePlayer.data[i].name.includes(this.player_name)){
+              player_id = responsePlayer.data[i].id;
+              break;
+          }            
+        }
+        const response = await this.axios.post(
+          "http://localhost:3000/league/InsertNewEvent",
+          {
+                game_id: this.game_id,
+                evnet_description: this.evnetDiscription,
+                minute_game: this.minute_game,
+                time_event: this.time_event,
+                date_event: this.date_event,
+                player_id: this.player_id,     
+                player_name: this.player_name     
+          }
+        );
         this.$router.push("/currentStage");
       } catch (err) {
         console.log(err.response);
@@ -372,11 +404,11 @@ export default {
     },
 
     onInsertNewEvent(){
-      this.$v.form.$touch();
+      // this.$v.form.$touch();
       this.InsertNewEvent();
     },
     onInsertNewGame() {
-      this.$v.form.$touch(); 
+      // this.$v.form.$touch(); 
       this.insertNewGame();
     },
     onReset() {
