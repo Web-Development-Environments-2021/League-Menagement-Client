@@ -44,10 +44,6 @@ export default {
       this.mounted = true;
     },
   },
-  computed: {
-
-  },
-
     created(){
       this.team_id = -1;
       this.getData();

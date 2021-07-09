@@ -76,9 +76,6 @@
         <option disabled value="">Please select Home Team</option>
           <option v-for="team in teams" :key="team.team_name">
           {{team.team_name}}
-          <template slot="option">
-            <img :src="`${team.logo_path}`" class="card-img-top" style="height: 200px; width: auto"/>
-          </template>
       </option> 
       </b-form-select>
       </b-form-group>
@@ -92,9 +89,6 @@
         <option disabled value="">Please select Home Team</option>
           <option v-for="team in teams" :key="team.team_name">
           {{team.team_name}}
-          <template slot="option">
-              <img :src="`${team.logo_path}`" class="card-img-top" style="height: 200px; width: auto"/>
-          </template>
       </option> 
       </b-form-select>
       </b-form-group>
@@ -137,21 +131,7 @@
           >Insert Game</b-button
       >
       </div>
-      </b-form>
-      <!-- <b-alert
-      class="mt-2"
-      v-if="form.submitError"
-      variant="warning"
-      dismissible
-      show
-      >
-      Register failed: {{ form.submitError }}
-      </b-alert> -->
-      <!-- <b-card class="mt-3 md-3" header="Form Data Result">
-      <pre class="m-0"><strong>form:</strong> {{ form }}</pre>
-      <pre class="m-0"><strong>$v.form:</strong> {{ $v.form }}</pre>
-      </b-card> -->
-      
+      </b-form>      
     </div>  
     </b-modal> 
       
@@ -308,18 +288,18 @@ export default {
         league_name:'',
         referee:'',   
         options: [
-          { value: 'goal' , text: 'goal' },
+          { value: 'goal', text: 'goal' },
           { value: 'own-goal' , text: 'own-goal' },
-          { value: 'Offside' , text: 'Offside' },
+          { value: 'Offside', text: 'Offside' },
           { value: 'Offense' , text: 'Offense' },
           { value: 'yellowcard', text: 'yellowcard' },
-          { value: 'redcard' , text: 'redcard' },
+          { value: 'redcard', text: 'redcard' },
           { value: 'injuried', text: 'injuried' },
           { value: 'redcard', text: 'redcard' },
           { value: 'substitution', text: 'substitution' },
         ],    
         game_id:'', 
-        eventDiscription:null, 
+        eventDiscription:'', 
         minute_game:'', 
         time_event:'', 
         date_event:'', 
@@ -391,11 +371,10 @@ export default {
                 minute_game: this.minute_game,
                 time_event: this.time_event,
                 date_event: this.date_event,
-                player_id: playerId,     
+                player_id: player_id,     
                 player_name: this.player_name     
           }
         );
-        // this.$router.push("/AdminPage");
       } catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data.message;

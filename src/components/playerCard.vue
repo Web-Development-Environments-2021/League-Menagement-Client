@@ -74,7 +74,7 @@ export default {
       //   required: true,
       // },
       fullDetailes:{
-        type:Array
+        type:Array,
       },
       isCoache:{
         type:Boolean
