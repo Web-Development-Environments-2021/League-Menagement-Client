@@ -12,9 +12,9 @@
       <h4>Your search Query: {{ searchQueryText }} </h4> 
     </div>
     <div>
-      <b-button v-b-toggle.collapse-1 pill variant="primary">Search player by name</b-button>
+      <b-button v-b-toggle.collapse-1 pill variant="primary">Search player</b-button>
       <b-button v-b-toggle.collapse-2 pill @click="handleVisibility" variant="primary"
-        value= "/teams/:searchQuery" id="collapse-2" >Search Team by name</b-button>
+        value= "/teams/:searchQuery" id="collapse-2" >Search Team</b-button>
       <b-collapse id="collapse-1" class="mt-2">
         <b-card>
           <p class="card-text">Option to serach players</p>
@@ -147,9 +147,9 @@ export default {
     },
     sortByTeamName(){
       let copyTeamArr = [];
-      if(this.isTeamVisible == false){
+      if(this.isTeamVisible){
         copyTeamArr = this.$store.state.teams;
-        return this.$store.actions.sort_player_by_team_name(copyTeamArr);        
+        return this.$store.actions.sort_names(copyTeamArr);        
       }
       else{
         copyTeamArr = this.$store.state.players;
@@ -199,7 +199,7 @@ export default {
       document.getElementById("sort").style.display = "none";
       document.getElementById("filter").style.display = "none";
       document.getElementById(result).style.display = "block";
-      
+      // this.isTeamVisible = true;      
     },
 
     handleVisibility_inner(tagName) {
