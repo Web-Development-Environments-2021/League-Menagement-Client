@@ -80,7 +80,14 @@ export default {
 
 #app {
   // font-family: Avenir, Helvetica, Arial, sans-serif;
-  background: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url("./assets/D-Superliga.jpg");
+  background-image: url("./assets/background.jpg");
+  /* Full height */
+  height: 100%; 
+
+  /* Center and scale the image nicely */
+  // background-position: center;
+  // background-repeat: no-repeat;
+  background-size: cover;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
