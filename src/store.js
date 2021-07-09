@@ -6,7 +6,7 @@ const state = {
     // players_ids: [],
     players_counter: 0,
     teams: [],
-    // teams_ids: [],
+    teams_id: -1,
     teams_counter: 0,
     temp_store_players: [],
     filter_dict: {},
@@ -72,28 +72,28 @@ const actions = {
         });
     },
     filter_players(arr_to_filter, object, option) {
-        if(Object.keys(state.filter_dict).length === 0){
+        if (Object.keys(state.filter_dict).length === 0) {
             state.filter_dict[''] = arr_to_filter;
         }
-        if(state.filter_dict.hasOwnProperty(object)) {
+        if (state.filter_dict.hasOwnProperty(object)) {
             let subString = Object.keys(state.filter_dict);
             let ans = state.filter_dict[object];
-            for(const key of subString){
-                if(key != object && key.includes(object)){
+            for (const key of subString) {
+                if (key != object && key.includes(object)) {
                     delete state.filter_dict[key];
                 }
-            }       
+            }
             return ans;
         }
         if (option == "position") {
             //state.filter_dict[object] = arr_to_filter;
-            state.filter_dict[object] =  arr_to_filter.filter(function(el) {
+            state.filter_dict[object] = arr_to_filter.filter(function(el) {
                 return el.player_position.toLowerCase().indexOf(object.toLowerCase()) !== -1
             });
             return state.filter_dict[object];
         } else {
             // state.filter_dict[object] = arr_to_filter;
-            state.filter_dict[object] =  arr_to_filter.filter(function(el) {
+            state.filter_dict[object] = arr_to_filter.filter(function(el) {
                 return el.team_name.toLowerCase().indexOf(object.toLowerCase()) !== -1
             });
             return state.filter_dict[object];

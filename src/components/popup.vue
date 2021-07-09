@@ -111,6 +111,9 @@ export default {
           if(event.events_scheduleID===this.game_id.row.id+'001'||event.events_scheduleID===this.game_id.row.id+'002'||event.events_scheduleID===this.game_id.row.id+'003')
            return true;
          });
+         this.rows.map((row)=>{
+           row.date = row.date.split(":00.000Z")[0].replace('T',' ');
+         });
 
       } catch (error) {
         console.log("error in update games");

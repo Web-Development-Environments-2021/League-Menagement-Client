@@ -1,10 +1,6 @@
 <template>
   <div id="currentStage">
-    <div class="text-center">
-    <b-button @click="returnToGames()" pill variant="info" v-if="team_id > -1"> Back to games</b-button>
-    </div>
-    <games-tables :pGames="pGames" :fGames="fGames" @teamClicked="updateTeamId($event)" v-if="mounted" ></games-tables>
-    <team-card :id="team_id"  v-if="team_id > -1"></team-card>
+    <games-tables :pGames="pGames" :fGames="fGames" v-if="mounted" ></games-tables>
   </div>
 </template>
 
@@ -12,7 +8,6 @@
 <script>
 
 import gamesTables from "../components/gamesTables.vue"
-import TeamCard from "../components/TeamCard.vue";
 export default {
   name: "curr-stage",
   
@@ -32,13 +27,8 @@ export default {
   },
   components: {
     gamesTables,
-    TeamCard
     },
    methods: {
-     returnToGames(){
-      this.team_id = -1;
-      this.mounted = true;
-     },
      async getData(){
       this.pGames = await this.axios.get(
         "http://localhost:3000/league/getPastGame",
@@ -53,10 +43,6 @@ export default {
       this.fGames = this.fGames.data;
       this.mounted = true;
     },
-    updateTeamId(id){
-      this.team_id = id;
-      this.mounted = false;
-    }
   },
   computed: {
 

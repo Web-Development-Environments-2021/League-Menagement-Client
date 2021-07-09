@@ -1,14 +1,5 @@
 <template>
   <div id="games-tables">
-    <div class="text-center">
-      <br/>
-      <b-button v-show="teamCardFlag==-1" @click="switchDiv()" variant="info">Click here to change games period</b-button>
-      <br/>
-      <br/>
-      <!-- <h1 v-if="flagFuture"><b >Next Games</b></h1>
-      <h1 v-if="flagPast"><b >Past Games</b></h1> -->
-    </div>
-
     <vue-bootstrap4-table
       :rows="rows"
       :columns="columns"
@@ -25,18 +16,10 @@
           @click="currGameId(row)"
         ></popup>
       </template>
-      <template slot="home_team_name" slot-scope="row">
-      <a @click="showTeam(row.row.home_team_name)">{{row.row.home_team_name}}</a>
-      </template>
-      <template slot="away_team_name" slot-scope="row">
-      <a @click="showTeam(row.row.away_team_name)">{{row.row.away_team_name}}</a>
-      </template>
-      <template slot="home_team_img" slot-scope="row" >
-        <img :src="teams[row.row.home_team_name]" height=50 width=50/>
-      </template>
-      <template slot="away_team_img"  slot-scope="row" >
-        <img :src="teams[row.row.away_team_name]" height=50 width=50 />
-      </template>
+      <b-button class="btn bg-transparent" variant="light" slot="home_team_name" slot-scope="row" @click="showTeam(row.row.home_team_name)">{{row.row.home_team_name}}</b-button>
+       <b-button class="btn bg-transparent" variant="light" slot="away_team_name" slot-scope="row" @click="showTeam(row.row.away_team_name)">{{row.row.away_team_name}}</b-button>
+       <img  slot="home_team_img" slot-scope="row"  :src="teams[row.row.home_team_name]" height=50 width=50/>
+      <img slot="away_team_img"  slot-scope="row" :src="teams[row.row.away_team_name]" height=50 width=50 />
     </vue-bootstrap4-table>
 
     <vue-bootstrap4-table
@@ -47,23 +30,12 @@
       :actions="actions"
       @switch-div="switchDiv">
     >
-     <template slot="add_to_favorite" slot-scope="row">
-      <button @click="addFavorite(row.row.id)" style="padding: 0;border: none;background: none;">❤</button>
-      </template>
-      <template slot="home_team_name" slot-scope="row">
-      <a @click="showTeam(row.row.home_team_name)">{{row.row.home_team_name}}</a>
-      </template>
-      <template slot="away_team_name" slot-scope="row">
-      <a @click="showTeam(row.row.away_team_name)">{{row.row.away_team_name}}</a>
-      </template>
-      <template slot="home_team_img" slot-scope="row" >
-        <img :src="teams[row.row.home_team_name]" height=50 width=50/>
-      </template>
-      <template slot="away_team_img"  slot-scope="row" >
-        <img :src="teams[row.row.away_team_name]" height=50 width=50 />
-      </template>
+      <b-button class="btn bg-transparent" slot="add_to_favorite" slot-scope="row" variant="light" @click="addFavorite(row.row.id)">❤</b-button>
+      <b-button class="btn bg-transparent"  slot="home_team_name" slot-scope="row" variant="light" @click="showTeam(row.row.home_team_name)">{{row.row.home_team_name}}</b-button>
+      <b-button class="btn bg-transparent" slot="away_team_name" slot-scope="row" variant="light" @click="showTeam(row.row.away_team_name)">{{row.row.away_team_name}}</b-button>
+      <img slot="home_team_img" slot-scope="row" :src="teams[row.row.home_team_name]" height=50 width=50/>
+      <img  slot="away_team_img"  slot-scope="row" :src="teams[row.row.away_team_name]" height=50 width=50 />
     </vue-bootstrap4-table>
-    <!-- <team-card :id="teamCardFlag" v-if="teamCardFlag>-1"></team-card> -->
   </div>
 </template>
 
@@ -299,7 +271,7 @@ export default {
         }
         console.log(response)
         response.games_info.map((game) => {
-          game.date = game.date.split(":00.000Z")[0];
+          game.date = game.date.split(":00.000Z")[0].replace('T',' ');
           this.rows.push(game);
         });
         this.events = response.events_info;
@@ -317,7 +289,7 @@ export default {
         }
         console.log(this.fGames);
         response1.map((game1) => {
-          game1.date = game1.date.split(":00.000Z")[0];
+          game1.date = game1.date.split(":00.000Z")[0].replace('T',' ');
           this.rows1.push(game1);
         });
       } catch (error) {
@@ -327,11 +299,11 @@ export default {
     },
     async showTeam(team_name){
       try {
-        console.log(team_name)
+        // console.log(team_name)
         const response2 = await this.axios.get(
           `http://localhost:3000/search/teams/${team_name}`,{ withCredentials: true });
-          console.log(response2)
-        this.$emit('teamClicked', response2.data[0].team_id);
+          this.$store.state.team_id = response2.data[0].team_id;
+          this.$router.push("/TeamCard");
 
       } catch (error) {
         console.log("error in update games");
@@ -380,13 +352,11 @@ export default {
   },
   created(){
         this.getTeams();
+        this.futurGames();
+        this.pastGames();
 
   },
-  mounted() {
-    this.futurGames();
-    this.pastGames();
 
-  },
 };
 </script>
 <style scoped>
