@@ -5,10 +5,13 @@
       class="card-img-top"
       style="height: 200px; width: auto"/>
         <player-preview @fullDetailes="showFullPlayerDetailes(coach_detailes.id,-1)"
-        :PlayerFullName="'Coeche: ' + coach_detailes.name"       
+        :PlayerFullName="'Coach: ' + coach_detailes.name"       
         :image_url="coach_detailes.image"
         :flag="false"        
         ></player-preview>
+
+
+        
       <br/>
       <span v-for="(player,index) in squad" :key="player.id">
         <player-preview @fullDetailes="showFullPlayerDetailes(player.id,index)" 
@@ -34,12 +37,6 @@ import gamesTables from "../components/gamesTables.vue"
 import PlayerPreview from "../components/PlayerPreview.vue";
 import PlayerCard from "../components/playerCard.vue";
 
-// import Vue from "vue";       :playerId="player_id"
-
-//   import { BButton } from 'bootstrap-vue';
-//   Vue.component('b-button', BButton);
-//   import vueButtonEffect from 'vue-button-effect';
-// Vue.use(vueButtonEffect);
 export default {
 
   name: "TeamCard",
@@ -140,9 +137,11 @@ export default {
       }
     }
   },
+
   created(){
-    this.getData(this.id);  
+    this.getData(this.$store.state.team_id);  
   },
+
 
 };
 </script>

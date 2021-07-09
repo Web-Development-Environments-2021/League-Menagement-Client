@@ -176,7 +176,9 @@ export default {
     },
 
     showFullTeamDetailes(team_details){
-      this.team_id = team_details.team_id;
+      console.log(team_details.team_id)
+      this.$store.state.team_id = team_details.team_id;
+
       this.$router.push("/TeamCard");
     },
 
