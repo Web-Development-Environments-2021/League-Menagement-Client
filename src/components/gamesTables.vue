@@ -327,6 +327,7 @@ export default {
     },
     async showTeam(team_name){
       try {
+        console.log(team_name)
         const response2 = await this.axios.get(
           `http://localhost:3000/search/teams/${team_name}`,{ withCredentials: true });
           console.log(response2)
@@ -359,6 +360,7 @@ export default {
     },
     async getTeams(){
       try{
+          
           let urlPath = `http://localhost:3000/teams/getAllTeamsByCountry/320`;
             const teams = await this.axios.get(
                     urlPath,{withCredentials: true});
