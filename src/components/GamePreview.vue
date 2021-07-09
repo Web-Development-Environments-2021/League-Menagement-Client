@@ -14,14 +14,30 @@
     <div :title="id" class="game-title"> 
       <b>Game Id:</b> {{ id }}
         <button @click="addFavorite()" style="padding: 0;border: none;background: none;"  v-if="!isFavorite" >❤</button>
+        
     </div>    
-      <ul class="game-content">
-        <li> hostTeam: {{ hostTeam }}</li>
-        <li> guestTeam: {{ guestTeam }}</li>
+  <div class="row">
+    <div class="col">
+<img :src="hostImg" height=50 width=50 :alt="hostTeam"  style="text-align:left">
+Home: {{ hostTeam }} 
+    
+    </div>
+    <div class="col">
+      <img :src="guestImg" height=50 width=50 :alt="guestTeam" style="text-align:right">
+       Away: {{ guestTeam }}
+      
+    </div>
+
+   </div>
+
+
+        
+
+        
         <li> date: {{ date }}</li>
         <li> time: {{ hour }}</li>
         <br/>
-      </ul>    
+
     </div>
   </div>
 </template>
@@ -64,6 +80,12 @@ export default {
       isFavorite:{
         type: Boolean,
         default: false,
+      },
+      hostImg:{
+        type:String
+      },
+      guestImg:{
+        type:String
       }
   }, 
   methods:{
@@ -91,7 +113,7 @@ export default {
 
 .game-preview {
   display: inline-block;
-  width: 250px;
+  width: 400px;
   height: 150px;
   position: relative;
   margin: 10px 10px;

@@ -10,13 +10,13 @@
         :flag="false"        
         ></player-preview>
       <br/>
-      <div v-for="(player,index) in squad" :key="player.id">
+      <span v-for="(player,index) in squad" :key="player.id">
         <player-preview @fullDetailes="showFullPlayerDetailes(player.id,index)" 
         :PlayerFullName="player.name"       
         :image_url="player.image"
         :flag="false"        
         ></player-preview>
-      </div>
+      </span>
       <games-tables :pGames="pGames" :fGames="fGames" v-if="mounted"></games-tables>
       <PlayerCard ref="pc"
       button_name="Get More Data"

@@ -21,6 +21,8 @@
         :id="g.id" 
         :hostTeam="g.hostTeam" 
         :guestTeam="g.guestTeam" 
+        :hostImg="teams[g.hostTeam]"
+        :guestImg="teams[g.guestTeam]"
         :date="g.date" 
         :hour="g.hour" 
         :key="g.id"></GamePreview>
@@ -41,12 +43,33 @@ export default {
       leagueName: "superliga",
       season: "season", 
       stage: "stage",
-      nextGame: []
+      nextGame: [],
+      teams:{},
     };
   },
   methods:{
+    async getTeams(){
+      try{
+          
+          let urlPath = `http://localhost:3000/teams/getAllTeamsByCountry/320`;
+            const teams = await this.axios.get(
+                    urlPath,{withCredentials: true});
+            let teamsDict = {};
+            for (const team of teams.data){
+                teamsDict[team.team_name] = team.logo_path;
+            }
+            this.teams = teamsDict;
+            this.$store.state.teams_details = teamsDict;
+
+            console.log(teams)
+      }catch(error) {
+        console.log("error in update games")
+        console.log(error);
+      }
+    },
     async updateLeagueInfoDataFromServer(){
       try {
+        this.getTeams();
         const response = await this.axios.get("http://localhost:3000/league/getDetails");
         console.log("res", response);
         console.log("liga", response.data.league_name);
@@ -79,7 +102,7 @@ export default {
 <style>
 .league-preview {
   display: inline-block;
-  width: 330px;
+  width: 530px;
   height: 380px;
   position: relative;
   margin: 10px 10px;

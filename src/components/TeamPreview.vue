@@ -41,7 +41,7 @@ export default {
 
 <style>
 .card {
-   width: 180px; 
+   /* width: 180px;  */
   display: inline-block;
   margin: 10px;
 }

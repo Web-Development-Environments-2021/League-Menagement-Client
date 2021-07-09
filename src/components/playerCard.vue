@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-modal ref="mod" id="bv-modal-example" @hide="clear" hide-footer>
+    <b-modal ref="mod" id="bv-modal-example" hide-footer>
       <template #modal-title>
         {{playerFullname}}
       </template>
@@ -104,9 +104,7 @@ export default {
       }
     },
     methods: {
-      clear(){
-        this.fullDetailes = [];
-      },
+     
       getPlayerFullData(){
 
         // let urlPath = `http://localhost:3000/teams/playerFullDetails/${playerId}`;
