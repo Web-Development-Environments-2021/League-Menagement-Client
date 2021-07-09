@@ -1,21 +1,23 @@
 <template>
   <div class="card" style="width: 18rem">
     <div class="card-body">
-      <h5 class="card-title">{{ TeamFullName }}</h5>
+      <h5 class="card-title" @click="show_player_data">{{ TeamFullName }}</h5>
       <br/>
       <img
       :src="`${logo_path}`"
       class="card-img-top"
       style="height: 200px; width: auto"
+      @click="show_player_data"
       />
       <br/>
       <br/>
-      <a
+      <b-button id="show-btn" variant="info" @click="show_player_data">Get More Data</b-button>
+      <!-- <a
         target="_blank"
         :href="`https://www.pokemon.com/us/pokedex/${TeamFullName}`"
         class="btn btn-primary"
         >Get more data</a
-      >
+      > -->
     </div>
   </div>
 </template>
@@ -33,6 +35,12 @@ export default {
         required: true
       }
   }, 
+   methods: {
+    show_player_data(){
+      //  this.$refs["pc"].$refs["mod"].show();
+      this.$emit("fullDetailes")
+    }
+  },
   mounted(){
     console.log("team preview mounted");
   } 
@@ -41,7 +49,7 @@ export default {
 
 <style>
 .card {
-   width: 180px; 
+   /* width: 18px;  */
   display: inline-block;
   margin: 10px;
 }

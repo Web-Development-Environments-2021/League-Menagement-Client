@@ -3,10 +3,10 @@ const state = {
     league: "superliga",
     league_id: 217,
     players: [],
-    players_ids: [],
+    // players_ids: [],
     players_counter: 0,
     teams: [],
-    teams_ids: [],
+    // teams_ids: [],
     teams_counter: 0,
     temp_store_players: [],
     filter_dict: {},
@@ -20,11 +20,11 @@ const actions = {
     },
 
     add_player: (new_player) => {
-        if (new_player === "")
-            return
-        if (state.players_ids.includes(new_player.id)) {
-            return
-        }
+        // if (new_player === "")
+        //     return
+        // if (state.players_ids.includes(new_player.id)) {
+        //     return
+        // }
         state.players.push({
             playerID: new_player.id,
             name: new_player.name,
@@ -32,7 +32,7 @@ const actions = {
             player_position: new_player.position,
             player_image_url: new_player.image
         });
-        state.players_ids.push(new_player.id, );
+        // state.players_ids.push(new_player.id, );
         actions.count_players()
     },
     remove_player: () => {
@@ -72,37 +72,46 @@ const actions = {
         });
     },
     filter_players(arr_to_filter, object, option) {
-
-        if (state.filter_dict.hasOwnProperty(object)) {
+        if(Object.keys(state.filter_dict).length === 0){
+            state.filter_dict[''] = arr_to_filter;
+        }
+        if(state.filter_dict.hasOwnProperty(object)) {
+            let subString = Object.keys(state.filter_dict);
             let ans = state.filter_dict[object];
-            delete state.filter_dict.object;
+            for(const key of subString){
+                if(key != object && key.includes(object)){
+                    delete state.filter_dict[key];
+                }
+            }       
             return ans;
         }
         if (option == "position") {
-            state.filter_dict[object] = arr_to_filter;
-            return arr_to_filter.filter(function(el) {
+            //state.filter_dict[object] = arr_to_filter;
+            state.filter_dict[object] =  arr_to_filter.filter(function(el) {
                 return el.player_position.toLowerCase().indexOf(object.toLowerCase()) !== -1
             });
+            return state.filter_dict[object];
         } else {
-            state.filter_dict[object] = arr_to_filter;
-            return arr_to_filter.filter(function(el) {
+            // state.filter_dict[object] = arr_to_filter;
+            state.filter_dict[object] =  arr_to_filter.filter(function(el) {
                 return el.team_name.toLowerCase().indexOf(object.toLowerCase()) !== -1
             });
+            return state.filter_dict[object];
         }
     },
 
     add_team: (new_team) => {
-        if (new_team === "")
-            return
-        if (state.teams_ids.includes(new_team.team_id)) {
-            return
-        }
+        // if (new_team === "")
+        //     return
+        // if (state.teams_ids.includes(new_team.team_id)) {
+        //     return
+        // }
         state.teams.push({
             team_id: new_team.team_id,
             name: new_team.team_name,
             team_logo_path: new_team.logo_path
         });
-        state.teams_ids.push(new_team.team_id);
+        // state.teams_ids.push(new_team.team_id);
         actions.count_teams()
     },
     remove_team: () => {

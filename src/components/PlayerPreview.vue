@@ -1,12 +1,13 @@
 <template>
   <div class="card" style="width: 200px">
     <div class="card-body">
-      <h5 class="card-title">{{ PlayerFullName }}</h5>
+      <h5 class="card-title" @click="show_player_data">{{ PlayerFullName }}</h5>
       <br/>
       <img
       :src="`${image_url}`"
       class="card-img-top"
       style="height: 100px; width: 100px"
+      @click="show_player_data"
       />
       <p class="card-text">
         <ul class="player-content" v-if="flag">
@@ -15,20 +16,6 @@
        </ul>  
       </p>
       <b-button id="show-btn" variant="info" @click="show_player_data">Get More Data</b-button>
-      <!-- <PlayerCard
-      button_name="Get More Data"
-      close_btn="Close Card"
-      add_to_favorite="Add To Favorite"
-      :playerId="player_id"
-      :fullDetailes="fullPlayer"
-      ></PlayerCard> -->
-
-      <!-- <PlayerCard 
-      button_name="Get More Data"
-      close_btn="Close Card"
-      add_to_favorite="Add To Favorite"
-      :playerId="player_id"
-      ></PlayerCard> -->
     </div>
   </div>
 </template>

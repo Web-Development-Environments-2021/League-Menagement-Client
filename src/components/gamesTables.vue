@@ -14,8 +14,9 @@
       :columns="columns"
       :config="config"
       v-show="flagPast"
+      :actions="actions"
+      @switch-div="switchDiv">
     >
-
       <template slot="events" slot-scope="row">
         <popup
           button_name="events"
@@ -43,6 +44,8 @@
       :columns="columns1"
       :config="config1"
       v-show="flagFuture"
+      :actions="actions"
+      @switch-div="switchDiv">
     >
      <template slot="add_to_favorite" slot-scope="row">
       <button @click="addFavorite(row.row.id)" style="padding: 0;border: none;background: none;">❤</button>
@@ -273,6 +276,16 @@ export default {
       },
       events: [],
       game_id: {},
+      actions: [
+          {
+              btn_text: "Click here to change games period",
+              event_name: "switch-div",
+              class: "btn btn-primary my-custom-class",
+              event_payload: {
+                  msg: "my custom msg"
+              }
+          }
+      ],
     };
   },
 

@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div class="league-preview">
       <b-card 
       img-src="https://www.wheretobet.net/wp-content/uploads/2019/12/where-to-bet-danish-superliga.jpg"
       img-alt="Image"

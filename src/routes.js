@@ -1,7 +1,8 @@
 import Main from "./pages/MainPage";
 import NotFound from "./pages/NotFoundPage";
 import FavoriteGames from "./components/FavoriteGames";
-import popup from "./components/popup.vue"
+import popup from "./components/popup.vue";
+import TeamCard from "./components/TeamCard.vue";
 const routes = [{
         path: "/",
         name: "main",
@@ -58,6 +59,11 @@ const routes = [{
         name: "AdminPage",
         component: () =>
             import ("./pages/AdminPage")
+    },
+    {
+        path: "/TeamCard",
+        name: "TeamCard",
+        component: TeamCard
     },
 
     {

@@ -50,7 +50,7 @@
         <b-card>
           <p class="card-text">Sort Options: </p>
           <b-button v-b-toggle.sort-1-inner :disabled.sync="this.$store.state.filterAndSortFlag" @click="sortByPlayerName()" size="sm">Sort By Player Name</b-button>
-          <b-button v-b-toggle.sort-2-inner :disabled.sync="this.$store.state.filterAndSortFlag"  @click="sortByTeamName()" size="sm">Sort By Team Name</b-button>
+          <b-button v-b-toggle.sort-2-inner :disabled.sync="this.$store.state.filterAndSortFlag"  @click="sortByTeamName" size="sm">Sort By Team Name</b-button>
         </b-card>
       </b-collapse>
 
@@ -84,10 +84,13 @@
       ></PlayerCard>
       <span v-for="team_details in teamList" :key="team_details">
         <TeamPreview
+        @fullDetailes="showFullTeamDetailes(team_details)"
         :TeamFullName="team_details.name"
         :logo_path="team_details.team_logo_path"        
         ></TeamPreview>
       </span>
+      <team-card :id="team_id"  v-show="team_id > -1"></team-card>
+
     </div>  
   </div> 
 </template>
@@ -95,6 +98,7 @@
 <script>
 
 import PlayerPreview from "../components/PlayerPreview.vue";
+import TeamCard from "../components/TeamCard.vue";
 import TeamPreview from "../components/TeamPreview.vue";
 import PlayerCard from "../components/playerCard.vue";
 
@@ -104,6 +108,7 @@ export default {
   components:{
     PlayerPreview,
     TeamPreview,
+    TeamCard,
     PlayerCard
   },
   props:{
@@ -120,6 +125,7 @@ export default {
       inputPositionFilter: null,
       inputTeamNameFilter: "",
       fullPlayer:[],
+      team_id:-1
     }    
   },
   computed: {
@@ -130,18 +136,26 @@ export default {
     teamList() { 
       return this.$store.state.teams;
     },
+    
+  },
+  methods: {
+
     sortByPlayerName(){
       let copyPlayerArr = this.$store.state.players;
       return this.$store.actions.sort_names(copyPlayerArr);
       
     },
-
     sortByTeamName(){
-      let copyTeamArr = this.$store.state.players;
-      return this.$store.actions.sort_player_by_team_name(copyTeamArr);
+      let copyTeamArr = [];
+      if(this.isTeamVisible == false){
+        copyTeamArr = this.$store.state.teams;
+        return this.$store.actions.sort_player_by_team_name(copyTeamArr);        
+      }
+      else{
+        copyTeamArr = this.$store.state.players;
+        return this.$store.actions.sort_player_by_team_name(copyTeamArr);
+      }      
     },
-  },
-  methods: {
     async showFullPlayerDetailes(player_details){      
       let urlPath = `http://localhost:3000/teams/playerFullDetails/${player_details.playerID}`;
       const response = await this.axios.get(
@@ -161,7 +175,10 @@ export default {
       console.log(this.fullPlayer)
     },
 
-    
+    showFullTeamDetailes(team_details){
+      this.team_id = team_details.team_id;
+      this.$router.push("/TeamCard");
+    },
 
     filterByPosition(){      
       this.$store.state.players =  this.$store.actions.filter_players(this.$store.state.players, this.inputPositionFilter ,"position");     
@@ -178,7 +195,7 @@ export default {
     },
 
     handleVisibilityOfResult(result) {
-      
+      console.log("result", result);
       document.getElementById("sort").style.display = "none";
       document.getElementById("filter").style.display = "none";
       document.getElementById(result).style.display = "block";
@@ -192,6 +209,7 @@ export default {
       vis1.style.display = "none";
       vis2.style.display = "none";
       if(tagName == 'playerNameTag'){
+        this.isTeamVisible = false;
         return;
       }
       vis.style.display = "block";
@@ -233,7 +251,7 @@ export default {
 
 
         let urlPath = "http://localhost:3000/search" + path_and_variables;
-        
+        console.log("urlPath  ",urlPath);
         // urlPath,{
         //     params: params_from_user
         //   },
@@ -241,19 +259,22 @@ export default {
           urlPath,
           {withCredentials: true},
         );
-        console.log(response);
+        console.log("response",response);
         if(this.isTeamVisible == true){
+          this.$store.state.teams = [];
           for(let i =0; i <response.data.length; i++){
-            this.$store.actions.add_team(response.data[i]);
             this.$store.state.players = [];
+             this.$store.actions.add_team(response.data[i]);            
           }
         }
         else{
+          this.$store.state.players = [];
           for(let i =0; i <response.data.length; i++){
-            this.$store.actions.add_player(response.data[i]);
             this.$store.state.teams = [];
+            this.$store.actions.add_player(response.data[i]);
           }
         }
+        this.searchQueryText="";
         
         // return response.data;
         // this.answer_search_data = response.data;;
