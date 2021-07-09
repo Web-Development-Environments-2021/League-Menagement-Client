@@ -29,7 +29,7 @@
       :actions="actions"
       @switch-div="switchDiv">
     >
-      <b-button class="btn bg-transparent" slot="add_to_favorite" slot-scope="row" variant="light" @click="addFavorite(row.row.id)">❤</b-button>
+      <b-button class="btn bg-transparent" slot="add_to_favorite" slot-scope="row" variant="light" @click="addFavorite(row.row.id)" v-if="$root.store.username">❤</b-button>
       <b-button class="btn bg-transparent"  slot="home_team_name" slot-scope="row" variant="light" @click="showTeam(row.row.home_team_name)">{{row.row.home_team_name}}</b-button>
       <b-button class="btn bg-transparent" slot="away_team_name" slot-scope="row" variant="light" @click="showTeam(row.row.away_team_name)">{{row.row.away_team_name}}</b-button>
       <img slot="home_team_img" slot-scope="row" :src="teams[row.row.home_team_name]" height=50 width=50/>

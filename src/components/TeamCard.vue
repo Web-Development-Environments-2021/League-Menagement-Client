@@ -1,17 +1,19 @@
 <template>
   <div class="team-card">
+    <h1 v-if="error" style="color:white;"> Sorry we have a problem </h1>
       <img
+      v-show="!error"
       :src="`${team_logo}`"
       class="card-img-top"
       style="height: 200px; width: auto"/>
-        <player-preview @fullDetailes="showFullPlayerDetailes(coach_detailes.id,-1)"
+        <player-preview @fullDetailes="showFullPlayerDetailes(coach_detailes.id,-1)" v-show="!error"
         :PlayerFullName="'Coach: ' + coach_detailes.name"       
         :image_url="coach_detailes.image"
         :flag="false"        
         ></player-preview>        
       <br/>
-      <span v-for="(player,index) in squad" :key="player.id">
-        <player-preview @fullDetailes="showFullPlayerDetailes(player.id,index)" 
+      <span  v-for="(player,index) in squad" :key="player.id" >
+        <player-preview v-show="!error" @fullDetailes="showFullPlayerDetailes(player.id,index)" 
         :PlayerFullName="player.name"       
         :image_url="player.image"
         :flag="false"        
@@ -79,6 +81,9 @@ export default {
     },
     isCoache:{
       type:Boolean
+    },
+    error:{
+      type:Boolean
     }
   }
   }, 
@@ -107,6 +112,7 @@ export default {
     },
     async getData (id){
       try {
+        this.error = false;
         if(id == -1){
           console.log("shimon")
           return;
@@ -128,6 +134,7 @@ export default {
         }
         console.log(this.coach_detailes)
       } catch (error) {
+        this.error = true;
         console.log("error in teamFullDetailes")
         console.log(error);
       }
@@ -146,29 +153,5 @@ export default {
 .team-card{
     overflow-y: auto;
 }
-/* .game-preview {
-  display: inline-block;
-  width: 250px;
-  height: 200px;
-  position: relative;
-  margin: 10px 10px;
-  border-style: solid;
-  border-radius: 10px;
-  border-width: 5px;
-  border-color:cadetblue;
-}
-
-.game-preview .game-title {
-  text-align: center;
-  text-transform: uppercase;
-  color:  rgb(111, 197, 157);
-}
-
-.game-preview .game-content {
-  width: 100%;
-  overflow: hidden;
-} */
-
-
 
 </style>

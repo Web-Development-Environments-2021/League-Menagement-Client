@@ -26,12 +26,12 @@ import {
     LayoutPlugin,
     InputGroupPlugin,
     FormRadioPlugin,
-    ModalPlugin, 
+    ModalPlugin,
     ListGroupPlugin,
     OverlayPlugin,
     FormTimepickerPlugin,
     FormDatepickerPlugin,
-    JumbotronPlugin 
+    JumbotronPlugin
 } from "bootstrap-vue";
 [
     FormGroupPlugin,
@@ -51,7 +51,7 @@ import {
     OverlayPlugin,
     FormTimepickerPlugin,
     FormDatepickerPlugin,
-    JumbotronPlugin 
+    JumbotronPlugin
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 
@@ -108,6 +108,8 @@ const shared_data = {
         console.log("logout");
         localStorage.removeItem("username");
         this.username = undefined;
+        console.log("----------")
+        console.log(localStorage.username)
     }
 };
 console.log("shared_data", shared_data);

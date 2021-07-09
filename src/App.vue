@@ -11,7 +11,7 @@
         <b-navbar-nav>
         <b-nav-item :to="{ name: 'about' }">About</b-nav-item>
         <b-nav-item :to="{ name: 'AdminPage' }" v-if="$root.store.username=='admin'">League Menagment</b-nav-item>
-        <b-nav-item-dropdown text="Personal" is-nav >
+        <b-nav-item-dropdown text="Personal" is-nav  v-if="$root.store.username">
         <b-dropdown-item :to="{ name: 'favorite'}">Favorites</b-dropdown-item>
       </b-nav-item-dropdown>
       </b-navbar-nav>
@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     async Logout() {
-      this.$root.store.logout();
+      this.$root.store.logout(this.$root.store.username);
       this.$root.toast("Logout", "User logged out successfully", "success");
       try {
         const response = await this.axios.post(
