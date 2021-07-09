@@ -16,26 +16,50 @@
         <button @click="addFavorite()" style="padding: 0;border: none;background: none;"  v-if="!isFavorite" >❤</button>
         
     </div>    
-  <div class="row">
+  <div style="text-align: center;" class="row">
     <div class="col">
 <img :src="hostImg" height=50 width=50 :alt="hostTeam"  style="text-align:left">
-Home: {{ hostTeam }} 
     
     </div>
     <div class="col">
       <img :src="guestImg" height=50 width=50 :alt="guestTeam" style="text-align:right">
-       Away: {{ guestTeam }}
       
     </div>
 
    </div>
+  <div style="text-align: center;" class="row">
+    <div class="col">
+Home: 
+    
+    </div>
+    <div class="col">
+       Away: 
+      
+    </div>
+
+   </div>
+  <div style="text-align: center;" class="row">
+    <div class="col">
+  <b>{{ hostTeam }} </b>
+    
+    </div>
+    <div class="col">
+    <b>{{ guestTeam }}</b>
+      
+    </div>
+
+   </div>
+   <div style="text-align: center;" class="col">
+ <div style="text-align: center;" class="row">
+         date: {{ date }}
+        {{ hour }}
+
+   </div>
+
+   </div>
 
 
-        
 
-        
-        <li> date: {{ date }}</li>
-        <li> time: {{ hour }}</li>
         <br/>
 
     </div>

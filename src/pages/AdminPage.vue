@@ -7,7 +7,7 @@
       <current-stage></current-stage>
       
 
-    <b-modal ref="gameForme" id="bv-modal-example" @hide="cleanForm" hide-footer>
+    <b-modal ref="gameForme" id="bv-modal-example" hide-footer>
       <div class="container">
       <h1 class="title">New Game Form</h1>
       <b-form @submit.prevent="onInsertNewGame" @reset.prevent="onReset">
@@ -76,9 +76,6 @@
         <option disabled value="">Please select Home Team</option>
           <option v-for="team in teams" :key="team.team_name">
           {{team.team_name}}
-          <template slot="option">
-                          <img :src="`${team.logo_path}`" class="card-img-top" style="height: 200px; width: auto"/>
-          </template>
       </option> 
       </b-form-select>
       </b-form-group>
@@ -92,9 +89,6 @@
         <option disabled value="">Please select Home Team</option>
           <option v-for="team in teams" :key="team.team_name">
           {{team.team_name}}
-          <template slot="option">
-              <img :src="`${team.logo_path}`" class="card-img-top" style="height: 200px; width: auto"/>
-          </template>
       </option> 
       </b-form-select>
       </b-form-group>
@@ -253,7 +247,7 @@
           label-cols-sm="3"
           label="Discription:"
       >
-        <b-form-select v-model="evnetDiscription" :options="options">
+        <b-form-select v-model="eventDiscription" :options="options">
         </b-form-select>
 
       </b-form-group>
@@ -308,19 +302,19 @@ export default {
         league_name:'',
         referee:'',   
         options: [
-          { value: 1, text: 'goal' },
-          { value: 9, text: 'own-goal' },
-          { value: 2, text: 'Offside' },
-          { value: 3, text: 'Offense' },
-          { value: 4, text: 'yellowcard' },
-          { value: 5, text: 'redcard' },
-          { value: 6, text: 'injuried' },
-          { value: 7, text: 'redcard' },
-          { value: 8, text: 'substitution' },
+          { value: 'goal', text: 'goal' },
+          { value: 'own-goal' , text: 'own-goal' },
+          { value: 'Offside', text: 'Offside' },
+          { value: 'Offense' , text: 'Offense' },
+          { value: 'yellowcard', text: 'yellowcard' },
+          { value: 'redcard', text: 'redcard' },
+          { value: 'injuried', text: 'injuried' },
+          { value: 'redcard', text: 'redcard' },
+          { value: 'substitution', text: 'substitution' },
 
         ],    
         game_id:'', 
-        evnetDiscription:'', 
+        eventDiscription:'', 
         minute_game:'', 
         time_event:'', 
         date_event:'', 
@@ -362,7 +356,7 @@ export default {
                       
           }
         );
-        this.$router.push("/currentStage");
+        console.log(this.selectedAway)
         // console.log(response);
       } catch (err) {
         console.log(err.response);
@@ -385,18 +379,17 @@ export default {
           }            
         }
         const response = await this.axios.post(
-          "http://localhost:3000/league/InsertNewEvent",
+          "http://localhost:3000/league/addEvent",
           {
                 game_id: this.game_id,
-                evnet_description: this.evnetDiscription,
+                event_description: this.eventDiscription,
                 minute_game: this.minute_game,
                 time_event: this.time_event,
                 date_event: this.date_event,
-                player_id: this.player_id,     
+                player_id: player_id,     
                 player_name: this.player_name     
           }
         );
-        this.$router.push("/currentStage");
       } catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data.message;
@@ -426,7 +419,7 @@ export default {
     },
     onResetEventForm() {
       this.game_id= ''; 
-      this.evnetDiscription= ''; 
+      this.eventDiscription= ''; 
       this.minute_game= ''; 
       this.time_event= ''; 
       this.date_event= ''; 
