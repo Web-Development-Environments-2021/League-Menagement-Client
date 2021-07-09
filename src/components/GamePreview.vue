@@ -56,12 +56,7 @@
         {{ hour }}
 
    </div>
-
-
-
-
-        <br/>
-
+    <br/>
     </div>
   </div>
 </template>
@@ -137,8 +132,8 @@ export default {
 
 .game-preview {
   display: inline-block;
-  width: 400px;
-  height: 150px;
+  width: 250px;
+  height: 200px;
   position: relative;
   margin: 10px 10px;
   border-style: solid;
@@ -146,8 +141,6 @@ export default {
   border-width: 5px;
   background: whitesmoke;
   border-color:cadetblue;
-  
-
 }
 
 .game-preview .game-title {

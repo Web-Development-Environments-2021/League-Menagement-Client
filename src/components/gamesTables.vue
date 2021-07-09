@@ -21,7 +21,6 @@
        <img  slot="home_team_img" slot-scope="row"  :src="teams[row.row.home_team_name]" height=50 width=50/>
       <img slot="away_team_img"  slot-scope="row" :src="teams[row.row.away_team_name]" height=50 width=50 />
     </vue-bootstrap4-table>
-
     <vue-bootstrap4-table
       :rows="rows1"
       :columns="columns1"
@@ -36,6 +35,8 @@
       <img slot="home_team_img" slot-scope="row" :src="teams[row.row.home_team_name]" height=50 width=50/>
       <img  slot="away_team_img"  slot-scope="row" :src="teams[row.row.away_team_name]" height=50 width=50 />
     </vue-bootstrap4-table>
+  
+ 
   </div>
 </template>
 
@@ -192,7 +193,7 @@ export default {
           },
         },
        
-{
+        {
           label: "",
           name: "away_team_img",
         },
@@ -356,6 +357,9 @@ export default {
         this.pastGames();
 
   },
+  // updated() {
+  //   this.show=false;
+  // },
 
 };
 </script>

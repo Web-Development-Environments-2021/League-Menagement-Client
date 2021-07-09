@@ -2,6 +2,7 @@
   <div class="admin-page">
       <b-button class="createNewGameBtn" pill variant="primary" @click="showGameForm"> Create New Game</b-button>
       <b-button class="insertEventsBtn" pill variant="primary" @click="showEventForm"> Insert Events</b-button>
+      <b-button class="insertScoresBtn" pill variant="primary" @click="showScoreForm"> Insert scores</b-button>
       <br/>
       <br/>
       <current-stage></current-stage>
@@ -72,12 +73,12 @@
           label-cols-sm="3"
           label="Home Team:"
       >
-      <b-form-select v-model="selectedHome">
-        <option disabled value="">Please select Home Team</option>
-          <option v-for="team in teams" :key="team.team_name">
-          {{team.team_name}}
-      </option> 
-      </b-form-select>
+        <b-form-select v-model="selectedHome">
+          <option disabled value="">Please select Home Team</option>
+            <option v-for="team in teams" :key="team.team_name">
+            {{team.team_name}}
+        </option> 
+        </b-form-select>
       </b-form-group>
       
       <b-form-group
@@ -135,7 +136,7 @@
     </div>  
     </b-modal> 
       
-    <b-modal ref="eventForme" id="bv-modal-example-2" @hide="cleanForm" hide-footer>
+    <b-modal ref="eventForme" id="bv-modal-example-2" hide-footer>
       <div class="container-2">
       <h1 class="title">New Events Form</h1>
       <b-form @submit.prevent="onInsertNewEvent" @reset.prevent="onResetEventForm">
@@ -265,6 +266,98 @@
       </div>  
     </b-modal> 
 
+    <b-modal ref="scoreForme" id="bv-modal-example-3" hide-footer>
+      <div class="container-3">
+      <h1 class="title">Insert Score Form</h1>
+      <b-form @submit.prevent="oninsertNewGameScore" @reset.prevent="onResetScoreForm">
+      <b-form-group
+        id="input-group-game-id-score"
+        label-cols-sm="3"
+        label="Game id:"
+        label-for="game-id"
+    >
+        <b-form-input
+        id="game_id_score_form"
+        v-model="game_id_score_form"
+        type="text"
+        ></b-form-input>
+        <b-form-invalid-feedback v-if="!game_id_score_form">
+        Game id is required
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+
+      <b-form-group
+          id="input-group-home-score"
+          label-cols-sm="3"
+          label="Home Team:"
+      >
+      <b-form-select v-model="selectedHomeTeamScoreFrom">
+        <option disabled value="">Please select Home Team</option>
+          <option v-for="team in teams" :key="team.team_name">
+          {{team.team_name}}
+        </option> 
+      </b-form-select>
+      </b-form-group>
+      
+      <b-form-group
+          id="input-group-away-score"
+          label-cols-sm="3"
+          label="Away Team:"
+      >
+      <b-form-select v-model="selectedAwayTeamScoreFrom">
+        <option disabled value="">Please select Home Team</option>
+          <option v-for="team in teams" :key="team.team_name">
+          {{team.team_name}}
+        </option> 
+      </b-form-select>
+      </b-form-group>
+
+      <b-form-group
+          id="input-group-home-score"
+          label-cols-sm="3"
+          label="Home Score:"
+          label-for="home-score"
+      >
+          <b-form-input
+          id="minute_game"
+          v-model="home_score"
+          type="text"
+          ></b-form-input>
+          <b-form-invalid-feedback v-if="!home_score">
+           Home Score is required
+          </b-form-invalid-feedback>
+      </b-form-group>
+
+      <b-form-group
+          id="input-group-away-score"
+          label-cols-sm="3"
+          label="Away Score:"
+          label-for="away-score"
+      >
+          <b-form-input
+          id="away_score"
+          v-model="away_score"
+          type="text"
+          ></b-form-input>
+          <b-form-invalid-feedback v-if="!away_score">
+           Away score is required
+          </b-form-invalid-feedback>
+      </b-form-group>
+      <div>
+        <b-button type="reset" variant="danger">Reset</b-button>
+        <b-button
+          type="submit"
+          variant="primary"
+          style="width:230px;"
+          class="ml-5 w-70"
+          @click="$bvModal.hide('bv-modal-example-3')"
+          >Insert scores</b-button
+        >
+        </div>
+        </b-form>      
+      </div>  
+    </b-modal> 
   </div>
   
 </template>
@@ -279,6 +372,7 @@ export default {
   },
   data() {
     return {
+        // new game form
         selectedAway: '',
         selectedHome: '',
         venue: '',
@@ -286,7 +380,9 @@ export default {
         date:'',
         time:'',
         league_name:'',
-        referee:'',   
+        referee:'', 
+        
+        // new event score
         options: [
           { value: 'goal', text: 'goal' },
           { value: 'own-goal' , text: 'own-goal' },
@@ -304,6 +400,14 @@ export default {
         time_event:'', 
         date_event:'', 
         player_name:'',
+
+        // scores form
+        game_id_score_form:'',
+        selectedHomeTeamScoreFrom:'',
+        selectedAwayTeamScoreFrom:'',
+        home_score:'',
+        away_score:'',
+
         errors: [],
         validated: false
     };
@@ -315,16 +419,20 @@ export default {
         // get all teams
         let urlPath = `http://localhost:3000/teams/getAllTeamsByCountry/320`;
         const teams = await this.axios.get(
-                urlPath,{withCredentials: true});
+          urlPath,{withCredentials: true});
         console.log(teams)
         this.teams = teams.data;
     },
     async showEventForm(){
         this.$refs["eventForme"].show();
     },
-    cleanForm(){
-        this.selectedAway = '';
-        this.selectedHome = '';
+    async showScoreForm(){
+      this.$refs["scoreForme"].show();
+        // get all teams
+        let urlPath = `http://localhost:3000/teams/getAllTeamsByCountry/320`;
+        const teams = await this.axios.get(
+            urlPath,{withCredentials: true});
+        this.teams = teams.data;
     },
     async insertNewGame() {
       try {
@@ -380,7 +488,26 @@ export default {
         this.form.submitError = err.response.data.message;
       }
     },
-
+    async insertNewGameScore(){
+      try {
+        const response = await this.axios.post(
+          "http://localhost:3000/league/insertGameScore",
+          {
+            game_id_score_form: this.game_id_score_form,
+            selectedHomeTeamScoreFrom: this.selectedHomeTeamScoreFrom,
+            selectedAwayTeamScoreFrom: this.selectedAwayTeamScoreFrom,
+            home_score: this.home_score,
+            away_score: this.away_score
+                      
+          }
+        );
+        // this.$router.push("/AdminPage");
+        // console.log(response);
+      } catch (err) {
+        console.log(err.response);
+        this.form.submitError = err.response.data.message;
+      }
+    },
     onInsertNewEvent(){
       // this.$v.form.$touch();
       this.InsertNewEvent();
@@ -388,6 +515,9 @@ export default {
     onInsertNewGame() {
       // this.$v.form.$touch(); 
       this.insertNewGame();
+    },
+    oninsertNewGameScore(){
+      this.insertNewGameScore();
     },
     onReset() {
       this.selectedAway= '';
@@ -411,9 +541,17 @@ export default {
     //   this.$nextTick(() => {
     //     this.$v.$reset();
     //   });
-      }
+    },
+    onResetScoreForm() {
+      this.game_id_score_form='';
+      this.selectedHomeTeamScoreFrom='';
+      this.selectedAwayTeamScoreFrom='';
+      this.home_score='';
+      this.away_score='';
     }
   }
+}
+
 
 </script>
 <style lang="scss" scoped>

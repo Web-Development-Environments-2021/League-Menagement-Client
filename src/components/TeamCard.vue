@@ -8,10 +8,7 @@
         :PlayerFullName="'Coach: ' + coach_detailes.name"       
         :image_url="coach_detailes.image"
         :flag="false"        
-        ></player-preview>
-
-
-        
+        ></player-preview>        
       <br/>
       <span v-for="(player,index) in squad" :key="player.id">
         <player-preview @fullDetailes="showFullPlayerDetailes(player.id,index)" 
@@ -28,8 +25,7 @@
       :fullDetailes="fullPlayer"
       :isCoache="isCoache"
       ></PlayerCard>
-       </div>
-      
+  </div>      
 </template>
 
 <script>
@@ -147,7 +143,10 @@ export default {
 </script>
 
 <style>
-.game-preview {
+.team-card{
+    overflow-y: auto;
+}
+/* .game-preview {
   display: inline-block;
   width: 250px;
   height: 200px;
@@ -168,7 +167,7 @@ export default {
 .game-preview .game-content {
   width: 100%;
   overflow: hidden;
-}
+} */
 
 
 
