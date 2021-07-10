@@ -56,6 +56,10 @@ export default {
     async Logout() {
       this.$root.store.logout(this.$root.store.username);
       this.$root.toast("Logout", "User logged out successfully", "success");
+      
+      // clear user search history
+      this.$store.state.teams = [];
+      this.$store.state.players = [];
       try {
         const response = await this.axios.post(
           "http://localhost:3000/Logout",

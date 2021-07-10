@@ -4,7 +4,7 @@
     <template #header>Shimons Web Site</template>
 
     <template #lead>
-      <p>This site was built in In blood sweat and tears as part of a university course project.<br/>
+      <p>This site was built with blood sweat and tears as part of a university course project.<br/>
             We hope you enjoy this superliga website, We would love to hear your opinion :)<br>       
             <b>Author: Shimon Shoei and Shai Shimon Levi</b><br>
             <a href="mailto:shouei@post.bgu.ac.il">shouei@post.bgu.ac.il</a> <br/>
