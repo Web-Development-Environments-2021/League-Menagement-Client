@@ -12,8 +12,8 @@
       <h4>Your search Query: {{ searchQueryText }} </h4> 
     </div>
     <div>
-      <b-button v-b-toggle.collapse-1 pill variant="primary">Search player</b-button>
-      <b-button v-b-toggle.collapse-2 pill @click="handleVisibility" variant="primary"
+      <b-button :class="{green: deleteClicked}" v-b-toggle.collapse-1 pill variant="primary">Search player</b-button>
+      <b-button :class="{green: !deleteClicked}" v-b-toggle.collapse-2 pill @click="handleVisibility" variant="primary"
         value= "/teams/:searchQuery" id="collapse-2" >Search Team</b-button>
       <b-collapse id="collapse-1" class="mt-2">
         <b-card>
@@ -125,7 +125,9 @@ export default {
       inputPositionFilter: null,
       inputTeamNameFilter: "",
       fullPlayer:[],
-      team_id:-1
+      team_id:-1,
+      deleteClicked : true,
+      disabled: true
     }    
   },
   computed: {
@@ -194,6 +196,9 @@ export default {
       let vis = document.getElementById("collapse-1");
       vis.style.display = "none";
       this.isTeamVisible = true;
+      this.selected = null;
+      this.searchQueryTextAddition = "";
+      this.deleteClicked = false;
     },
 
     handleVisibilityOfResult(result) {
@@ -205,6 +210,7 @@ export default {
     },
 
     handleVisibility_inner(tagName) {
+      this.deleteClicked = true;
       let vis = document.getElementById(tagName);
       let vis1 = document.getElementById("positionTagCollapse");
       let vis2 = document.getElementById("teamNameTag");      
@@ -227,6 +233,7 @@ export default {
           searchQuery: this.searchQueryText,
         }
         let path_and_variables = "";
+        this.deleteClicked = true;
         if(this.selected != null){ //position
           // pathToSearch = document.getElementById("positionTag").value;
           // params_from_user["positionName"] = this.selected;
@@ -240,6 +247,7 @@ export default {
           
         }
         else if(this.isTeamVisible == true){ //search team
+          this.deleteClicked = false;
           // pathToSearch = document.getElementById("collapse-2").value;
           path_and_variables = `/teams/${this.searchQueryText}`;
         }
@@ -312,5 +320,9 @@ export default {
 #btn-radios-2{
   background-color: #80120a;
   outline: none;
+}
+
+.green{
+  background-color: green;
 }
 </style>

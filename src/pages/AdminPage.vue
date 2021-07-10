@@ -25,6 +25,7 @@
         reset-button
         close-button
         locale="en"
+        required
       ></b-form-datepicker>      
       <b-form-invalid-feedback v-if="!date">
       Username is required
@@ -46,6 +47,7 @@
           placeholder="HH:mm:ss"
           locale="en"
           aria-controls="example-input"
+          required
         ></b-form-timepicker>
         <b-form-invalid-feedback v-if="!time">
         FirstName is required
@@ -62,6 +64,7 @@
           id="league_name"
           v-model="league_name"
           type="text"
+          required
           ></b-form-input>
           <b-form-invalid-feedback v-if="!league_name">
           LastName is required
@@ -86,7 +89,7 @@
           label-cols-sm="3"
           label="Away Team:"
       >
-      <b-form-select v-model="selectedAway">
+      <b-form-select v-model="selectedAway" required>
         <option disabled value="">Please select Home Team</option>
           <option v-for="team in teams" :key="team.team_name">
           {{team.team_name}}
@@ -103,6 +106,7 @@
           <b-form-input
           id="venue"
           v-model="venue"
+          required
           ></b-form-input>
           <b-form-invalid-feedback v-if="!venue">
           venue is required
@@ -118,7 +122,8 @@
           <b-form-input
           id="referee"
           v-model="referee"
-          type="text"            
+          type="text"    
+          required        
           ></b-form-input>
       </b-form-group>
       <div>
@@ -150,6 +155,7 @@
         id="game_id"
         v-model="game_id"
         type="text"
+        required
         ></b-form-input>
         <b-form-invalid-feedback v-if="!game_id">
         Game id is required
@@ -169,6 +175,7 @@
         reset-button
         close-button
         locale="en"
+        required
       ></b-form-datepicker>      
       <b-form-invalid-feedback v-if="!date_event">
       Date Event is required
@@ -190,6 +197,7 @@
           placeholder="HH:mm:ss"
           locale="en"
           aria-controls="example-input"
+          required
         ></b-form-timepicker>
         <b-form-invalid-feedback v-if="!time_event">
         FirstName is required
@@ -207,6 +215,7 @@
           v-model="minute_game"
           type="text"
           placeholder="Minute in the game"
+          required
           ></b-form-input>
           <b-form-invalid-feedback v-if="!minute_game">
            minute in the game is required
@@ -219,10 +228,11 @@
           label="Player Name:"
           label-for="player_name"
       >
-          <b-form-input
+        <b-form-input
           id="player_name"
           v-model="player_name"
           type="text"
+          required
           ></b-form-input>
           <b-form-invalid-feedback v-if="!player_name">
            Player Name is required
@@ -234,7 +244,7 @@
           label-cols-sm="3"
           label="Discription:"
       >
-        <b-form-select v-model="eventDiscription" :options="options">
+        <b-form-select v-model="eventDiscription" :options="options" required>
         </b-form-select>
 
       </b-form-group>
@@ -245,11 +255,12 @@
           label="Referee:"
           label-for="referee"
       >
-          <b-form-input
-          id="referee"
-          v-model="referee"
-          type="text"            
-          ></b-form-input>
+        <b-form-input
+        id="referee"
+        v-model="referee"
+        type="text"     
+        required       
+        ></b-form-input>
       </b-form-group>
       <div>
         <b-button type="reset" variant="danger">Reset</b-button>
@@ -276,14 +287,15 @@
         label="Game id:"
         label-for="game-id"
     >
-        <b-form-input
-        id="game_id_score_form"
-        v-model="game_id_score_form"
-        type="text"
-        ></b-form-input>
-        <b-form-invalid-feedback v-if="!game_id_score_form">
-        Game id is required
-        </b-form-invalid-feedback>
+      <b-form-input
+      id="game_id_score_form"
+      v-model="game_id_score_form"
+      type="text"
+      required
+      ></b-form-input>
+      <b-form-invalid-feedback v-if="!game_id_score_form">
+      Game id is required
+      </b-form-invalid-feedback>
       </b-form-group>
 
 
@@ -292,7 +304,7 @@
           label-cols-sm="3"
           label="Home Team:"
       >
-      <b-form-select v-model="selectedHomeTeamScoreFrom">
+      <b-form-select v-model="selectedHomeTeamScoreFrom" required>
         <option disabled value="">Please select Home Team</option>
           <option v-for="team in teams" :key="team.team_name">
           {{team.team_name}}
@@ -305,7 +317,7 @@
           label-cols-sm="3"
           label="Away Team:"
       >
-      <b-form-select v-model="selectedAwayTeamScoreFrom">
+      <b-form-select v-model="selectedAwayTeamScoreFrom" required>
         <option disabled value="">Please select Home Team</option>
           <option v-for="team in teams" :key="team.team_name">
           {{team.team_name}}
@@ -323,6 +335,7 @@
           id="minute_game"
           v-model="home_score"
           type="text"
+          required
           ></b-form-input>
           <b-form-invalid-feedback v-if="!home_score">
            Home Score is required
@@ -339,6 +352,7 @@
           id="away_score"
           v-model="away_score"
           type="text"
+          required
           ></b-form-input>
           <b-form-invalid-feedback v-if="!away_score">
            Away score is required
